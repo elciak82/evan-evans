@@ -20,7 +20,7 @@ test.describe('Pulpit tests', () => {
   });
 });
 
-    test.only('succesful mobile top-up', async ({ page }) => {
+    test('succesful mobile top-up', async ({ page }) => {
       await page.goto('https://demo-bank.vercel.app/');
       await page.getByTestId('login-input').fill('testerLO');
       await page.getByTestId('password-input').fill('password');
