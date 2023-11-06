@@ -1,5 +1,7 @@
 # Test Automation training from jaktestowac.pl
 
+This is a Test Automation project based on `Playwright` and `TypeScript`. The tested page is a simple demo of a bank.
+
 ## Links
 
 - course https://jaktestowac.pl/course/playwright-wprowadzenie/
@@ -21,10 +23,47 @@
   `npx playwright test --headed`
 - view report  
   `npx playwright show-report`
-- cancelling Node process  
-  hit twice <kbd>Ctrl</kbd> + <kbd>C</kbd>
+- run Trace Viewer on zip file  
+  `npx playwright show-trace trace.zip`
 
-## Playwright Config modifications
+### Updating Playwright
+
+- check if Playwright should be updated  
+  `npm outdated @playwright/test`
+- update Playwright  
+  `npm i @playwright/test`
+- update browsers  
+  `npx playwright install`
+- verify Playwright version  
+  `npx @playwright/test --version`
+
+## Visual Studio Code
+
+### Functions
+
+- Preview: for README.md
+- Autosave: in File -> Auto Save
+- Timeline: file context menu -> Open Timeline
+- Formatting: editor -> context menu -> Format Document
+- Searching: editor -> <kbd>CTRL</kbd> + <kbd>F</kbd>
+- Accept hint in editor: <kbd>Enter</kbd>
+- Comment/Uncomment: <kbd>Ctrl</kbd> + <kbd>/</kbd>
+- Duplicate line: <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>↑</kbd>
+- Use more than one terminal: <kbd>+</kbd> button in TERMINAL
+- Cancelling Node process: hit twice <kbd>Ctrl</kbd> + <kbd>C</kbd>
+- Extract to variable: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd>
+- Move line i.e. up: <kbd>Alt</kbd> + <kbd>↑</kbd>
+- Show autocomplete suggestion: <kbd>Ctrl</kbd> + <kbd>Spacebar</kbd>
+- Creating a new variable: Refactor <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> -> Extract to constant in enclosing scope
+
+## Extensions
+
+- GitLens - view details of your repository i.e. commits history
+- Prettier - default formatter for editor
+
+## Playwright
+
+### Playwright Config modifications
 
 - config file `playwright.config.ts`
 - disable browsers, i.e. Firefox
@@ -36,17 +75,20 @@
   //   },
   // },
   ```
+- enable video on fail
+  ```javascript
+  use: {
+      video: {'retain-on-failure'},
+  },
+  ```
+- enable Trace Viewer on fail
+  ```javascript
+  use: {
+      trace: {'retain-on-failure'},
+  },
+  ```
 
-## Visual Studio Code
-
-- Preview: for README.md
-- Autosave: in File -> Auto Save
-- Timeline: file context menu -> Open Timeline
-- Formatting: editor -> context menu -> Format Document
-- Searching: editor -> <kbd>CTRL</kbd> + <kbd>F</kbd>
-- Accept hint in editor: <kbd>Enter</kbd>
-
-## Playwright snippets
+### Playwright snippets
 
 - import:
   ```typescript
@@ -54,28 +96,32 @@
   ```
 - test:
   ```typescript
-  test('test description', async ({ page }) => {});
+  test('test description', async ({ page }) => {
+    //your code
+  });
   ```
-- test.describe:
-
+- describe:
   ```typescript
-  test.describe('Group description', () => {});
+  test.describe('Group description', () => {
+    //your code
+  });
   ```
-
 - running given test: `test.only`
 
-## Locators
+### Locators
 
 - `getByTestId` i.e. `getByTestId('login-input')` for element with `data-testid="login-input"`
 - `getByRole` i.e. `getByRole('button', { name: 'wykonaj' })`
-- `locator` i.e. `locator('#some-id')` for element with attribute `id="some-id"`, `#some-id` is `css` selector
+- `locator` i.e. `locator('#some-id')` (with `css` selector) for element with attribute `id="some-id"`
 
-## Chrome
+## Other
 
+### Chrome
+
+- use English version!
 - open DevTools <kbd>F12</kbd> or right click `Inspect`
 - get selector: right click on element -> Copy -> Copy selector
 - testing CSS selectors in Console: `$$('selector')`
-- use English version!
 
 ### Prettier
 
