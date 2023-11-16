@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { loginData } from './test-data/login.data';
 import { LoginPage } from './pages/login.page';
+import { PulpitPage } from './pages/pulpit.page';
 
 test.describe('Pulpit tests', () => {
   test.beforeEach(async ({ page }) => {
@@ -38,17 +39,18 @@ test.describe('Pulpit tests', () => {
   test('succesful mobile top-up', async ({ page }) => {
     //Arrange
     const receiverOption = '500 xxx xxx';
-    const amount = '123';
+    const amount = '40';
 
     //Act
-    await page.locator('#widget_1_topup_receiver').selectOption(receiverOption);
-    await page.locator('#widget_1_topup_amount').fill(amount);
-    await page.locator('#uniform-widget_1_topup_agreement span').click();
-    await page.getByRole('button', { name: 'doładuj telefon' }).click();
-    await page.getByTestId('close-button').click();
+    const pulpit = new PulpitPage(page);
+    await pulpit.topUpReceiver.selectOption(receiverOption);
+    await pulpit.topUpAmount.fill(amount);
+    await pulpit.agreementCheckbox.click();
+    await pulpit.topUpButton.click();
+    await pulpit.closeButton.click();
 
     //Assert
-    await expect(page.locator('#show_messages')).toHaveText(
+    await expect(pulpit.correctTopUpMessage).toHaveText(
       `Doładowanie wykonane! ${amount},00PLN na numer ${receiverOption}`,
     );
   });
@@ -57,17 +59,19 @@ test.describe('Pulpit tests', () => {
     //Arrange
     const receiverOption = '500 xxx xxx';
     const amount = '50';
-    const initialBalance = await page.locator('#money_value').innerText();
+    const pulpit = new PulpitPage(page);
+    const initialBalance = await pulpit.balance.innerText();
     const expectedBalance = Number(initialBalance) - Number(amount);
 
     //Act
-    await page.locator('#widget_1_topup_receiver').selectOption(receiverOption);
-    await page.locator('#widget_1_topup_amount').fill(amount);
-    await page.locator('#uniform-widget_1_topup_agreement span').click();
-    await page.getByRole('button', { name: 'doładuj telefon' }).click();
-    await page.getByTestId('close-button').click();
+
+    await pulpit.topUpReceiver.selectOption(receiverOption);
+    await pulpit.topUpAmount.fill(amount);
+    await pulpit.agreementCheckbox.click();
+    await pulpit.topUpButton.click();
+    await pulpit.closeButton.click();
 
     //Assert
-    await expect(page.locator('#money_value')).toHaveText(`${expectedBalance}`);
+    await expect(pulpit.balance).toHaveText(`${expectedBalance}`);
   });
 });
