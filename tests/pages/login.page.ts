@@ -6,4 +6,6 @@ export class LoginPage {
   loginInput = this.page.getByTestId('login-input');
   passwordInput = this.page.getByTestId('password-input');
   loginButton = this.page.getByTestId('login-button');
+  loginErrorUserId = this.page.getByTestId('error-login-id');
+  loginErrorPassword = this.page.getByTestId('error-login-password')
 }

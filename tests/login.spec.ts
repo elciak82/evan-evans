@@ -26,14 +26,16 @@ test.describe('User login to Demobank', () => {
   test('unsuccessful login with too short username', async ({ page }) => {
     //Arrange
     const userId = 'tester';
+    const ecpectedErroeMessage = 'identyfikator ma min. 8 znaków';
 
     //Act
-    await page.getByTestId('login-input').fill(userId);
-    await page.getByTestId('password-input').click();
+    const loginPage = new LoginPage(page);
+    await loginPage.loginInput.fill(userId);
+    await loginPage.passwordInput.click();
 
     //Assert
-    await expect(page.getByTestId('error-login-id')).toHaveText(
-      'identyfikator ma min. 8 znaków',
+    await expect(loginPage.loginErrorUserId).toHaveText(
+      ecpectedErroeMessage,
     );
   });
 
@@ -41,15 +43,17 @@ test.describe('User login to Demobank', () => {
     //Arrange
     const userId = loginData.userId;
     const userPassword = '1098';
+    const expectedMessage = 'hasło ma min. 8 znaków';
 
     //Act
-    await page.getByTestId('login-input').fill(userId);
-    await page.getByTestId('password-input').fill(userPassword);
-    await page.getByTestId('password-input').blur(); //wyjscie z elementu, zmiana focusu
+    const loginPage = new LoginPage(page);
+    await loginPage.loginInput.fill(userId);
+    await loginPage.passwordInput.fill(userPassword);
+    await loginPage.passwordInput.blur(); //wyjscie z elementu, zmiana focusu
 
     //Assert
-    await expect(page.getByTestId('error-login-password')).toHaveText(
-      'hasło ma min. 8 znaków',
+    await expect(loginPage.loginErrorPassword).toHaveText(
+      expectedMessage,
     );
   });
 });
