@@ -31,8 +31,7 @@ test.describe('User login to Demobank', () => {
     const ecpectedErroeMessage = 'identyfikator ma min. 8 znaków';
 
     //Act
-    await loginPage.loginInput.fill(userId);
-    await loginPage.passwordInput.click();
+    await loginPage.fillLoginCredentials(userId, '');
 
     //Assert
     await expect(loginPage.loginErrorUserId).toHaveText(ecpectedErroeMessage);
@@ -45,9 +44,7 @@ test.describe('User login to Demobank', () => {
     const expectedMessage = 'hasło ma min. 8 znaków';
 
     //Act
-    await loginPage.loginInput.fill(userId);
-    await loginPage.passwordInput.fill(userPassword);
-    await loginPage.passwordInput.blur(); //wyjscie z elementu, zmiana focusu
+    await loginPage.fillLoginCredentials(userId, userPassword);
 
     //Assert
     await expect(loginPage.loginErrorPassword).toHaveText(expectedMessage);
