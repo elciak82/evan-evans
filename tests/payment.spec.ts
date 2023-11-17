@@ -5,15 +5,16 @@ import { SideMenuComponent } from './components/side-menu.copmonent';
 import { PaymentPage } from './pages/payment.page';
 
 test.describe('Payment tests', () => {
+  let paymentPage: PaymentPage;
+
   test.beforeEach(async ({ page }) => {
     const userId = loginData.userId;
     const userPassword = loginData.userPassword;
+    paymentPage = new PaymentPage(page);
 
     await page.goto('/'); //config
     const loginPage = new LoginPage(page);
-    await loginPage.loginInput.fill(userId);
-    await loginPage.passwordInput.fill(userPassword);
-    await loginPage.loginButton.click();
+    await loginPage.login(userId, userPassword);
 
     const menu = new SideMenuComponent(page);
     await menu.menuTransferTab.click();
@@ -27,7 +28,6 @@ test.describe('Payment tests', () => {
     const expectedMessage = `Przelew wykonany! ${transferAmount},00PLN dla Jan Nowak`;
 
     //Act
-    const paymentPage = new PaymentPage(page);
     await paymentPage.transferReceiverInput.fill(transferReceiver);
     await paymentPage.accountInput.fill(ransferAccount);
     await paymentPage.amuntInput.fill(transferAmount);

@@ -4,15 +4,16 @@ import { LoginPage } from './pages/login.page';
 import { PulpitPage } from './pages/pulpit.page';
 
 test.describe('Pulpit tests', () => {
+  let pulpit: PulpitPage;
+
   test.beforeEach(async ({ page }) => {
     const userId = loginData.userId;
     const userPassword = loginData.userPassword;
+    pulpit = new PulpitPage(page);
 
     await page.goto('/'); //config
     const loginPage = new LoginPage(page);
-    await loginPage.loginInput.fill(userId);
-    await loginPage.passwordInput.fill(userPassword);
-    await loginPage.loginButton.click();
+    await loginPage.login(userId, userPassword);
   });
 
   test('quick payment with correct data', async ({ page }) => {
@@ -42,7 +43,6 @@ test.describe('Pulpit tests', () => {
     const amount = '40';
 
     //Act
-    const pulpit = new PulpitPage(page);
     await pulpit.topUpReceiver.selectOption(receiverOption);
     await pulpit.topUpAmount.fill(amount);
     await pulpit.agreementCheckbox.click();
@@ -59,7 +59,6 @@ test.describe('Pulpit tests', () => {
     //Arrange
     const receiverOption = '500 xxx xxx';
     const amount = '50';
-    const pulpit = new PulpitPage(page);
     const initialBalance = await pulpit.balance.innerText();
     const expectedBalance = Number(initialBalance) - Number(amount);
 
