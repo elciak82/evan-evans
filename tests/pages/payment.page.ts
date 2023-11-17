@@ -9,5 +9,5 @@ export class PaymentPage {
     name: 'wykonaj przelew',
   });
   closeButton = this.page.getByTestId('close-button');
-  correctPaymenyMessage = this.page.locator('#show_messages');
+  correctPaymentMessage = this.page.locator('#show_messages');
 }

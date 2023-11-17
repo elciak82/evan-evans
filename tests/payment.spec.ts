@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { loginData } from './test-data/login.data';
 import { LoginPage } from './pages/login.page';
-import { MenuComponent } from './pages/menu.copmonent';
+import { SideMenuComponent } from './components/side-menu.copmonent';
 import { PaymentPage } from './pages/payment.page';
 
 test.describe('Payment tests', () => {
@@ -15,7 +15,7 @@ test.describe('Payment tests', () => {
     await loginPage.passwordInput.fill(userPassword);
     await loginPage.loginButton.click();
 
-    const menu = new MenuComponent(page);
+    const menu = new SideMenuComponent(page);
     await menu.menuTransferTab.click();
   });
 
@@ -35,6 +35,6 @@ test.describe('Payment tests', () => {
     await paymentPage.closeButton.click();
 
     //Assert
-    await expect(paymentPage.correctPaymenyMessage).toHaveText(expectedMessage);
+    await expect(paymentPage.correctPaymentMessage).toHaveText(expectedMessage);
   });
 });
