@@ -24,15 +24,10 @@ test.describe('Pulpit tests', () => {
     const expectedTransverReceiver = 'Chuck Demobankowy';
 
     //Act
-    await page.locator('#widget_1_transfer_receiver').selectOption(receiverId);
-    await page.locator('#widget_1_transfer_amount').fill(transferAmount);
-    await page.locator('#widget_1_transfer_title').fill(transferTitle);
-
-    await page.getByRole('button', { name: 'wykonaj' }).click();
-    await page.getByTestId('close-button').click();
+    pulpit.makeTransfer(receiverId, transferAmount, transferTitle);
 
     //Assert
-    await expect(page.locator('#show_messages')).toHaveText(
+    await expect(pulpit.message).toHaveText(
       `Przelew wykonany! ${expectedTransverReceiver} - ${transferAmount},00PLN - ${transferTitle}`,
     );
   });
@@ -43,14 +38,10 @@ test.describe('Pulpit tests', () => {
     const amount = '40';
 
     //Act
-    await pulpit.topUpReceiver.selectOption(receiverOption);
-    await pulpit.topUpAmount.fill(amount);
-    await pulpit.agreementCheckbox.click();
-    await pulpit.topUpButton.click();
-    await pulpit.closeButton.click();
+    pulpit.makeMobileTopUp(receiverOption, amount);
 
     //Assert
-    await expect(pulpit.correctTopUpMessage).toHaveText(
+    await expect(pulpit.message).toHaveText(
       `Doładowanie wykonane! ${amount},00PLN na numer ${receiverOption}`,
     );
   });
@@ -63,12 +54,7 @@ test.describe('Pulpit tests', () => {
     const expectedBalance = Number(initialBalance) - Number(amount);
 
     //Act
-
-    await pulpit.topUpReceiver.selectOption(receiverOption);
-    await pulpit.topUpAmount.fill(amount);
-    await pulpit.agreementCheckbox.click();
-    await pulpit.topUpButton.click();
-    await pulpit.closeButton.click();
+    pulpit.makeMobileTopUp(receiverOption, amount);
 
     //Assert
     await expect(pulpit.balance).toHaveText(`${expectedBalance}`);

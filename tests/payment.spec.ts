@@ -23,16 +23,12 @@ test.describe('Payment tests', () => {
   test('Transfer test', async ({ page }) => {
     //Arrange
     const transferReceiver = 'Jan Nowak';
-    const ransferAccount = '12 3456 7890 9876 6554 4333';
+    const transferAccount = '12 3456 7890 9876 6554 4333';
     const transferAmount = '222';
     const expectedMessage = `Przelew wykonany! ${transferAmount},00PLN dla Jan Nowak`;
 
     //Act
-    await paymentPage.transferReceiverInput.fill(transferReceiver);
-    await paymentPage.accountInput.fill(ransferAccount);
-    await paymentPage.amuntInput.fill(transferAmount);
-    await paymentPage.makeTransferButton.click();
-    await paymentPage.closeButton.click();
+    paymentPage.makeTransfer(transferReceiver, transferAccount, transferAmount);
 
     //Assert
     await expect(paymentPage.correctPaymentMessage).toHaveText(expectedMessage);
