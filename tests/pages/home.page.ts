@@ -1,15 +1,35 @@
 import { Page } from '@playwright/test';
 
-export class HomePage {
-  constructor(private page: Page) {}
+export const HomePage = (page: Page) => {
+  const acceptCookieButton = page.getByRole('link', {
+    name: 'OK',
+    exact: true,
+  });
+  const mainSearchButton = page.getByRole('button', {
+    name: 'Search',
+    exact: true,
+  });
 
-  closeButton = this.page
-    .getByTestId('region-redirect__modal-header-close')
-    .locator('path');
-  cookiePolicy = this.page.getByTestId('cookie-policy').getByTestId('btn');
+  const mainSearchInput = page.getByRole('searchbox', {
+    name: 'Find the perfect tour for you',
+  });
 
-  async closeModal(): Promise<void> {
-    // await this.closeButton.click();
-    await this.cookiePolicy.click();
-  }
-}
+  // await page.getByRole('searchbox', { name: 'Find the perfect tour for you' }).click();
+  // await page.getByRole('searchbox', { name: 'Find the perfect tour for you' }).fill('Katowice');
+  // await page.getByRole('button', { name: 'Search', exact: true }).click();
+
+  const acceptCookie = async (): Promise<void> => {
+    await acceptCookieButton.click();
+  };
+
+  const searchButtonClick = async (): Promise<void> => {
+    await mainSearchButton.click();
+    // await page.waitForLoadState();
+  };
+
+  const inputTextToSearchField = async (text: string): Promise<void> => {
+    mainSearchInput.fill(text);
+  };
+
+  return { acceptCookie, searchButtonClick, inputTextToSearchField };
+};
