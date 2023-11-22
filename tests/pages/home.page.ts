@@ -24,7 +24,7 @@ export const HomePage = (page: Page) => {
 
   const searchButtonClick = async (): Promise<void> => {
     await mainSearchButton.click();
-    // await page.waitForLoadState();
+    await page.waitForLoadState();
   };
 
   const inputTextToSearchField = async (text: string): Promise<void> => {

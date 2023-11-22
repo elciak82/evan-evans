@@ -4,7 +4,7 @@ import { TitlePages } from './helpers/enums/titles.enums';
 import { SearchPage } from './pages/search.page';
 import { TourPage } from './pages/tour.page';
 
-test.describe('Verifying budget filter', () => {
+test.describe('Verifying page titles', () => {
   let homePage: {
     acceptCookie: any;
     searchButtonClick: any;
@@ -41,16 +41,18 @@ test.describe('Verifying budget filter', () => {
 
   test('Check a tour page title', async ({ page }) => {
     //Arrange
-    const tourPage = TourPage(page);
+    const searchText = 'Katowice';
     const searchPage = SearchPage(page);
+    const tourPage = TourPage(page);
 
     //Act
-    await homePage.inputTextToSearchField('Katowice');
+    await homePage.inputTextToSearchField(searchText);
     await homePage.searchButtonClick();
-    await searchPage.checkViewMoreButtonIsVisible();
+
+    await searchPage.viewMoreButtonClick();
 
     //Assert
-    // const title = await page.title();
-    // expect(title).toBe(await tourPage.getTourTitle());
+    const title = await page.title();
+    expect(title).toBe(TitlePages.TourPageTitle);
   });
 });
