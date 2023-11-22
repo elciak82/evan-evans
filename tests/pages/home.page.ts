@@ -14,10 +14,6 @@ export const HomePage = (page: Page) => {
     name: 'Find the perfect tour for you',
   });
 
-  // await page.getByRole('searchbox', { name: 'Find the perfect tour for you' }).click();
-  // await page.getByRole('searchbox', { name: 'Find the perfect tour for you' }).fill('Katowice');
-  // await page.getByRole('button', { name: 'Search', exact: true }).click();
-
   const acceptCookie = async (): Promise<void> => {
     await acceptCookieButton.click();
   };

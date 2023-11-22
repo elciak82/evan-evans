@@ -9,7 +9,7 @@ test.describe('Verifying page titles', () => {
     acceptCookie: any;
     searchButtonClick: any;
     inputTextToSearchField: any;
-    
+
   };
 
   test.beforeEach(async ({ page }) => {
