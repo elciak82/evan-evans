@@ -1,6 +1,11 @@
 import { Page } from '@playwright/test';
 
 export const TourPage = (page: Page) => {
+  const bookButton = page.getByRole('button', { name: 'Book now' });
 
-  return {  };
+  const bookButtonClick = async (): Promise<void> => {
+    await bookButton.click();
+  };
+
+  return { bookButtonClick };
 };
