@@ -1,10 +1,10 @@
 import { test, expect } from '@playwright/test';
 import { HomePage } from './pages/home.page';
-import { TitlePages } from './helpers/enums/titles.enums';
 import { SearchPage } from './pages/search.page';
 import { TourPage } from './pages/tour.page';
 import { BookingComponent } from './components/booking.component';
-import { BasketComponent } from './components/cart.component';
+import { BasketComponent } from './components/basket.component';
+import { Alerts } from './helpers/enums/alerts.enums';
 
 test.describe('Verifying booking', () => {
   let homePage: {
@@ -40,6 +40,6 @@ test.describe('Verifying booking', () => {
     
     //Assert
     const message = await cart.getMessageText();
-    expect(message).toBe('Item Added!');
+    expect(message).toBe(Alerts.BasketAlert);
   });
 });

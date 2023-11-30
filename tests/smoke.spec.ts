@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { HomePage } from './pages/home.page';
-import { TitlePages } from './helpers/enums/titles.enums';
+import { PageTitles } from './helpers/enums/titles.enums';
 import { SearchPage } from './pages/search.page';
 import { TourPage } from './pages/tour.page';
 
@@ -24,7 +24,7 @@ test.describe('Verifying page titles', () => {
 
     //Act
     //Assert
-    expect(title).toBe(TitlePages.HomePageTitle);
+    expect(title).toBe(PageTitles.HomePageTitle);
   });
 
   test('Check a search page title', async ({ page }) => {
@@ -37,7 +37,7 @@ test.describe('Verifying page titles', () => {
 
     //Assert
     const title = await page.title();
-    expect(title).toBe(TitlePages.SearchResultsTitle);
+    expect(title).toBe(PageTitles.SearchResultsTitle);
   });
 
   test('Check a tour page title', async ({ page }) => {
@@ -54,6 +54,6 @@ test.describe('Verifying page titles', () => {
 
     //Assert
     const title = await page.title();
-    expect(title).toBe(TitlePages.TourPageTitle);
+    expect(title).toBe(PageTitles.TourPageTitle);
   });
 });
