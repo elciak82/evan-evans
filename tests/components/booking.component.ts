@@ -7,7 +7,21 @@ export const BookingComponent = (page: Page) => {
   const substractChild = page.getByRole('button', { name: '-' }).nth(1);
   const timeSlot = page.getByText('09:');
   const addToBasketButton = page.getByRole('button', { name: 'Add to basket' });
-  const day =  page.getByRole('button', { name: '2', exact: true })
+  const today =  page.locator('[class*="selected"]');
+  const currentMonth = page.locator('.clndr__month');
+  const dates = page.$$('[class*="calendar-dow-"]');
+
+
+  const selectDate = async (date: string): Promise<void> => {
+    for(const dt of await dates)
+    {
+      if(await dt.textContent()==date){
+        await dt.click();
+        break;
+      }
+    }
+  }
+
 
   const addAdultClick = async (): Promise<void> => {
     await addAdult.click();
@@ -21,20 +35,25 @@ export const BookingComponent = (page: Page) => {
     await timeSlot.click();
   }
 
-  const selectDay = async (): Promise<void> => {
-    await day.click();
+  const selectToday = async (): Promise<void> => {
+    await today.click();
   }
 
   const addToBasketButtonClick = async (): Promise<void> => {
     await addToBasketButton.click();
   }
 
-  const bookingTour = async (): Promise<void> => {
+  const bookTour = async (day: string): Promise<void> => {
     await addAdultClick();
-    await selectDay();
+      if(day=='today')
+      {
+        await selectToday();
+      } else {
+        await selectDate(day)
+      }
     await selectTimeSlot();
     await addToBasketButtonClick();
   }
 
-  return { bookTour: bookingTour };
+  return { bookTour };
 };

@@ -1,13 +1,14 @@
 import { Page } from '@playwright/test';
 
 export const BasketComponent = (page: Page) => {
-  const alert = page.locator('.basket-popup__alert')
+  const basketAlert = page.locator('.basket-popup__alert')
   const basketPopup = page.locator('.basket-popup');
+  const basketTourTitle = page.locator('.basket-popup__item-title');
 
   const getMessageText = async () => {
     basketPopup.isEnabled();
-    console.log(await alert.innerText());
-    return await alert.innerText();
+    console.log(await basketAlert.innerText());
+    return await basketAlert.innerText();
   };
 
   return { getMessageText };
