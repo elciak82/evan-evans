@@ -5,13 +5,14 @@ import { TourPage } from './pages/tour.page';
 import { BookingComponent } from './components/booking.component';
 import { BasketComponent } from './components/basket.component';
 import { Alerts } from './helpers/enums/alerts.enums';
+import { Tours } from './helpers/enums/tours.enums';
+import { BasketPage } from './pages/basket.page';
 
 test.describe('Verifying booking', () => {
   let homePage: {
     acceptCookie: any;
     searchButtonClick: any;
     inputTextToSearchField: any;
-
   };
 
   test.beforeEach(async ({ page }) => {
@@ -20,50 +21,57 @@ test.describe('Verifying booking', () => {
     await homePage.acceptCookie();
   });
 
-  test('Adding trip to the cart - checking a basket popup', async ({ page }) => {
+  test.only('Booking a trip - checking a basket popup', async ({ page }) => {
     //Arrange
-    const searchText = 'Katowice';
     const searchPage = SearchPage(page);
     const tourPage = TourPage(page);
     const booking = BookingComponent(page);
-    const cart = BasketComponent(page);
+    const basketPopup = BasketComponent(page);
 
     //Act
-    await homePage.inputTextToSearchField(searchText);
+    await homePage.inputTextToSearchField(Tours.KatowiceTour);
     await homePage.searchButtonClick();
 
     await searchPage.viewMoreButtonClick();
-
     await tourPage.bookButtonClick();
+    await booking.bookTourForFirstAvailableDate();
 
-    await booking.bookTour('');
-    
     //Assert
-    const itemAddedMessage = await cart.getMessageText();
+    const itemAddedMessage = await basketPopup.getMessageText();
     expect(itemAddedMessage).toBe(Alerts.ItemAddedBasketAlert);
+
+    const tourInBasket = await basketPopup.getTourTitle();
+    expect(tourInBasket).toBe(Tours.KatowiceTour);
+
+    const bookingDate = await basketPopup.getBasketDetails(0);
+    expect(bookingDate).toBe('Monday, 04 December 2023 09:00 AM GMT');
+
+    const adultPrice = await basketPopup.getBasketDetails(1);
+    expect(adultPrice).toBe('Adult' + '\n\n' + '1 x £81.00');
+
+    const totalPrice = await basketPopup.getBasketDetails(2);
+    expect(totalPrice).toBe('Total' + '\n\n' + '£81.00');
   });
 
-  test('Adding trip to the cart - checking a basket', async ({ page }) => {
+  test('Booking a trip - checking a tour in the basket', async ({ page }) => {
     //Arrange
-    const searchText = 'Katowice';
-    const day = '10';
     const searchPage = SearchPage(page);
     const tourPage = TourPage(page);
     const booking = BookingComponent(page);
-    const cart = BasketComponent(page);
+    const basketPopup = BasketComponent(page);
+    const basketPage = BasketPage(page);
 
     //Act
-    await homePage.inputTextToSearchField(searchText);
+    await homePage.inputTextToSearchField(Tours.KatowiceTour);
     await homePage.searchButtonClick();
 
     await searchPage.viewMoreButtonClick();
-
     await tourPage.bookButtonClick();
+    await booking.bookTourForFirstAvailableDate();
+    await basketPopup.viewBasketButtonClick();
 
-    await booking.bookTour(day);
-    
     //Assert
-    const itemAddedMessage = await cart.getMessageText();
-    expect(itemAddedMessage).toBe(Alerts.ItemAddedBasketAlert);
+    const tourInBasket = await basketPage.getTourTitle();
+    expect(tourInBasket).toBe(Tours.KatowiceTour);
   });
 });
