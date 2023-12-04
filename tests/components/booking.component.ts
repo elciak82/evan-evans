@@ -2,12 +2,15 @@ import { Page } from '@playwright/test';
 
 export const BookingComponent = (page: Page) => {
   const addAdult = page.getByRole('button', { name: '+' }).first();
+  // const adult = page.locator('[for="ADULT"]', {
+  //   has: page.locator('[class*="spinner__btn--plus"]'),
+  // });
   const subtractAdult = page.getByRole('button', { name: '-' }).first();
   const addChild = page.getByRole('button', { name: '+' }).nth(1);
   const subtractChild = page.getByRole('button', { name: '-' }).nth(1);
-  const timeSlot = page.getByText('09:');
+  const timeSlot = page.locator('.custom-radio__label');
   const addToBasketButton = page.getByRole('button', { name: 'Add to basket' });
-  const firstAvailableDate = page.locator('[class*="selected"]');
+  const selectedDate = page.locator('[class*="selected"]');
   const currentMonth = page.locator('.clndr__month');
   const dates = page.$$('[class*="calendar-dow-"]');
   const bookingModal = page.locator('.modal-content');
@@ -20,6 +23,10 @@ export const BookingComponent = (page: Page) => {
       }
     }
   };
+
+  // const checkPLUS = async (): Promise<void> => {
+  //   await adult.click();
+  // };
 
   const addAdultClick = async (): Promise<void> => {
     await page.waitForLoadState();
@@ -35,7 +42,7 @@ export const BookingComponent = (page: Page) => {
   };
 
   const selectFirstAvailableDate = async (): Promise<void> => {
-    await firstAvailableDate.click();
+    await selectedDate.click();
   };
 
   const addToBasketButtonClick = async (): Promise<void> => {
@@ -50,11 +57,36 @@ export const BookingComponent = (page: Page) => {
   };
 
   const bookTourForFirstAvailableDate = async (): Promise<void> => {
-    await addAdultClick();
-    await selectFirstAvailableDate();
-    await selectTimeSlot();
+    await fillBookingModal();
     await addToBasketButtonClick();
   };
 
-  return { bookTour, bookTourForFirstAvailableDate };
+  const fillBookingModal = async (): Promise<void> => {
+    await addAdultClick();
+    await selectFirstAvailableDate();
+    await selectTimeSlot();
+  };
+
+  const getBookingDateAndTimeFromModal = async () => {
+    const monthAndYear = await currentMonth.innerText();
+    const day = await selectedDate.innerText();
+    const time = await timeSlot.innerText();
+    const bookingDate = day + ' ' + monthAndYear + ' ' + time;
+    return bookingDate;
+  };
+
+  const getBookingTotalFromModal = async () => {
+    const monthAndYear = await currentMonth.innerText();
+    const day = await selectedDate.innerText();
+    const time = await timeSlot.innerText();
+    const bookingDate = day + ' ' + monthAndYear + ' ' + time;
+    return bookingDate;
+  };
+  return {
+    bookTour,
+    bookTourForFirstAvailableDate,
+    fillBookingModal,
+    addToBasketButtonClick,
+    getBookingDateAndTimeFromModal,
+  };
 };

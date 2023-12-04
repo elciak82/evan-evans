@@ -8,6 +8,7 @@ import { Alerts } from './helpers/enums/alerts.enums';
 import { Tours } from './helpers/enums/tours.enums';
 import { BasketPage } from './pages/basket.page';
 
+
 test.describe('Verifying booking', () => {
   let homePage: {
     acceptCookie: any;
@@ -34,7 +35,11 @@ test.describe('Verifying booking', () => {
 
     await searchPage.viewMoreButtonClick();
     await tourPage.bookButtonClick();
-    await booking.bookTourForFirstAvailableDate();
+    await booking.fillBookingModal();
+
+    const bookingDateTimeFromModal = await booking.getBookingDateAndTimeFromModal();
+
+    await booking.addToBasketButtonClick();
 
     //Assert
     const itemAddedMessage = await basketPopup.getMessageText();
@@ -43,8 +48,8 @@ test.describe('Verifying booking', () => {
     const tourInBasket = await basketPopup.getTourTitle();
     expect(tourInBasket).toBe(Tours.KatowiceTour);
 
-    const bookingDate = await basketPopup.getBasketDetails(0);
-    expect(bookingDate).toBe('Monday, 04 December 2023 09:00 AM GMT');
+    const bookingDateInBasket = await basketPopup.getBasketDetails(0);
+    expect(bookingDateInBasket).toContain(bookingDateTimeFromModal);
 
     const adultPrice = await basketPopup.getBasketDetails(1);
     expect(adultPrice).toBe('Adult' + '\n\n' + '1 x £81.00');

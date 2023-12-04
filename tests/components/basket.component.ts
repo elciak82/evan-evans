@@ -27,8 +27,8 @@ export const BasketComponent = (page: Page) => {
         const tourDetail = await basketDetails.nth(i).innerText();
 
         details.push(tourDetail);
-        // console.log(details[i]);
-        // console.log('---------------');
+        console.log(details[i]);
+        console.log('---------------');
       }
     }
     return details[detailNumber];
