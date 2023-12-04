@@ -17,21 +17,32 @@ export const BasketComponent = (page: Page) => {
     viewBasketButton.click();
   };
 
-  const getBasketDetails = async (detailNumber: number) => {
+  const getBasketDetails = async () => {
     const detailCounter = await basketDetails.count();
-    const details: string[] = [];
+    let details: {
+      date: string;
+      persons: string[];
+      price: string;
+    } = {
+      date: '',
+      persons: [],
+      price: ''
+    };
+    
     if (detailCounter) {
-      for (let i = 0; i < detailCounter; i++) {
+      details.date = await basketDetails.nth(0).innerText();
+      details.price = await basketDetails.nth(detailCounter-1).innerText();
+      for (let i = 1; i < detailCounter-1; i++) {
         // console.log(i);
         // console.log(await basketDetails.nth(i).innerText());
         const tourDetail = await basketDetails.nth(i).innerText();
 
-        details.push(tourDetail);
-        // console.log(details[i]);
+        details.persons.push(tourDetail);
+        // console.log(details.persons[i-1]);
         // console.log('---------------');
       }
     }
-    return details[detailNumber];
+    return details;
   };
 
   const getTourTitle = async () => {

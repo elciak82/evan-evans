@@ -49,14 +49,11 @@ test.describe('Verifying booking', () => {
     const tourInBasket = await basketPopup.getTourTitle();
     expect(tourInBasket).toBe(Tours.KatowiceTour);
 
-    const bookingDateInBasket = await basketPopup.getBasketDetails(0);
-    expect(bookingDateInBasket).toContain(bookingDateTimeFromModal);
-
-    // const adultPrice = await basketPopup.getBasketDetails(1);
-    // expect(adultPrice).toBe('Adult' + '\n\n' + '1 x £81.00');
-
-    const totalPrice = await basketPopup.getBasketDetails(2);
-    expect(totalPrice).toContain(bookingTotalPriceFromModal);
+    const basketDetails = await basketPopup.getBasketDetails();
+    
+    expect(basketDetails.date).toContain(bookingDateTimeFromModal);
+    expect(basketDetails.persons[0]).toBe('Adult' + '\n\n' + '1 x £81.00');
+    expect(basketDetails.price).toContain(bookingTotalPriceFromModal);
   });
 
   test('Booking a trip - checking a tour in the basket', async ({ page }) => {
