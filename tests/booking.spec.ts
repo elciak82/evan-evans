@@ -8,7 +8,6 @@ import { Alerts } from './helpers/enums/alerts.enums';
 import { Tours } from './helpers/enums/tours.enums';
 import { BasketPage } from './pages/basket.page';
 
-
 test.describe('Verifying booking', () => {
   let homePage: {
     acceptCookie: any;
@@ -22,7 +21,7 @@ test.describe('Verifying booking', () => {
     await homePage.acceptCookie();
   });
 
-  test.only('Booking a trip - checking a basket popup', async ({ page }) => {
+  test('Booking a trip - checking a basket popup', async ({ page }) => {
     //Arrange
     const searchPage = SearchPage(page);
     const tourPage = TourPage(page);
@@ -37,7 +36,8 @@ test.describe('Verifying booking', () => {
     await tourPage.bookButtonClick();
     await booking.fillBookingModal();
 
-    const bookingDateTimeFromModal = await booking.getBookingDateAndTimeFromModal();
+    const bookingDateTimeFromModal =
+      await booking.getBookingDateAndTimeFromModal();
 
     await booking.addToBasketButtonClick();
 

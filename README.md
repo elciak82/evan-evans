@@ -12,7 +12,7 @@ This is a Test Automation project based on `Playwright` and `TypeScript`. The te
 - new project with Playwright  
   `npm init playwright@latest`
 - record tests for given site  
-  `npx playwright codegen https://pre.evanevanstours.com`
+  `npx playwright codegen <url>`
 - run tests without browser GUI  
   `npx playwright test`
 - run tests with browser GUI  
