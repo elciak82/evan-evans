@@ -21,6 +21,8 @@ This is a Test Automation project based on `Playwright` and `TypeScript`. The te
   `npx playwright show-report`
 - run Trace Viewer on zip file  
   `npx playwright show-trace trace.zip`
+- instal dotenv 
+  `npm install dotenv`
 
 ### Updating Playwright
 
