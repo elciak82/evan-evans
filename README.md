@@ -4,6 +4,13 @@ This is a Test Automation project based on `Playwright` and `TypeScript`. The te
 
 ## Links
 
+## Running tests
+
+```
+npm install
+npx playwright install
+npm test
+```
 
 ## Commands
 
