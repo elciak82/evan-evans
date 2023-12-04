@@ -14,6 +14,7 @@ export const BookingComponent = (page: Page) => {
   const currentMonth = page.locator('.clndr__month');
   const dates = page.$$('[class*="calendar-dow-"]');
   const bookingModal = page.locator('.modal-content');
+  const totalPrice = page.locator('.booking-widget__basket-price span');
 
   const selectDate = async (date: string): Promise<void> => {
     for (const dt of await dates) {
@@ -76,17 +77,16 @@ export const BookingComponent = (page: Page) => {
   };
 
   const getBookingTotalFromModal = async () => {
-    const monthAndYear = await currentMonth.innerText();
-    const day = await selectedDate.innerText();
-    const time = await timeSlot.innerText();
-    const bookingDate = day + ' ' + monthAndYear + ' ' + time;
-    return bookingDate;
+    const bookingPrice = await totalPrice.innerText();
+    return bookingPrice;
   };
+
   return {
     bookTour,
     bookTourForFirstAvailableDate,
     fillBookingModal,
     addToBasketButtonClick,
     getBookingDateAndTimeFromModal,
+    getBookingTotalFromModal,
   };
 };

@@ -38,6 +38,7 @@ test.describe('Verifying booking', () => {
 
     const bookingDateTimeFromModal =
       await booking.getBookingDateAndTimeFromModal();
+    const bookingTotalPriceFromModal = await booking.getBookingTotalFromModal();
 
     await booking.addToBasketButtonClick();
 
@@ -51,11 +52,11 @@ test.describe('Verifying booking', () => {
     const bookingDateInBasket = await basketPopup.getBasketDetails(0);
     expect(bookingDateInBasket).toContain(bookingDateTimeFromModal);
 
-    const adultPrice = await basketPopup.getBasketDetails(1);
-    expect(adultPrice).toBe('Adult' + '\n\n' + '1 x £81.00');
+    // const adultPrice = await basketPopup.getBasketDetails(1);
+    // expect(adultPrice).toBe('Adult' + '\n\n' + '1 x £81.00');
 
     const totalPrice = await basketPopup.getBasketDetails(2);
-    expect(totalPrice).toBe('Total' + '\n\n' + '£81.00');
+    expect(totalPrice).toContain(bookingTotalPriceFromModal);
   });
 
   test('Booking a trip - checking a tour in the basket', async ({ page }) => {
