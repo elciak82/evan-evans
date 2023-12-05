@@ -7,6 +7,7 @@ import { BasketComponent } from './components/basket.component';
 import { Alerts } from './helpers/enums/alerts.enums';
 import { Tours } from './helpers/enums/tours.enums';
 import { BasketPage } from './pages/basket.page';
+import { Persons } from './helpers/enums/persons.enums';
 
 test.describe('Verifying booking', () => {
   let homePage: {
@@ -21,7 +22,9 @@ test.describe('Verifying booking', () => {
     await homePage.acceptCookie();
   });
 
-  test.only('Booking a trip - checking a basket popup', async ({ page }) => {
+  test.only('Booking a trip for one child and two children - checking a basket popup', async ({
+    page,
+  }) => {
     //Arrange
     const searchPage = SearchPage(page);
     const tourPage = TourPage(page);
@@ -34,11 +37,12 @@ test.describe('Verifying booking', () => {
 
     await searchPage.viewMoreButtonClick();
     await tourPage.bookButtonClick();
-    // await booking.checkPLUS()
-    await booking.fillBookingModal();
+    await booking.fillBookingModal(Persons.CHILD, Persons.ADULT, Persons.ADULT);
 
     const bookingDateTimeFromModal =
       await booking.getBookingDateAndTimeFromModal();
+    const bookingAdultFromModal = await booking.adultBasketPrice();
+    const bookingChildFromModal = await booking.childBasketPrice();
     const bookingTotalPriceFromModal = await booking.getBookingTotalFromModal();
 
     await booking.addToBasketButtonClick();
@@ -51,9 +55,9 @@ test.describe('Verifying booking', () => {
     expect(tourInBasket).toBe(Tours.KatowiceTour);
 
     const basketDetails = await basketPopup.getBasketDetails();
-    
     expect(basketDetails.date).toContain(bookingDateTimeFromModal);
-    expect(basketDetails.persons[0]).toBe('Adult' + '\n\n' + '2 x £81.00');
+    expect(basketDetails.persons[0]).toContain(bookingAdultFromModal);
+    expect(basketDetails.persons[1]).toContain(bookingChildFromModal);
     expect(basketDetails.price).toContain(bookingTotalPriceFromModal);
   });
 
@@ -71,7 +75,7 @@ test.describe('Verifying booking', () => {
 
     await searchPage.viewMoreButtonClick();
     await tourPage.bookButtonClick();
-    await booking.bookTourForFirstAvailableDate();
+    // await booking.bookTourForFirstAvailableDate();
     await basketPopup.viewBasketButtonClick();
 
     //Assert
