@@ -9,7 +9,7 @@ export const BasketComponent = (page: Page) => {
 
   const getMessageText = async () => {
     basketPopup.isEnabled();
-    console.log(await basketAlert.innerText());
+    // console.log(await basketAlert.innerText());
     return await basketAlert.innerText();
   };
 
@@ -26,21 +26,21 @@ export const BasketComponent = (page: Page) => {
     } = {
       date: '',
       persons: [],
-      price: ''
+      price: '',
     };
-    
+
     if (detailCounter) {
       details.date = await basketDetails.nth(0).innerText();
-      details.price = await basketDetails.nth(detailCounter-1).innerText();
-      for (let i = 1; i < detailCounter-1; i++) {
+      details.price = await basketDetails.nth(detailCounter - 1).innerText();
+      for (let i = 1; i < detailCounter - 1; i++) {
         // console.log(i);
         // console.log(await basketDetails.nth(i).innerText());
         const tourDetail = await basketDetails.nth(i).innerText();
 
         details.persons.push(tourDetail);
-        console.log(details.price);
-        console.log(details.persons[i-1]);
-        console.log('---------------');
+        // console.log(details.price);
+        // console.log(details.persons[i-1]);
+        // console.log('---------------');
       }
     }
     return details;
