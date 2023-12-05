@@ -1,11 +1,13 @@
 import { Page } from '@playwright/test';
 
 export const BookingComponent = (page: Page) => {
-  const addAdult = page.getByRole('button', { name: '+' }).first();
-  // const adult = page.locator('[for="ADULT"]', {
-  //   has: page.locator('[class*="spinner__btn--plus"]'),
-  // });
-  const subtractAdult = page.getByRole('button', { name: '-' }).first();
+  // const addAdult = page.getByRole('button', { name: '+' }).first();
+  const addAdult = page.locator(
+    '//*[@for="ADULT"]/..//*[@class="spinner__btn spinner__btn--plus"]',
+  );
+  const subtractAdult = page.locator(
+    '//*[@for="ADULT"]/..//*[@class="spinner__btn spinner__btn--minus"]',
+  );
   const addChild = page.getByRole('button', { name: '+' }).nth(1);
   const subtractChild = page.getByRole('button', { name: '-' }).nth(1);
   const timeSlot = page.locator('.custom-radio__label');
@@ -14,7 +16,9 @@ export const BookingComponent = (page: Page) => {
   const currentMonth = page.locator('.clndr__month');
   const dates = page.$$('[class*="calendar-dow-"]');
   const bookingModal = page.locator('.modal-content');
-  const totalPrice = page.locator('.booking-widget__basket-price span');
+  const totalPrice = page.locator(
+    '//*[text()="Total"]/..//*[@class="booking-widget__basket-price"]',
+  );
 
   const selectDate = async (date: string): Promise<void> => {
     for (const dt of await dates) {
@@ -88,5 +92,6 @@ export const BookingComponent = (page: Page) => {
     addToBasketButtonClick,
     getBookingDateAndTimeFromModal,
     getBookingTotalFromModal,
+    // checkPLUS,
   };
 };

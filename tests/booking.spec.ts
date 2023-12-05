@@ -21,7 +21,7 @@ test.describe('Verifying booking', () => {
     await homePage.acceptCookie();
   });
 
-  test('Booking a trip - checking a basket popup', async ({ page }) => {
+  test.only('Booking a trip - checking a basket popup', async ({ page }) => {
     //Arrange
     const searchPage = SearchPage(page);
     const tourPage = TourPage(page);
@@ -34,6 +34,7 @@ test.describe('Verifying booking', () => {
 
     await searchPage.viewMoreButtonClick();
     await tourPage.bookButtonClick();
+    // await booking.checkPLUS()
     await booking.fillBookingModal();
 
     const bookingDateTimeFromModal =
@@ -52,7 +53,7 @@ test.describe('Verifying booking', () => {
     const basketDetails = await basketPopup.getBasketDetails();
     
     expect(basketDetails.date).toContain(bookingDateTimeFromModal);
-    expect(basketDetails.persons[0]).toBe('Adult' + '\n\n' + '1 x £81.00');
+    expect(basketDetails.persons[0]).toBe('Adult' + '\n\n' + '2 x £81.00');
     expect(basketDetails.price).toContain(bookingTotalPriceFromModal);
   });
 

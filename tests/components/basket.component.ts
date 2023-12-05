@@ -38,8 +38,9 @@ export const BasketComponent = (page: Page) => {
         const tourDetail = await basketDetails.nth(i).innerText();
 
         details.persons.push(tourDetail);
-        // console.log(details.persons[i-1]);
-        // console.log('---------------');
+        console.log(details.price);
+        console.log(details.persons[i-1]);
+        console.log('---------------');
       }
     }
     return details;
