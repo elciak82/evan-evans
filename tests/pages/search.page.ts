@@ -15,7 +15,7 @@ export const SearchPage = (page: Page) => {
     await viewMoreButton.isEnabled();
   };
 
-  const checkViewMoreButtonClick = async (): Promise<void> => {
+  const viewMoreButtonClick = async (): Promise<void> => {
     await viewMoreButton.click();
   };
 
@@ -27,7 +27,7 @@ export const SearchPage = (page: Page) => {
   return {
     checkLoadMoreButtonIsVisible,
     checkViewMoreButtonIsVisible,
-    viewMoreButtonClick: checkViewMoreButtonClick,
+    viewMoreButtonClick,
     getTourTitle,
   };
 };

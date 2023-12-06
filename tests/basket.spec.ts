@@ -9,6 +9,7 @@ import { Tours } from './helpers/enums/tours.enums';
 import { BasketPage } from './pages/basket.page';
 import { Persons } from './helpers/enums/persons.enums';
 import { HeaderComponent } from './components/header.copmonent';
+import { PromoCodes } from './helpers/enums/promoCodes.enums';
 
 test.describe('Booking - verifying data in the basket', () => {
   let homePage: {
@@ -68,11 +69,11 @@ test.describe('Booking - verifying data in the basket', () => {
 
     //Clear
     await basketPage.removeTourFromBasket();
-    const removedItemAlert = await basketPage.getRemoverItemAlertText();
+    const removedItemAlert = await basketPage.getRemovedItemAlertText();
     expect(Alerts.ITEM_REMOVED_BASKET_ALERT).toBe(removedItemAlert);
   });
 
-  test.only('Booking a trip for ONE STUDENT and ONE FAMILY - checking a tour in the basket', async ({
+  test('Booking a trip for ONE STUDENT and ONE FAMILY - checking a tour in the basket', async ({
     page,
   }) => {
     //Arrange
@@ -119,7 +120,39 @@ test.describe('Booking - verifying data in the basket', () => {
 
     //Clear
     await basketPage.removeTourFromBasket();
-    const removedItemAlert = await basketPage.getRemoverItemAlertText();
+    const removedItemAlert = await basketPage.getRemovedItemAlertText();
+    expect(Alerts.ITEM_REMOVED_BASKET_ALERT).toBe(removedItemAlert);
+  });
+
+  test.only('Booking a trip - checking a promo code', async ({ page }) => {
+    //Arrange
+    const searchPage = SearchPage(page);
+    const tourPage = TourPage(page);
+    const booking = BookingComponent(page);
+    const basketPopup = BasketComponent(page);
+    const basketPage = BasketPage(page);
+    const header = HeaderComponent(page);
+
+    //Act
+    await homePage.inputTextToSearchField(Tours.HarryPotterTour);
+    await homePage.searchButtonClick();
+
+    await searchPage.viewMoreButtonClick();
+    await tourPage.bookButtonClick();
+
+    await booking.fillBookingModal(Persons.STUDENT);
+    await booking.addToBasketButtonClick();
+
+    await basketPopup.viewBasketButtonClick();
+    await basketPage.applyPromoCode(PromoCodes.CODE10);
+
+    //Assert
+    const promoCodeIncluded = await basketPage.promoCodeIncluded();
+    expect(promoCodeIncluded).toBe(true);
+
+    //Clear
+    await basketPage.removeTourFromBasket();
+    const removedItemAlert = await basketPage.getRemovedItemAlertText();
     expect(Alerts.ITEM_REMOVED_BASKET_ALERT).toBe(removedItemAlert);
   });
 });

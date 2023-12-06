@@ -29,7 +29,7 @@ export const BookingComponent = (page: Page) => {
   );
   const timeSlot = page.locator('.custom-radio__label');
   const addToBasketButton = page.getByRole('button', { name: 'Add to basket' });
-  const selectedDate = page.locator('[class*="selected"]');
+  const selectedDate = page.locator('[class*="event"][class*="selected"]');
   const currentMonth = page.locator('.clndr__month');
   const dates = page.$$('[class*="calendar-dow-"]');
   const bookingModal = page.locator('.modal-content');
@@ -110,9 +110,9 @@ export const BookingComponent = (page: Page) => {
   };
 
   const bookTourForFirstAvailableDate = async (
-    persons: Persons,
+    persons: string[],
   ): Promise<void> => {
-    await fillBookingModal(persons);
+    await fillBookingModal();
     await addToBasketButtonClick();
   };
 
@@ -153,7 +153,6 @@ export const BookingComponent = (page: Page) => {
 
   return {
     bookTour,
-    bookTourForFirstAvailableDate,
     fillBookingModal,
     addToBasketButtonClick,
     getBookingDateAndTimeFromModal,

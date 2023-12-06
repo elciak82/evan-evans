@@ -1,4 +1,5 @@
 import { Page, expect } from '@playwright/test';
+import { PromoCodes } from '../helpers/enums/promoCodes.enums';
 
 export const BasketPage = (page: Page) => {
   const tourTitle = page.locator('[class*="card__title--slim"]');
@@ -7,6 +8,9 @@ export const BasketPage = (page: Page) => {
   const removeButton = page.getByRole('button', { name: 'Remove' });
   const removeButtonModal = page.getByRole('button', { name: 'Yes, Remove' });
   const removedItemAlert = page.locator('.alert__text');
+  const promoCodeField = page.locator('#promocode');
+  const applyButton = page.getByRole('button', { name: 'Apply' });
+  const totalPriceRed = page.locator('.basket-line__cost--red');
 
   const getTourTitle = async () => {
     await page.waitForLoadState();
@@ -27,7 +31,7 @@ export const BasketPage = (page: Page) => {
     await removeButtonModalClick();
   };
 
-  const getRemoverItemAlertText = async () => {
+  const getRemovedItemAlertText = async () => {
     await removedItemAlert.isEnabled();
     return await removedItemAlert.innerText();
   };
@@ -72,11 +76,25 @@ export const BasketPage = (page: Page) => {
     return details;
   };
 
+  const applyPromoCode = async (promoCode: string) => {
+    await promoCodeField.fill(promoCode);
+    await applyButton.click();
+    await page.waitForLoadState();
+  };
+
+  const promoCodeIncluded = async (): Promise<boolean> => {
+    if (await totalPriceRed.isVisible()) {
+      return true;
+    } else return false;
+  };
+
   return {
     getTourTitle,
     getBasketCardDetails,
     getBasketSummaryDetails,
     removeTourFromBasket,
-    getRemoverItemAlertText,
+    getRemovedItemAlertText,
+    applyPromoCode,
+    promoCodeIncluded,
   };
 };
