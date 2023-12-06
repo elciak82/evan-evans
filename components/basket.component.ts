@@ -9,7 +9,6 @@ export const BasketComponent = (page: Page) => {
 
   const getMessageText = async () => {
     basketPopup.isEnabled();
-    // console.log(await basketAlert.innerText());
     return await basketAlert.innerText();
   };
 

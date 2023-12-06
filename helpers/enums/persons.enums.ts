@@ -3,4 +3,5 @@ export enum Persons {
   CHILD = 'Child',
   SENIOR = 'Senior',
   FAMILY = 'Family',
+  STUDENT = 'Student',
 }

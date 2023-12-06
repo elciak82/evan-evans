@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
-import { HomePage } from './pages/home.page';
-import { PageTitles } from './helpers/enums/titles.enums';
-import { SearchPage } from './pages/search.page';
-import { TourPage } from './pages/tour.page';
+import { HomePage } from '../pages/home.page';
+import { PageTitles } from '../helpers/enums/titles.enums';
+import { SearchPage } from '../pages/search.page';
+import { TourPage } from '../pages/tour.page';
 
 test.describe('Verifying page titles', () => {
   let homePage: {

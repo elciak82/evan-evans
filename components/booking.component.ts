@@ -15,6 +15,18 @@ export const BookingComponent = (page: Page) => {
   const subtractChild = page.locator(
     '//*[@for="CHILD"]/..//*[@class="spinner__btn spinner__btn--minus"]',
   );
+  const addStudent = page.locator(
+    '//*[@for="STUDENT"]/..//*[@class="spinner__btn spinner__btn--plus"]',
+  );
+  const subtractStudent = page.locator(
+    '//*[@for="STUDENT"]/..//*[@class="spinner__btn spinner__btn--minus"]',
+  );
+  const addFamily = page.locator(
+    '//*[@for="FAMILY"]/..//*[@class="spinner__btn spinner__btn--plus"]',
+  );
+  const subtractFamily = page.locator(
+    '//*[@for="FAMILY"]/..//*[@class="spinner__btn spinner__btn--minus"]',
+  );
   const timeSlot = page.locator('.custom-radio__label');
   const addToBasketButton = page.getByRole('button', { name: 'Add to basket' });
   const selectedDate = page.locator('[class*="selected"]');
@@ -26,6 +38,12 @@ export const BookingComponent = (page: Page) => {
   );
   const numberAndPricePerChildren = page.locator(
     '//*[contains(text(),"Child ")]/..//*[@class="booking-widget__basket-price"]',
+  );
+  const numberAndPricePerStudent = page.locator(
+    '//*[contains(text(),"Student")]/..//*[@class="booking-widget__basket-price"]',
+  );
+  const numberAndPricePerFamily = page.locator(
+    '//*[contains(text(),"Family")]/..//*[@class="booking-widget__basket-price"]',
   );
   const totalPrice = page.locator(
     '//*[text()="Total"]/..//*[@class="booking-widget__basket-price"]',
@@ -40,10 +58,6 @@ export const BookingComponent = (page: Page) => {
     }
   };
 
-  // const checkPLUS = async (): Promise<void> => {
-  //   await adult.click();
-  // };
-
   const adultBasketPrice = async () => {
     return await numberAndPricePerAdult.innerText();
   };
@@ -52,13 +66,28 @@ export const BookingComponent = (page: Page) => {
     return await numberAndPricePerChildren.innerText();
   };
 
+  const studentBasketPrice = async () => {
+    return await numberAndPricePerStudent.innerText();
+  };
+
+  const familyBasketPrice = async () => {
+    return await numberAndPricePerFamily.innerText();
+  };
+
   const addAdultClick = async (): Promise<void> => {
-    await page.waitForLoadState();
     await addAdult.click();
   };
 
   const addChildClick = async (): Promise<void> => {
     await addChild.click();
+  };
+
+  const addStudentClick = async (): Promise<void> => {
+    await addStudent.click();
+  };
+
+  const addFamilyClick = async (): Promise<void> => {
+    await addFamily.click();
   };
 
   const selectTimeSlot = async (): Promise<void> => {
@@ -88,11 +117,16 @@ export const BookingComponent = (page: Page) => {
   };
 
   const fillBookingModal = async (...persons: string[]) => {
+    await page.waitForLoadState();
     for (let i = 0; i < persons.length; i++) {
       if (persons[i] === Persons.ADULT) {
-        await addAdult.click();
+        await addAdultClick();
       } else if (persons[i] === Persons.CHILD) {
-        await addChild.click();
+        await addChildClick();
+      } else if (persons[i] === Persons.STUDENT) {
+        await addStudentClick();
+      } else if (persons[i] === Persons.FAMILY) {
+        await addFamilyClick();
       }
     }
     await selectFirstAvailableDate();
@@ -123,8 +157,10 @@ export const BookingComponent = (page: Page) => {
     fillBookingModal,
     addToBasketButtonClick,
     getBookingDateAndTimeFromModal,
-    getBookingTotalFromModal: getBookingTotalPriceFromModal,
+    getBookingTotalPriceFromModal,
     adultBasketPrice,
     childBasketPrice,
+    studentBasketPrice,
+    familyBasketPrice,
   };
 };
