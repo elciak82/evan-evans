@@ -79,11 +79,11 @@ export const BasketPage = (page: Page) => {
   const applyPromoCode = async (promoCode: string) => {
     await promoCodeField.fill(promoCode);
     await applyButton.click();
-    await page.waitForLoadState();
+    await totalPriceRed.isVisible();
   };
 
   const promoCodeIncluded = async (): Promise<boolean> => {
-    if (await totalPriceRed.isVisible()) {
+    if (await totalPriceRed.isEnabled()) {
       return true;
     } else return false;
   };
