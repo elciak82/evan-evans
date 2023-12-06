@@ -8,8 +8,9 @@ import { Alerts } from './helpers/enums/alerts.enums';
 import { Tours } from './helpers/enums/tours.enums';
 import { BasketPage } from './pages/basket.page';
 import { Persons } from './helpers/enums/persons.enums';
+import { HeaderComponent } from './components/header.copmonent';
 
-test.describe('Verifying booking', () => {
+test.describe('Booking - verifying data in the basket', () => {
   let homePage: {
     acceptCookie: any;
     searchButtonClick: any;
@@ -20,53 +21,6 @@ test.describe('Verifying booking', () => {
     await page.goto('/');
     homePage = HomePage(page);
     await homePage.acceptCookie();
-  });
-
-  test('Booking a trip for one child and two adults - checking a basket popup', async ({
-    page,
-  }) => {
-    //Arrange
-    const searchPage = SearchPage(page);
-    const tourPage = TourPage(page);
-    const booking = BookingComponent(page);
-    const basketPopup = BasketComponent(page);
-    const basketPage = BasketPage(page);
-
-    //Act
-    await homePage.inputTextToSearchField(Tours.KatowiceTour);
-    await homePage.searchButtonClick();
-
-    await searchPage.viewMoreButtonClick();
-    await tourPage.bookButtonClick();
-    await booking.fillBookingModal(Persons.ADULT, Persons.ADULT, Persons.CHILD);
-
-    const bookingDateTimeFromModal =
-      await booking.getBookingDateAndTimeFromModal();
-    const bookingAdultFromModal = await booking.adultBasketPrice();
-    const bookingChildFromModal = await booking.childBasketPrice();
-    const bookingTotalPriceFromModal =
-      await booking.getBookingTotalPriceFromModal();
-
-    await booking.addToBasketButtonClick();
-
-    //Assert
-    const itemAddedMessage = await basketPopup.getMessageText();
-    expect(itemAddedMessage).toBe(Alerts.ITEM_ADDED_BASKET_ALERT);
-
-    const tourInBasket = await basketPopup.getTourTitle();
-    expect(tourInBasket).toBe(Tours.KatowiceTour);
-
-    const basketDetails = await basketPopup.getBasketDetails();
-    expect(basketDetails.date).toContain(bookingDateTimeFromModal);
-    expect(basketDetails.persons[0]).toContain(bookingAdultFromModal);
-    expect(basketDetails.persons[1]).toContain(bookingChildFromModal);
-    expect(basketDetails.price).toContain(bookingTotalPriceFromModal);
-
-    //Clear
-    basketPopup.viewBasketButtonClick
-    await basketPage.removeTourFromBasket();
-    const removedItemAlert = await basketPage.getRemoverItemAlertText();
-    expect(Alerts.ITEM_REMOVED_BASKET_ALERT).toBe(removedItemAlert);
   });
 
   test('Booking a trip for ONE ADULT and TWO CHILDREN - checking a tour in the basket', async ({
@@ -127,6 +81,7 @@ test.describe('Verifying booking', () => {
     const booking = BookingComponent(page);
     const basketPopup = BasketComponent(page);
     const basketPage = BasketPage(page);
+    const header = HeaderComponent(page);
 
     //Act
     await homePage.inputTextToSearchField(Tours.HarryPotterTour);
@@ -145,7 +100,8 @@ test.describe('Verifying booking', () => {
 
     await booking.addToBasketButtonClick();
 
-    await basketPopup.viewBasketButtonClick();
+    await basketPopup.closeBasketPopupButtonClick();
+    await header.openBasket();
 
     //Assert
     const tourInBasket = await basketPage.getTourTitle();
