@@ -5,6 +5,7 @@ export const BasketComponent = (page: Page) => {
   const basketPopup = page.locator('.basket-popup');
   const basketTourTitle = page.locator('.basket-popup__item-title');
   const viewBasketButton = page.getByRole('link', { name: 'View Basket' });
+  const closePopupButton = page.getByRole('button', { name: 'Close' });
   const basketDetails = page.locator('.basket-line');
 
   const getMessageText = async () => {
@@ -13,7 +14,13 @@ export const BasketComponent = (page: Page) => {
   };
 
   const viewBasketButtonClick = async () => {
-    viewBasketButton.click();
+    await viewBasketButton.click();
+  };
+
+  const closeBasketPopupButtonClick = async () => {
+    await page.waitForLoadState();
+    await basketPopup.isEnabled();
+    await closePopupButton.click();
   };
 
   const getBasketDetails = async () => {
@@ -32,14 +39,8 @@ export const BasketComponent = (page: Page) => {
       details.date = await basketDetails.nth(0).innerText();
       details.price = await basketDetails.nth(detailCounter - 1).innerText();
       for (let i = 1; i < detailCounter - 1; i++) {
-        // console.log(i);
-        // console.log(await basketDetails.nth(i).innerText());
         const tourDetail = await basketDetails.nth(i).innerText();
-
         details.persons.push(tourDetail);
-        // console.log(details.price);
-        // console.log(details.persons[i-1]);
-        // console.log('---------------');
       }
     }
     return details;
@@ -54,5 +55,6 @@ export const BasketComponent = (page: Page) => {
     viewBasketButtonClick,
     getTourTitle,
     getBasketDetails,
+    closeBasketPopupButtonClick,
   };
 };
