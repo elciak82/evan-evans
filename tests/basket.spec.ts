@@ -70,7 +70,7 @@ test.describe('Booking - verifying data in the basket', () => {
     //Clear
     await basketPage.removeTourFromBasket();
     const removedItemAlert = await basketPage.getRemovedItemAlertText();
-    expect(Alerts.ITEM_REMOVED_BASKET_ALERT).toBe(removedItemAlert);
+    expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 
   test('Booking a trip for ONE STUDENT and ONE FAMILY - checking a tour in the basket', async ({
@@ -121,10 +121,10 @@ test.describe('Booking - verifying data in the basket', () => {
     //Clear
     await basketPage.removeTourFromBasket();
     const removedItemAlert = await basketPage.getRemovedItemAlertText();
-    expect(Alerts.ITEM_REMOVED_BASKET_ALERT).toBe(removedItemAlert);
+    expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 
-  test.only('Booking a trip - checking a promo code', async ({ page }) => {
+  test('Booking a trip - adding a promo code', async ({ page }) => {
     //Arrange
     const searchPage = SearchPage(page);
     const tourPage = TourPage(page);
@@ -153,6 +153,40 @@ test.describe('Booking - verifying data in the basket', () => {
     //Clear
     await basketPage.removeTourFromBasket();
     const removedItemAlert = await basketPage.getRemovedItemAlertText();
-    expect(Alerts.ITEM_REMOVED_BASKET_ALERT).toBe(removedItemAlert);
+    expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
+  });
+
+  test.only('Booking a trip - adding an invalid promo code', async ({
+    page,
+  }) => {
+    //Arrange
+    const searchPage = SearchPage(page);
+    const tourPage = TourPage(page);
+    const booking = BookingComponent(page);
+    const basketPopup = BasketComponent(page);
+    const basketPage = BasketPage(page);
+    const header = HeaderComponent(page);
+
+    //Act
+    await homePage.inputTextToSearchField(Tours.HarryPotterTour);
+    await homePage.searchButtonClick();
+
+    await searchPage.viewMoreButtonClick();
+    await tourPage.bookButtonClick();
+
+    await booking.fillBookingModal(Persons.FAMILY);
+    await booking.addToBasketButtonClick();
+
+    await basketPopup.viewBasketButtonClick();
+    await basketPage.applyPromoCode(PromoCodes.INVALID_CODE);
+
+    //Assert
+    const invalidPromoCodeAlert = await basketPage.getInvalidPromoCodeAlert();
+    expect(invalidPromoCodeAlert).toBe(Alerts.INVALID_CODE);
+
+    //Clear
+    await basketPage.removeTourFromBasket();
+    const removedItemAlert = await basketPage.getRemovedItemAlertText();
+    expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 });

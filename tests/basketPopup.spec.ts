@@ -66,6 +66,6 @@ test.describe('Booking - verifying data in the basket popup', () => {
     basketPopup.viewBasketButtonClick
     await basketPage.removeTourFromBasket();
     const removedItemAlert = await basketPage.getRemovedItemAlertText();
-    expect(Alerts.ITEM_REMOVED_BASKET_ALERT).toBe(removedItemAlert);
+    expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 });

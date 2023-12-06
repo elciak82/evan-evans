@@ -11,6 +11,7 @@ export const BasketPage = (page: Page) => {
   const promoCodeField = page.locator('#promocode');
   const applyButton = page.getByRole('button', { name: 'Apply' });
   const totalPriceRed = page.locator('.basket-line__cost--red');
+  const invalidPromoCodeAlert = page.locator('.invalid-feedback');
 
   const getTourTitle = async () => {
     await page.waitForLoadState();
@@ -82,10 +83,14 @@ export const BasketPage = (page: Page) => {
     await totalPriceRed.isVisible();
   };
 
-  const promoCodeIncluded = async (): Promise<boolean> => {
+  const promoCodeIncluded = async (): Promise<boolean> => { //TODO
     if (await totalPriceRed.isEnabled()) {
       return true;
     } else return false;
+  };
+
+  const getInvalidPromoCodeAlert = async () => {
+    return await invalidPromoCodeAlert.innerText();
   };
 
   return {
@@ -96,5 +101,6 @@ export const BasketPage = (page: Page) => {
     getRemovedItemAlertText,
     applyPromoCode,
     promoCodeIncluded,
+    getInvalidPromoCodeAlert,
   };
 };
