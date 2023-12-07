@@ -63,7 +63,7 @@ test.describe('Booking - verifying data in the basket popup', () => {
     expect(basketDetails.price).toContain(bookingTotalPriceFromModal);
 
     //Clear
-    basketPopup.viewBasketButtonClick
+    await basketPopup.viewBasketButtonClick();
     await basketPage.removeTourFromBasket();
     const removedItemAlert = await basketPage.getRemovedItemAlertText();
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
