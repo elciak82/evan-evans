@@ -156,9 +156,7 @@ test.describe('Booking - verifying data in the basket', () => {
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 
-  test.only('Booking a trip - adding an invalid promo code', async ({
-    page,
-  }) => {
+  test('Booking a trip - adding an invalid promo code', async ({ page }) => {
     //Arrange
     const searchPage = SearchPage(page);
     const tourPage = TourPage(page);

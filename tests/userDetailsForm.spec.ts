@@ -8,7 +8,7 @@ import { Alerts } from './helpers/enums/alerts.enums';
 import { Tours } from './helpers/enums/tours.enums';
 import { BasketPage } from './pages/basket.page';
 import { Persons } from './helpers/enums/persons.enums';
-import { YourDetailsPage } from './pages/yourDetails.page';
+import { UserDetailsPage } from './pages/userDetails.page';
 import { HeaderComponent } from './components/header.copmonent';
 
 test.describe('VerIfying the Your Details form', () => {
@@ -24,7 +24,7 @@ test.describe('VerIfying the Your Details form', () => {
     await homePage.acceptCookie();
   });
 
-  test('Insert incorrect data to fields - checking alerts', async ({
+  test.only('Insert incorrect data to fields - checking alerts', async ({
     page,
   }) => {
     //Arrange
@@ -33,7 +33,7 @@ test.describe('VerIfying the Your Details form', () => {
     const booking = BookingComponent(page);
     const basketPopup = BasketComponent(page);
     const basketPage = BasketPage(page);
-    const formPage = YourDetailsPage(page);
+    const formPage = UserDetailsPage(page);
     const header = HeaderComponent(page);
 
     //Act
@@ -48,6 +48,26 @@ test.describe('VerIfying the Your Details form', () => {
     await formPage.continueToPaymentButtonClick();
 
     //Assert
+    const invalidFirstNameAlert = await formPage.getInvalidFirstNameAlert();
+    expect(invalidFirstNameAlert).toBe(Alerts.VALID_NAME_ERROR);
+
+    const invalidLastNameAlert = await formPage.getInvalidLastNameAlert();
+    expect(invalidLastNameAlert).toBe(Alerts.VALID_NAME_ERROR);
+
+    const invalidEmailAlert = await formPage.getInvalidEmailAlert();
+    expect(invalidEmailAlert).toBe(Alerts.VALID_EMAIL_ERROR);
+
+    const invalidPhoneNumberAlert = await formPage.getInvalidPhoneNumberAlert();
+    expect(invalidPhoneNumberAlert).toBe(Alerts.VALID_PHONE_NUMBER_ERROR);
+
+    const invalidCountryAlert = await formPage.getInvalidCountryAlert();
+    expect(invalidCountryAlert).toBe(Alerts.VALID_COUNTRY_ERROR);
+
+    const termsAndConditionsUncheckedAlert =
+      await formPage.getTermsAndConditionsUncheckedAlert();
+    expect(termsAndConditionsUncheckedAlert).toBe(
+      Alerts.ACCEPT_TERMS_AND_CONDITION_ERROR,
+    );
 
     //Clear
     await header.openBasket();
