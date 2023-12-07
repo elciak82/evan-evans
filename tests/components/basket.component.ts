@@ -5,6 +5,7 @@ export const BasketComponent = (page: Page) => {
   const basketPopup = page.locator('.basket-popup');
   const basketTourTitle = page.locator('.basket-popup__item-title');
   const viewBasketButton = page.getByRole('link', { name: 'View Basket' });
+  const checkoutNowButton = page.getByRole('link', { name: 'Checkout Now' });
   const closePopupButton = page.getByRole('button', { name: 'Close' });
   const basketDetails = page.locator('.basket-line');
 
@@ -15,6 +16,10 @@ export const BasketComponent = (page: Page) => {
 
   const viewBasketButtonClick = async () => {
     await viewBasketButton.click();
+  };
+
+  const checkoutNowButtonClick = async () => {
+    await checkoutNowButton.click();
   };
 
   const closeBasketPopupButtonClick = async () => {
@@ -56,5 +61,6 @@ export const BasketComponent = (page: Page) => {
     getTourTitle,
     getBasketDetails,
     closeBasketPopupButtonClick,
+    checkoutNowButtonClick,
   };
 };
