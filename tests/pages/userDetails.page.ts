@@ -11,6 +11,12 @@ export const UserDetailsPage = (page: Page) => {
   const termsAndConditionsCheckbox = page.locator(
     '[class*="default-checkbox--terms"] .form-check-label',
   );
+  const signToEvanEvansNewsletterCheckbox = page.locator(
+    '[for="evanevans-checkbox"]',
+  );
+  const signToTreadRightNewsletterCheckbox = page.locator(
+    '[for="treadright-checkbox"]',
+  );
   const continueToPaymentButton = page.getByRole('button', {
     name: 'Continue to payment',
   });
@@ -30,13 +36,21 @@ export const UserDetailsPage = (page: Page) => {
     await termsAndConditionsCheckbox.click();
   };
 
+  const checkSignToEvanEvansNewsletterCheckbox = async () => {
+    signToEvanEvansNewsletterCheckbox.click();
+  };
+
+  const checkSignToTreadRightNewsletterCheckbox = async () => {
+    signToTreadRightNewsletterCheckbox.click();
+  };
+
   const continueToPaymentButtonClick = async () => {
+    await continueToPaymentButton.click(); //I know this is incorrect, but it has to be like that for now
     await continueToPaymentButton.click();
-    await page.waitForLoadState();
   };
 
   const fillAndConfirmDetailsForm = async () => {
-    await fillAndConfirmDetailsForm();
+    await fillYourDetailsForm();
     await continueToPaymentButtonClick();
   };
 
@@ -73,5 +87,7 @@ export const UserDetailsPage = (page: Page) => {
     getInvalidPhoneNumberAlert,
     getInvalidCountryAlert,
     getTermsAndConditionsUncheckedAlert,
+    checkSignToEvanEvansNewsletterCheckbox,
+    checkSignToTreadRightNewsletterCheckbox,
   };
 };
