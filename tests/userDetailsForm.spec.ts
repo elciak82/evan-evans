@@ -9,7 +9,7 @@ import { Tours } from './helpers/enums/tours.enums';
 import { BasketPage } from './pages/basket.page';
 import { Persons } from './helpers/enums/persons.enums';
 import { UserDetailsPage } from './pages/userDetails.page';
-import { HeaderComponent } from './components/header.copmonent';
+import { HeaderComponent } from './components/header.component';
 
 test.describe('VerIfying the Your Details form', () => {
   let homePage: {
@@ -76,7 +76,7 @@ test.describe('VerIfying the Your Details form', () => {
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 
-  test.only('Insert correct data to fields and check SIGN ME UP checkboxes - check if all fields are filled in', async ({
+  test('Insert correct data to fields and check SIGN ME UP checkboxes - check if all fields/checkboxes are filled in/checked', async ({
     page,
   }) => {
     //Arrange

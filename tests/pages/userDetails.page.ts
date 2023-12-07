@@ -37,11 +37,11 @@ export const UserDetailsPage = (page: Page) => {
   };
 
   const checkSignToEvanEvansNewsletterCheckbox = async () => {
-    signToEvanEvansNewsletterCheckbox.click();
+    await signToEvanEvansNewsletterCheckbox.click();
   };
 
   const checkSignToTreadRightNewsletterCheckbox = async () => {
-    signToTreadRightNewsletterCheckbox.click();
+    await signToTreadRightNewsletterCheckbox.click();
   };
 
   const continueToPaymentButtonClick = async () => {
