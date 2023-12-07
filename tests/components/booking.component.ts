@@ -28,7 +28,7 @@ export const BookingComponent = (page: Page) => {
     '//*[@for="FAMILY"]/..//*[@class="spinner__btn spinner__btn--minus"]',
   );
   const timeSlot = page.locator('.custom-radio__label');
-  const addToBasketButton = page.getByRole('button', { name: 'Add to basket' });
+  const addToBasketButton = page.locator('#add-to-basket-btn');
   const selectedDate = page.locator('[class*="event"][class*="selected"]');
   const currentMonth = page.locator('.clndr__month');
   const dates = page.$$('[class*="calendar-dow-"]');

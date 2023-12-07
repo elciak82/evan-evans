@@ -4,9 +4,9 @@ export const BasketComponent = (page: Page) => {
   const basketAlert = page.locator('.basket-popup__alert');
   const basketPopup = page.locator('.basket-popup');
   const basketTourTitle = page.locator('.basket-popup__item-title');
-  const viewBasketButton = page.getByRole('link', { name: 'View Basket' });
-  const checkoutNowButton = page.getByRole('link', { name: 'Checkout Now' });
-  const closePopupButton = page.getByRole('button', { name: 'Close' });
+  const viewBasketButton = page.locator('[class="btn basket-popup__button"]');
+  const checkoutNowButton = page.locator('[class="btn btn--alt basket-popup__button"]');
+  const closePopupButton = page.locator('[class*="basket-popup__close-btn"]');
   const basketDetails = page.locator('.basket-line');
 
   const getMessageText = async () => {

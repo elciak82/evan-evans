@@ -5,11 +5,16 @@ export const BasketPage = (page: Page) => {
   const tourTitle = page.locator('[class*="card__title--slim"]');
   const basketDetails = page.locator('.card .basket-line');
   const basketSummary = page.locator('.col-lg-4 .basket-line');
-  const removeButton = page.getByRole('button', { name: 'Remove' });
-  const removeButtonModal = page.getByRole('button', { name: 'Yes, Remove' });
+  const removeButton = page.locator(
+    '[class="btn btn--thin btn--alert-icon remove-btn"]',
+  );
+  const removeButtonModal = page.locator('[class*="remove-modal__remove-btn"]');
+  const returnToBasketButtonModal = page.locator(
+    '[class*="remove-modal__cancel-btn"]',
+  );
   const removedItemAlert = page.locator('.alert__text');
   const promoCodeField = page.locator('#promocode');
-  const applyButton = page.getByRole('button', { name: 'Apply' });
+  const applyButton = page.locator('[class*="basket-promo__apply"]');
   const totalPriceRed = page.locator('.basket-line__cost--red');
   const invalidPromoCodeAlert = page.locator('.invalid-feedback');
 

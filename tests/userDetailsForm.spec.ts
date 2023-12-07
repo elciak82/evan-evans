@@ -24,7 +24,7 @@ test.describe('VerIfying the Your Details form', () => {
     await homePage.acceptCookie();
   });
 
-  test.only('Insert incorrect data to fields - checking alerts', async ({
+  test('Insert incorrect data to fields - checking alerts', async ({
     page,
   }) => {
     //Arrange
@@ -68,6 +68,41 @@ test.describe('VerIfying the Your Details form', () => {
     expect(termsAndConditionsUncheckedAlert).toBe(
       Alerts.ACCEPT_TERMS_AND_CONDITION_ERROR,
     );
+
+    //Clear
+    await header.openBasket();
+    await basketPage.removeTourFromBasket();
+    const removedItemAlert = await basketPage.getRemovedItemAlertText();
+    expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
+  });
+
+  test.only('Insert correct data to fields and check SIGN ME UP checkboxes - check if all fields are filled in', async ({
+    page,
+  }) => {
+    //Arrange
+    const searchPage = SearchPage(page);
+    const tourPage = TourPage(page);
+    const booking = BookingComponent(page);
+    const basketPopup = BasketComponent(page);
+    const basketPage = BasketPage(page);
+    const formPage = UserDetailsPage(page);
+    const header = HeaderComponent(page);
+
+    //Act
+    await homePage.inputTextToSearchField(Tours.KatowiceTour);
+    await homePage.searchButtonClick();
+
+    await searchPage.viewMoreButtonClick();
+    await tourPage.bookButtonClick();
+    await booking.fillBookingModal(Persons.ADULT);
+    await booking.addToBasketButtonClick();
+    await basketPopup.checkoutNowButtonClick();
+    await formPage.fillYourDetailsForm();
+    await formPage.checkSignToEvanEvansNewsletterCheckbox();
+    await formPage.checkSignToTreadRightNewsletterCheckbox();
+
+    //Assert
+    //TODO
 
     //Clear
     await header.openBasket();
