@@ -83,10 +83,9 @@ export const BasketPage = (page: Page) => {
     await totalPriceRed.isVisible();
   };
 
-  const promoCodeIncluded = async (): Promise<boolean> => { //TODO
-    if (await totalPriceRed.isEnabled()) {
-      return true;
-    } else return false;
+  const promoCodeIncluded = async (): Promise<boolean> => {
+    //TODO
+    return await totalPriceRed.isEnabled();
   };
 
   const getInvalidPromoCodeAlert = async () => {
