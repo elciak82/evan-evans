@@ -165,7 +165,6 @@ test.describe('Booking - verifying data in the basket', () => {
     const booking = BookingComponent(page);
     const basketPopup = BasketComponent(page);
     const basketPage = BasketPage(page);
-    const header = HeaderComponent(page);
 
     //Act
     await homePage.inputTextToSearchField(Tours.HarryPotterTour);

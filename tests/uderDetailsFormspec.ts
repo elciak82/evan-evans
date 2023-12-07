@@ -9,6 +9,7 @@ import { Tours } from './helpers/enums/tours.enums';
 import { BasketPage } from './pages/basket.page';
 import { Persons } from './helpers/enums/persons.enums';
 import { YourDetailsPage } from './pages/yourDetails.page';
+import { HeaderComponent } from './components/header.copmonent';
 
 test.describe('VerIfying the Your Details form', () => {
   let homePage: {
@@ -33,6 +34,7 @@ test.describe('VerIfying the Your Details form', () => {
     const basketPopup = BasketComponent(page);
     const basketPage = BasketPage(page);
     const formPage = YourDetailsPage(page);
+    const header = HeaderComponent(page);
 
     //Act
     await homePage.inputTextToSearchField(Tours.KatowiceTour);
@@ -43,13 +45,12 @@ test.describe('VerIfying the Your Details form', () => {
     await booking.fillBookingModal(Persons.ADULT);
     await booking.addToBasketButtonClick();
     await basketPopup.checkoutNowButtonClick();
-
-    await formPage.fillYourDetailsForm();
+    await formPage.continueToPaymentButtonClick();
 
     //Assert
 
     //Clear
-    await basketPopup.viewBasketButtonClick();
+    await header.openBasket();
     await basketPage.removeTourFromBasket();
     const removedItemAlert = await basketPage.getRemovedItemAlertText();
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);

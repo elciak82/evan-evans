@@ -11,6 +11,9 @@ export const YourDetailsPage = (page: Page) => {
   const termsAndConditionsCheckbox = page.locator(
     '[class*="default-checkbox--terms"] .form-check-label',
   );
+  const continueToPaymentButton = page.getByRole('button', {
+    name: 'Continue to payment',
+  });
 
   const fillYourDetailsForm = async (): Promise<void> => {
     await firstNameInput.fill(userData.firstName);
@@ -21,5 +24,14 @@ export const YourDetailsPage = (page: Page) => {
     await termsAndConditionsCheckbox.click();
   };
 
-  return { fillYourDetailsForm };
+  const continueToPaymentButtonClick = async () => {
+    await continueToPaymentButton.click();
+  };
+
+  const fillAndConfirmDetailsForm = async () => {
+    await fillAndConfirmDetailsForm();
+    await continueToPaymentButtonClick();
+  };
+
+  return { fillYourDetailsForm, continueToPaymentButtonClick };
 };
