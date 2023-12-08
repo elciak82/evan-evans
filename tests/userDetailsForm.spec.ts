@@ -10,6 +10,7 @@ import { BasketPage } from './pages/basket.page';
 import { Persons } from './helpers/enums/persons.enums';
 import { UserDetailsPage } from './pages/userDetails.page';
 import { HeaderComponent } from './components/header.component';
+import { userData } from './test-data/userData.data';
 
 test.describe('VerIfying the Your Details form', () => {
   let homePage: {
@@ -76,7 +77,7 @@ test.describe('VerIfying the Your Details form', () => {
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 
-  test('Insert correct data to fields and check SIGN ME UP checkboxes - check if all fields/checkboxes are filled in/checked', async ({
+  test.only('Insert correct data to fields and check SIGN ME UP checkboxes - check if all fields/checkboxes are filled in/checked', async ({
     page,
   }) => {
     //Arrange
@@ -102,7 +103,11 @@ test.describe('VerIfying the Your Details form', () => {
     await formPage.checkSignToTreadRightNewsletterCheckbox();
 
     //Assert
-    //TODO
+
+    const firstName = await formPage.getFirstName();
+    console.log(firstName);
+    console.log(userData.firstName);
+    expect(firstName).toBe(userData.firstName);
 
     //Clear
     await header.openBasket();

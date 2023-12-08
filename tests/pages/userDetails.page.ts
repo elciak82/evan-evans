@@ -1,10 +1,16 @@
 import { Page } from '@playwright/test';
 import { userData } from '../test-data/userData.data';
+import { WebEntity } from '../webEntity';
 
 export const UserDetailsPage = (page: Page) => {
+  let webEntity: {
+    clipboardTextFromInput: any;
+  };
   const firstNameInput = page.locator('#first-name-input');
   const lastNameInput = page.locator('#last-name-input');
   const yourEmailInput = page.locator('#email-input');
+  const yourEmailInput1 = page.$('#email-input');
+  // const yourEmailInpu1 = page.locator<HTMLInputElement>('td:nth-child(2) p').val();
   const yourPhoneNumberInput = page.locator('#phone-number-input');
   const countryDropdown = page.locator('#country-select');
   const orEnterCountryInput = page.locator('#country-input');
@@ -33,15 +39,62 @@ export const UserDetailsPage = (page: Page) => {
     await yourEmailInput.fill(userData.yourEmail);
     await yourPhoneNumberInput.fill(userData.yourPhoneNumber);
     await orEnterCountryInput.fill(userData.yourCountry);
-    await termsAndConditionsCheckbox.click();
+    await termsAndConditionsCheckbox.setChecked(true);
+  };
+
+  // const changeIt = function () {
+  //   var inputValue = (<HTMLInputElement>(
+  //     document.getElementById('#first-name-input')
+  //   )).value;
+  //   return console.log(inputValue);
+  // };
+
+  const getFirstName = async () => {
+    webEntity = WebEntity(page);
+    webEntity.clipboardTextFromInput();
+    await firstNameInput.click();
+    return webEntity.clipboardTextFromInput();
+    // let userAgentInfo = await page.evaluate(() => navigator.userAgent);
+    // await page.keyboard.press("Control+A");
+    // await page.keyboard.press("Control+C");
+    // let clipboardText = await page.evaluate("navigator.clipboard.readText()");
+    // return clipboardText;
+  }; //https://playwrightsolutions.com/how-do-i-check-the-value-inside-an-input-field-with-playwright/
+
+  const getLastName = async () => {
+    return await lastNameInput.innerText();
+  };
+
+  const getYourEmail = async () => {
+    return await yourEmailInput.innerText();
+  };
+
+  const getPhoneNumberEmail = async () => {
+    return await yourPhoneNumberInput.innerText();
+  };
+
+  const getCountry = async () => {
+    return await orEnterCountryInput.innerText();
+  };
+
+  const getTermsAndConditionsCheckbox = async (): Promise<boolean> => {
+    return await termsAndConditionsCheckbox.isChecked();
+  };
+
+  const getSignToEvanEvansNewsletterCheckbox = async (): Promise<boolean> => {
+    return await signToEvanEvansNewsletterCheckbox.isChecked();
+  };
+
+  const getSignToTreadRightNewsletterCheckbox = async (): Promise<boolean> => {
+    return await signToTreadRightNewsletterCheckbox.isChecked();
   };
 
   const checkSignToEvanEvansNewsletterCheckbox = async () => {
-    await signToEvanEvansNewsletterCheckbox.click();
+    await signToEvanEvansNewsletterCheckbox.setChecked(true);
   };
 
   const checkSignToTreadRightNewsletterCheckbox = async () => {
-    await signToTreadRightNewsletterCheckbox.click();
+    await signToTreadRightNewsletterCheckbox.setChecked(true);
   };
 
   const continueToPaymentButtonClick = async () => {
@@ -89,5 +142,16 @@ export const UserDetailsPage = (page: Page) => {
     getTermsAndConditionsUncheckedAlert,
     checkSignToEvanEvansNewsletterCheckbox,
     checkSignToTreadRightNewsletterCheckbox,
+    getFirstName,
+    getLastName,
+    getYourEmail,
+    getPhoneNumberEmail,
+    getCountry,
+    getTermsAndConditionsCheckbox,
+    getSignToEvanEvansNewsletterCheckbox,
+    getSignToTreadRightNewsletterCheckbox,
   };
 };
+function clipboardTextFromInput(): import('playwright-core').Page {
+  throw new Error('Function not implemented.');
+}
