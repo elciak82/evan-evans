@@ -8,7 +8,7 @@ import { Alerts } from './helpers/enums/alerts.enums';
 import { Tours } from './helpers/enums/tours.enums';
 import { BasketPage } from './pages/basket.page';
 import { Persons } from './helpers/enums/persons.enums';
-import { HeaderComponent } from './components/header.copmonent';
+import { HeaderComponent } from './components/header.component';
 import { PromoCodes } from './helpers/enums/promoCodes.enums';
 
 test.describe('Booking - verifying data in the basket', () => {
