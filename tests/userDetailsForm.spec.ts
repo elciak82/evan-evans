@@ -218,7 +218,7 @@ test.describe('VerIfying the Your Details form', () => {
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 
-  test.only('Validate the Last Name field', async ({ page }) => {
+  test('Validate the Last Name field', async ({ page }) => {
     //Arrange
     const searchPage = SearchPage(page);
     const tourPage = TourPage(page);
@@ -293,6 +293,95 @@ test.describe('VerIfying the Your Details form', () => {
     await formPage.continueToPaymentButtonClick();
     //Assert
     expect(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(true);
+
+    //Clear
+    await header.openBasket();
+    await basketPage.removeTourFromBasket();
+    const removedItemAlert = await basketPage.getRemovedItemAlertText();
+    expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
+  });
+
+  test('Validate the Your Email field', async ({ page }) => {
+    //Arrange
+    const searchPage = SearchPage(page);
+    const tourPage = TourPage(page);
+    const booking = BookingComponent(page);
+    const basketPopup = BasketComponent(page);
+    const basketPage = BasketPage(page);
+    const formPage = UserDetailsPage(page);
+    const header = HeaderComponent(page);
+
+    //Act
+    await homePage.inputTextToSearchField(Tours.KatowiceTour);
+    await homePage.searchButtonClick();
+
+    await searchPage.viewMoreButtonClick();
+    await tourPage.bookButtonClick();
+    await booking.fillBookingModal(Persons.ADULT);
+    await booking.addToBasketButtonClick();
+    await basketPopup.checkoutNowButtonClick();
+
+    await formPage.setYourEmail(' ');
+    await formPage.continueToPaymentButtonClick();
+
+    //Assert
+    expect(await formPage.getInvalidEmailAlert()).toBe(
+      Alerts.VALID_EMAIL_ERROR,
+    );
+
+    //Act
+    await formPage.setYourEmail('email');
+    await formPage.continueToPaymentButtonClick();
+    //Assert
+    expect(await formPage.checkInvalidEmailAlertIsVisible()).toBe(true);
+
+    //Act
+    await formPage.setYourEmail('email@');
+    await formPage.continueToPaymentButtonClick();
+    //Assert
+    expect(await formPage.checkInvalidEmailAlertIsVisible()).toBe(true);
+
+    //Act
+    await formPage.setYourEmail('email@email');
+    await formPage.continueToPaymentButtonClick();
+    //Assert
+    expect(await formPage.checkInvalidEmailAlertIsVisible()).toBe(false);
+
+    //Act
+    await formPage.setYourEmail('email@email.');
+    await formPage.continueToPaymentButtonClick();
+    //Assert
+    expect(await formPage.checkInvalidEmailAlertIsVisible()).toBe(true);
+
+    //Act
+    await formPage.setYourEmail('email@email.com');
+    await formPage.continueToPaymentButtonClick();
+    //Assert
+    expect(await formPage.checkInvalidEmailAlertIsVisible()).toBe(false);
+
+    //Act
+    await formPage.setYourEmail('email@.email.com');
+    await formPage.continueToPaymentButtonClick();
+    //Assert
+    expect(await formPage.checkInvalidEmailAlertIsVisible()).toBe(true);
+
+    //Act
+    await formPage.setYourEmail('email.email@email.com');
+    await formPage.continueToPaymentButtonClick();
+    //Assert
+    expect(await formPage.checkInvalidEmailAlertIsVisible()).toBe(false);
+
+    //Act
+    await formPage.setYourEmail('@email.com');
+    await formPage.continueToPaymentButtonClick();
+    //Assert
+    expect(await formPage.checkInvalidEmailAlertIsVisible()).toBe(true);
+
+    //Act
+    await formPage.setYourEmail('email-email@email.com');
+    await formPage.continueToPaymentButtonClick();
+    //Assert
+    expect(await formPage.checkInvalidEmailAlertIsVisible()).toBe(false);
 
     //Clear
     await header.openBasket();

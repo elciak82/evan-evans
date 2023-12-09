@@ -30,6 +30,9 @@ export const UserDetailsPage = (page: Page) => {
     '[aria-describedby="last-name-input-error"][aria-invalid="true"]',
   );
   const invalidEmailAlert = page.locator('#email-input-error');
+  const invalidEmailAlertIsVisible = page.locator(
+    '[aria-describedby="email-input-error"][aria-invalid="true"]',
+  );
   const invalidPhoneNumberAlert = page.locator('#phone-number-input-error');
   const invalidCountryAlert = page.locator('#country-input-error');
   const termsAndConditionsUncheckedAlert = page.locator('#AcceptTerms-error');
@@ -51,7 +54,7 @@ export const UserDetailsPage = (page: Page) => {
   };
 
   const setCountry = async (country: string) => {
-    await yourPhoneNumberInput.fill(country);
+    await orEnterCountryInput.fill(country);
   };
 
   const fillYourDetailsForm = async (): Promise<void> => {
@@ -117,9 +120,10 @@ export const UserDetailsPage = (page: Page) => {
   };
 
   const continueToPaymentButtonClick = async () => {
-    // await page.waitForLoadState();
-    await continueToPaymentButton.click(); //I know this is incorrect, but it has to be like that for now
+    await page.waitForLoadState();
+    // await continueToPaymentButton.click(); //I know this is incorrect, but it has to be like that for now
     await continueToPaymentButton.click();
+    await page.waitForLoadState();
   };
 
   const fillAndConfirmDetailsForm = async () => {
@@ -135,16 +139,20 @@ export const UserDetailsPage = (page: Page) => {
     return await invalidFirstNameAlertIsVisible.isVisible();
   };
 
-  const checkInvalidLastNameAlertIsVisible = async (): Promise<boolean> => {
-    return await invalidLastNameAlertIsVisible.isVisible();
-  };
-
   const getInvalidLastNameAlert = async () => {
     return await invalidLastNameAlert.innerText();
   };
 
+  const checkInvalidLastNameAlertIsVisible = async (): Promise<boolean> => {
+    return await invalidLastNameAlertIsVisible.isVisible();
+  };
+
   const getInvalidEmailAlert = async () => {
     return await invalidEmailAlert.innerText();
+  };
+
+  const checkInvalidEmailAlertIsVisible = async (): Promise<boolean> => {
+    return await invalidEmailAlertIsVisible.isVisible();
   };
 
   const getInvalidPhoneNumberAlert = async () => {
@@ -185,5 +193,6 @@ export const UserDetailsPage = (page: Page) => {
     getSignToTreadRightNewsletterCheckbox,
     checkInvalidFirstNameAlertIsVisible,
     checkInvalidLastNameAlertIsVisible,
+    checkInvalidEmailAlertIsVisible,
   };
 };
