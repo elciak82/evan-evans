@@ -1,15 +1,14 @@
 import { test, expect } from '@playwright/test';
-import { HomePage } from '../tests/pages/home.page';
-import { PageTitles } from './helpers/enums/titles.enums';
-import { SearchPage } from './pages/search.page';
-import { TourPage } from './pages/tour.page';
+import { HomePage } from '../src/pages/home.page';
+import { PageTitles } from '../src/helpers/enums/titles.enums';
+import { SearchPage } from '../src/pages/search.page';
+import { TourPage } from '../src/pages/tour.page';
 
 test.describe('Verifying page titles', () => {
   let homePage: {
     acceptCookie: any;
     searchButtonClick: any;
     inputTextToSearchField: any;
-
   };
 
   test.beforeEach(async ({ page }) => {

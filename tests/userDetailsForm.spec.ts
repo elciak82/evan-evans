@@ -1,16 +1,16 @@
 import { test, expect } from '@playwright/test';
-import { HomePage } from './pages/home.page';
-import { SearchPage } from './pages/search.page';
-import { TourPage } from './pages/tour.page';
-import { BookingComponent } from './components/booking.component';
-import { BasketComponent } from './components/basket.component';
-import { Alerts } from './helpers/enums/alerts.enums';
-import { Tours } from './helpers/enums/tours.enums';
-import { BasketPage } from './pages/basket.page';
-import { Persons } from './helpers/enums/persons.enums';
-import { UserDetailsPage } from './pages/userDetails.page';
-import { HeaderComponent } from './components/header.component';
-import { userData } from './test-data/userData.data';
+import { HomePage } from '../src/pages/home.page';
+import { SearchPage } from '../src/pages/search.page';
+import { TourPage } from '../src/pages/tour.page';
+import { BookingComponent } from '../src/components/booking.component';
+import { BasketComponent } from '../src/components/basket.component';
+import { Alerts } from '../src/helpers/enums/alerts.enums';
+import { Tours } from '../src/helpers/enums/tours.enums';
+import { BasketPage } from '../src/pages/basket.page';
+import { Persons } from '../src/helpers/enums/persons.enums';
+import { UserDetailsPage } from '../src/pages/userDetails.page';
+import { HeaderComponent } from '../src/components/header.component';
+import { userData } from '../src/test-data/userData.data';
 
 test.describe('VerIfying the Your Details form', () => {
   let homePage: {

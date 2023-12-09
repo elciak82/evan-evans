@@ -1,13 +1,13 @@
 import { test, expect } from '@playwright/test';
-import { HomePage } from './pages/home.page';
-import { SearchPage } from './pages/search.page';
-import { TourPage } from './pages/tour.page';
-import { BookingComponent } from './components/booking.component';
-import { BasketComponent } from './components/basket.component';
-import { Alerts } from './helpers/enums/alerts.enums';
-import { Tours } from './helpers/enums/tours.enums';
-import { BasketPage } from './pages/basket.page';
-import { Persons } from './helpers/enums/persons.enums';
+import { HomePage } from '../src/pages/home.page';
+import { SearchPage } from '../src/pages/search.page';
+import { TourPage } from '../src/pages/tour.page';
+import { BookingComponent } from '../src/components/booking.component';
+import { BasketComponent } from '../src/components/basket.component';
+import { Alerts } from '../src/helpers/enums/alerts.enums';
+import { Tours } from '../src/helpers/enums/tours.enums';
+import { BasketPage } from '../src/pages/basket.page';
+import { Persons } from '../src/helpers/enums/persons.enums';
 
 test.describe('Booking - verifying data in the basket popup', () => {
   let homePage: {
