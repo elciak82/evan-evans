@@ -1,16 +1,11 @@
 import { Page } from '@playwright/test';
 import { userData } from '../test-data/userData.data';
-import { WebEntity } from '../webEntity';
 
 export const UserDetailsPage = (page: Page) => {
-  let webEntity: {
-    clipboardTextFromInput: any;
-  };
   const firstNameInput = page.locator('#first-name-input');
   const lastNameInput = page.locator('#last-name-input');
   const yourEmailInput = page.locator('#email-input');
-  const yourEmailInput1 = page.$('#email-input');
-  // const yourEmailInpu1 = page.locator<HTMLInputElement>('td:nth-child(2) p').val();
+  // const yourEmailInput1 = page.locator<HTMLInputElement>('td:nth-child(2) p').val();
   const yourPhoneNumberInput = page.locator('#phone-number-input');
   const countryDropdown = page.locator('#country-select');
   const orEnterCountryInput = page.locator('#country-input');
@@ -33,48 +28,66 @@ export const UserDetailsPage = (page: Page) => {
   const invalidCountryAlert = page.locator('#country-input-error');
   const termsAndConditionsUncheckedAlert = page.locator('#AcceptTerms-error');
 
+  const setFirstName = async (firstName: string) => {
+    await firstNameInput.fill(firstName);
+  };
+
+  const setLastName = async (lastName: string) => {
+    await lastNameInput.fill(lastName);
+  };
+
+  const setYourEmail = async (email: string) => {
+    await yourEmailInput.fill(email);
+  };
+
+  const setPhoneNumber = async (phone: string) => {
+    await yourPhoneNumberInput.fill(phone);
+  };
+
+  const setCountry = async (country: string) => {
+    await yourPhoneNumberInput.fill(country);
+  };
+
   const fillYourDetailsForm = async (): Promise<void> => {
-    await firstNameInput.fill(userData.firstName);
-    await lastNameInput.fill(userData.lastName);
-    await yourEmailInput.fill(userData.yourEmail);
-    await yourPhoneNumberInput.fill(userData.yourPhoneNumber);
-    await orEnterCountryInput.fill(userData.yourCountry);
+    await setFirstName(userData.firstName);
+    await setLastName(userData.lastName);
+    await setYourEmail(userData.yourEmail);
+    await setPhoneNumber(userData.yourPhoneNumber);
+    await setCountry(userData.yourCountry);
     await termsAndConditionsCheckbox.setChecked(true);
   };
 
-  // const changeIt = function () {
-  //   var inputValue = (<HTMLInputElement>(
-  //     document.getElementById('#first-name-input')
-  //   )).value;
-  //   return console.log(inputValue);
-  // };
-
-  const getFirstName = async () => {
-    webEntity = WebEntity(page);
-    webEntity.clipboardTextFromInput();
-    await firstNameInput.click();
-    return webEntity.clipboardTextFromInput();
-    // let userAgentInfo = await page.evaluate(() => navigator.userAgent);
-    // await page.keyboard.press("Control+A");
-    // await page.keyboard.press("Control+C");
-    // let clipboardText = await page.evaluate("navigator.clipboard.readText()");
-    // return clipboardText;
+  const clipboardTextFromInput = async () => {
+    await page.evaluate(() => navigator.userAgent);
+    await page.keyboard.press('Control+A');
+    await page.keyboard.press('Control+C');
+    const clipboardText = await page.evaluate('navigator.clipboard.readText()');
+    return clipboardText;
   }; //https://playwrightsolutions.com/how-do-i-check-the-value-inside-an-input-field-with-playwright/
 
+  const getFirstName = async () => {
+    await firstNameInput.click();
+    return await clipboardTextFromInput();
+  };
+
   const getLastName = async () => {
-    return await lastNameInput.innerText();
+    await lastNameInput.click();
+    return clipboardTextFromInput();
   };
 
   const getYourEmail = async () => {
-    return await yourEmailInput.innerText();
+    await yourEmailInput.click();
+    return clipboardTextFromInput();
   };
 
-  const getPhoneNumberEmail = async () => {
-    return await yourPhoneNumberInput.innerText();
+  const getPhoneNumber = async () => {
+    await yourPhoneNumberInput.click();
+    return clipboardTextFromInput();
   };
 
   const getCountry = async () => {
-    return await orEnterCountryInput.innerText();
+    await orEnterCountryInput.click();
+    return clipboardTextFromInput();
   };
 
   const getTermsAndConditionsCheckbox = async (): Promise<boolean> => {
@@ -98,6 +111,7 @@ export const UserDetailsPage = (page: Page) => {
   };
 
   const continueToPaymentButtonClick = async () => {
+    await page.waitForLoadState();
     await continueToPaymentButton.click(); //I know this is incorrect, but it has to be like that for now
     await continueToPaymentButton.click();
   };
@@ -109,6 +123,10 @@ export const UserDetailsPage = (page: Page) => {
 
   const getInvalidFirstNameAlert = async () => {
     return await invalidFirstNameAlert.innerText();
+  };
+
+  const invalidFirstNameAlertIsVisible = async (): Promise<boolean> => {
+    return await invalidFirstNameAlert.isVisible();
   };
 
   const getInvalidLastNameAlert = async () => {
@@ -145,13 +163,16 @@ export const UserDetailsPage = (page: Page) => {
     getFirstName,
     getLastName,
     getYourEmail,
-    getPhoneNumberEmail,
+    getPhoneNumber,
     getCountry,
+    setFirstName,
+    setLastName,
+    setYourEmail,
+    setPhoneNumber,
+    setCountry,
     getTermsAndConditionsCheckbox,
     getSignToEvanEvansNewsletterCheckbox,
     getSignToTreadRightNewsletterCheckbox,
+    invalidFirstNameAlertIsVisible,
   };
 };
-function clipboardTextFromInput(): import('playwright-core').Page {
-  throw new Error('Function not implemented.');
-}
