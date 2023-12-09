@@ -22,6 +22,9 @@ export const UserDetailsPage = (page: Page) => {
     name: 'Continue to payment',
   });
   const invalidFirstNameAlert = page.locator('#first-name-input-error');
+  const invalidFirstNameAlertIsVisible = page.locator(
+    '[aria-describedby="first-name-input-error"][aria-invalid="true"]',
+  );
   const invalidLastNameAlert = page.locator('#last-name-input-error');
   const invalidEmailAlert = page.locator('#email-input-error');
   const invalidPhoneNumberAlert = page.locator('#phone-number-input-error');
@@ -111,7 +114,7 @@ export const UserDetailsPage = (page: Page) => {
   };
 
   const continueToPaymentButtonClick = async () => {
-    await page.waitForLoadState();
+    // await page.waitForLoadState();
     await continueToPaymentButton.click(); //I know this is incorrect, but it has to be like that for now
     await continueToPaymentButton.click();
   };
@@ -125,8 +128,8 @@ export const UserDetailsPage = (page: Page) => {
     return await invalidFirstNameAlert.innerText();
   };
 
-  const invalidFirstNameAlertIsVisible = async (): Promise<boolean> => {
-    return await invalidFirstNameAlert.isVisible();
+  const checkInvalidFirstNameAlertIsVisible = async (): Promise<boolean> => {
+    return await invalidFirstNameAlertIsVisible.isVisible();
   };
 
   const getInvalidLastNameAlert = async () => {
@@ -173,6 +176,6 @@ export const UserDetailsPage = (page: Page) => {
     getTermsAndConditionsCheckbox,
     getSignToEvanEvansNewsletterCheckbox,
     getSignToTreadRightNewsletterCheckbox,
-    invalidFirstNameAlertIsVisible,
+    checkInvalidFirstNameAlertIsVisible,
   };
 };

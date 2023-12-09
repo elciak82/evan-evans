@@ -135,7 +135,7 @@ test.describe('VerIfying the Your Details form', () => {
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 
-  test.only('Validate the First Name field', async ({ page }) => {
+  test('Validate the First Name field', async ({ page }) => {
     //Arrange
     const searchPage = SearchPage(page);
     const tourPage = TourPage(page);
@@ -157,15 +157,59 @@ test.describe('VerIfying the Your Details form', () => {
 
     await formPage.setFirstName(' ');
     await formPage.continueToPaymentButtonClick();
-    //Assert
-    const invalidFirstNameAlert = await formPage.invalidFirstNameAlertIsVisible();
-    expect(invalidFirstNameAlert).toBe(true);
 
-    await formPage.setFirstName('vv');
-    console.log(await formPage.getFirstName());
+    //Assert
+    expect(await formPage.getInvalidFirstNameAlert()).toBe(
+      Alerts.VALID_NAME_ERROR,
+    );
+
+    //Act
+    await formPage.setFirstName('Bo');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect(invalidFirstNameAlert).toBe(false);
+    expect(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(false);
+
+    //Act
+    await formPage.setFirstName('B');
+    await formPage.continueToPaymentButtonClick();
+    //Assert
+    expect(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(true);
+
+    //Act
+    await formPage.setFirstName('Ed ');
+    await formPage.continueToPaymentButtonClick();
+    //Assert
+    expect(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(true);
+
+    //Act
+    await formPage.setFirstName('Ed Ed');
+    await formPage.continueToPaymentButtonClick();
+    //Assert
+    expect(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(false);
+
+    //Act
+    await formPage.setFirstName('Ed Ed2');
+    await formPage.continueToPaymentButtonClick();
+    //Assert
+    expect(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(true);
+
+    //Act
+    await formPage.setFirstName('Ed-Ed');
+    await formPage.continueToPaymentButtonClick();
+    //Assert
+    expect(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(false);
+
+    //Act
+    await formPage.setFirstName(' Ed-Ed');
+    await formPage.continueToPaymentButtonClick();
+    //Assert
+    expect(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(true);
+
+    //Act
+    await formPage.setFirstName('Ed-Ed!');
+    await formPage.continueToPaymentButtonClick();
+    //Assert
+    expect(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(true);
 
     //Clear
     await header.openBasket();
