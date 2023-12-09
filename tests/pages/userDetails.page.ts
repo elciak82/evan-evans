@@ -26,6 +26,9 @@ export const UserDetailsPage = (page: Page) => {
     '[aria-describedby="first-name-input-error"][aria-invalid="true"]',
   );
   const invalidLastNameAlert = page.locator('#last-name-input-error');
+  const invalidLastNameAlertIsVisible = page.locator(
+    '[aria-describedby="last-name-input-error"][aria-invalid="true"]',
+  );
   const invalidEmailAlert = page.locator('#email-input-error');
   const invalidPhoneNumberAlert = page.locator('#phone-number-input-error');
   const invalidCountryAlert = page.locator('#country-input-error');
@@ -132,6 +135,10 @@ export const UserDetailsPage = (page: Page) => {
     return await invalidFirstNameAlertIsVisible.isVisible();
   };
 
+  const checkInvalidLastNameAlertIsVisible = async (): Promise<boolean> => {
+    return await invalidLastNameAlertIsVisible.isVisible();
+  };
+
   const getInvalidLastNameAlert = async () => {
     return await invalidLastNameAlert.innerText();
   };
@@ -177,5 +184,6 @@ export const UserDetailsPage = (page: Page) => {
     getSignToEvanEvansNewsletterCheckbox,
     getSignToTreadRightNewsletterCheckbox,
     checkInvalidFirstNameAlertIsVisible,
+    checkInvalidLastNameAlertIsVisible,
   };
 };

@@ -217,4 +217,87 @@ test.describe('VerIfying the Your Details form', () => {
     const removedItemAlert = await basketPage.getRemovedItemAlertText();
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
+
+  test.only('Validate the Last Name field', async ({ page }) => {
+    //Arrange
+    const searchPage = SearchPage(page);
+    const tourPage = TourPage(page);
+    const booking = BookingComponent(page);
+    const basketPopup = BasketComponent(page);
+    const basketPage = BasketPage(page);
+    const formPage = UserDetailsPage(page);
+    const header = HeaderComponent(page);
+
+    //Act
+    await homePage.inputTextToSearchField(Tours.KatowiceTour);
+    await homePage.searchButtonClick();
+
+    await searchPage.viewMoreButtonClick();
+    await tourPage.bookButtonClick();
+    await booking.fillBookingModal(Persons.ADULT);
+    await booking.addToBasketButtonClick();
+    await basketPopup.checkoutNowButtonClick();
+
+    await formPage.setLastName(' ');
+    await formPage.continueToPaymentButtonClick();
+
+    //Assert
+    expect(await formPage.getInvalidLastNameAlert()).toBe(
+      Alerts.VALID_NAME_ERROR,
+    );
+
+    //Act
+    await formPage.setLastName('Li');
+    await formPage.continueToPaymentButtonClick();
+    //Assert
+    expect(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(false);
+
+    //Act
+    await formPage.setLastName('L');
+    await formPage.continueToPaymentButtonClick();
+    //Assert
+    expect(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(true);
+
+    //Act
+    await formPage.setLastName('Li ');
+    await formPage.continueToPaymentButtonClick();
+    //Assert
+    expect(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(true);
+
+    //Act
+    await formPage.setLastName('Li Lu');
+    await formPage.continueToPaymentButtonClick();
+    //Assert
+    expect(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(false);
+
+    //Act
+    await formPage.setLastName('Li Li2');
+    await formPage.continueToPaymentButtonClick();
+    //Assert
+    expect(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(true);
+
+    //Act
+    await formPage.setLastName('Li-Lu');
+    await formPage.continueToPaymentButtonClick();
+    //Assert
+    expect(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(false);
+
+    //Act
+    await formPage.setLastName(' Li-Lu');
+    await formPage.continueToPaymentButtonClick();
+    //Assert
+    expect(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(true);
+
+    //Act
+    await formPage.setLastName('Li-Lu!');
+    await formPage.continueToPaymentButtonClick();
+    //Assert
+    expect(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(true);
+
+    //Clear
+    await header.openBasket();
+    await basketPage.removeTourFromBasket();
+    const removedItemAlert = await basketPage.getRemovedItemAlertText();
+    expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
+  });
 });
