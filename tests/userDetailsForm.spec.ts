@@ -25,9 +25,7 @@ test.describe('VerIfying the Your Details form', () => {
     await homePage.acceptCookie();
   });
 
-  test('Insert incorrect data to fields - checking alerts', async ({
-    page,
-  }) => {
+  test('Confirming an empty form - verifying alerts', async ({ page }) => {
     //Arrange
     const searchPage = SearchPage(page);
     const tourPage = TourPage(page);
@@ -77,7 +75,7 @@ test.describe('VerIfying the Your Details form', () => {
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 
-  test.only('Insert correct data to fields and check SIGN ME UP checkboxes - check if all fields/checkboxes are filled in/checked', async ({
+  test('Insert correct data to fields and check SIGN ME UP checkboxes - check if all fields/checkboxes are filled in/checked', async ({
     page,
   }) => {
     //Arrange
@@ -103,11 +101,71 @@ test.describe('VerIfying the Your Details form', () => {
     await formPage.checkSignToTreadRightNewsletterCheckbox();
 
     //Assert
-
     const firstName = await formPage.getFirstName();
-    console.log(firstName);
-    console.log(userData.firstName);
     expect(firstName).toBe(userData.firstName);
+
+    const lastName = await formPage.getLastName();
+    expect(lastName).toBe(userData.lastName);
+
+    const yourEmail = await formPage.getYourEmail();
+    expect(yourEmail).toBe(userData.yourEmail);
+
+    const phoneNumber = await formPage.getPhoneNumber();
+    expect(phoneNumber).toBe(userData.yourPhoneNumber);
+
+    const country = await formPage.getCountry();
+    expect(country).toBe(userData.yourCountry);
+
+    const termsAndConditionsIsChecked =
+      await formPage.getTermsAndConditionsCheckbox();
+    expect(termsAndConditionsIsChecked).toBe(true);
+
+    const signToEvanEvansNewsletterIsChecked =
+      await formPage.getSignToEvanEvansNewsletterCheckbox();
+    expect(signToEvanEvansNewsletterIsChecked).toBe(true);
+
+    const signToTreadRightNewsletterIsChecked =
+      await formPage.getSignToTreadRightNewsletterCheckbox();
+    expect(signToTreadRightNewsletterIsChecked).toBe(true);
+
+    //Clear
+    await header.openBasket();
+    await basketPage.removeTourFromBasket();
+    const removedItemAlert = await basketPage.getRemovedItemAlertText();
+    expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
+  });
+
+  test.only('Validate the First Name field', async ({ page }) => {
+    //Arrange
+    const searchPage = SearchPage(page);
+    const tourPage = TourPage(page);
+    const booking = BookingComponent(page);
+    const basketPopup = BasketComponent(page);
+    const basketPage = BasketPage(page);
+    const formPage = UserDetailsPage(page);
+    const header = HeaderComponent(page);
+
+    //Act
+    await homePage.inputTextToSearchField(Tours.KatowiceTour);
+    await homePage.searchButtonClick();
+
+    await searchPage.viewMoreButtonClick();
+    await tourPage.bookButtonClick();
+    await booking.fillBookingModal(Persons.ADULT);
+    await booking.addToBasketButtonClick();
+    await basketPopup.checkoutNowButtonClick();
+
+    await formPage.setFirstName(' ');
+    await formPage.continueToPaymentButtonClick();
+    //Assert
+    const invalidFirstNameAlert = await formPage.invalidFirstNameAlertIsVisible();
+    expect(invalidFirstNameAlert).toBe(true);
+
+    await formPage.setFirstName('vv');
+    console.log(await formPage.getFirstName());
+    await formPage.continueToPaymentButtonClick();
+    //Assert
+    expect(invalidFirstNameAlert).toBe(false);
 
     //Clear
     await header.openBasket();
