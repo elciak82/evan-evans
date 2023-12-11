@@ -1,16 +1,16 @@
 import { Page } from '@playwright/test';
 
 export const HomePage = (page: Page) => {
-  const acceptCookieButton = page.getByRole('link', {
+  const acceptCookieButton = page.getByRole('link', {  //TODO
     name: 'OK',
     exact: true,
   });
-  const mainSearchButton = page.getByRole('button', {
+  const mainSearchButton = page.getByRole('button', { //TODO
     name: 'Search',
     exact: true,
   });
 
-  const mainSearchInput = page.getByRole('searchbox', {
+  const mainSearchInput = page.getByRole('searchbox', { //TODO
     name: 'Find the perfect tour for you',
   });
 
