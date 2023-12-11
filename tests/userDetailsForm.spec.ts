@@ -48,23 +48,23 @@ test.describe('VerIfying the Your Details form', () => {
 
     //Assert
     const invalidFirstNameAlert = await formPage.getInvalidFirstNameAlert();
-    expect(invalidFirstNameAlert).toBe(Alerts.VALID_NAME_ERROR);
+    expect.soft(invalidFirstNameAlert).toBe(Alerts.VALID_NAME_ERROR);
 
     const invalidLastNameAlert = await formPage.getInvalidLastNameAlert();
-    expect(invalidLastNameAlert).toBe(Alerts.VALID_NAME_ERROR);
+    expect.soft(invalidLastNameAlert).toBe(Alerts.VALID_NAME_ERROR);
 
     const invalidEmailAlert = await formPage.getInvalidEmailAlert();
-    expect(invalidEmailAlert).toBe(Alerts.VALID_EMAIL_ERROR);
+    expect.soft(invalidEmailAlert).toBe(Alerts.VALID_EMAIL_ERROR);
 
     const invalidPhoneNumberAlert = await formPage.getInvalidPhoneNumberAlert();
-    expect(invalidPhoneNumberAlert).toBe(Alerts.VALID_PHONE_NUMBER_ERROR);
+    expect.soft(invalidPhoneNumberAlert).toBe(Alerts.VALID_PHONE_NUMBER_ERROR);
 
     const invalidCountryAlert = await formPage.getInvalidCountryAlert();
-    expect(invalidCountryAlert).toBe(Alerts.VALID_COUNTRY_ERROR);
+    expect.soft(invalidCountryAlert).toBe(Alerts.VALID_COUNTRY_ERROR);
 
     const termsAndConditionsUncheckedAlert =
       await formPage.getTermsAndConditionsUncheckedAlert();
-    expect(termsAndConditionsUncheckedAlert).toBe(
+    expect.soft(termsAndConditionsUncheckedAlert).toBe(
       Alerts.ACCEPT_TERMS_AND_CONDITION_ERROR,
     );
 
@@ -102,31 +102,31 @@ test.describe('VerIfying the Your Details form', () => {
 
     //Assert
     const firstName = await formPage.getFirstName();
-    expect(firstName).toBe(userData.firstName);
+    expect.soft(firstName).toBe(userData.firstName);
 
     const lastName = await formPage.getLastName();
-    expect(lastName).toBe(userData.lastName);
+    expect.soft(lastName).toBe(userData.lastName);
 
     const yourEmail = await formPage.getYourEmail();
-    expect(yourEmail).toBe(userData.yourEmail);
+    expect.soft(yourEmail).toBe(userData.yourEmail);
 
     const phoneNumber = await formPage.getPhoneNumber();
-    expect(phoneNumber).toBe(userData.yourPhoneNumber);
+    expect.soft(phoneNumber).toBe(userData.yourPhoneNumber);
 
     const country = await formPage.getCountry();
-    expect(country).toBe(userData.yourCountry);
+    expect.soft(country).toBe(userData.yourCountry);
 
     const termsAndConditionsIsChecked =
       await formPage.getTermsAndConditionsCheckbox();
-    expect(termsAndConditionsIsChecked).toBe(true);
+    expect.soft(termsAndConditionsIsChecked).toBe(true);
 
     const signToEvanEvansNewsletterIsChecked =
       await formPage.getSignToEvanEvansNewsletterCheckbox();
-    expect(signToEvanEvansNewsletterIsChecked).toBe(true);
+    expect.soft(signToEvanEvansNewsletterIsChecked).toBe(true);
 
     const signToTreadRightNewsletterIsChecked =
       await formPage.getSignToTreadRightNewsletterCheckbox();
-    expect(signToTreadRightNewsletterIsChecked).toBe(true);
+    expect.soft(signToTreadRightNewsletterIsChecked).toBe(true);
 
     //Clear
     await header.openBasket();
@@ -159,7 +159,7 @@ test.describe('VerIfying the Your Details form', () => {
     await formPage.continueToPaymentButtonClick();
 
     //Assert
-    expect(await formPage.getInvalidFirstNameAlert()).toBe(
+    expect.soft(await formPage.getInvalidFirstNameAlert()).toBe(
       Alerts.VALID_NAME_ERROR,
     );
 
@@ -167,49 +167,49 @@ test.describe('VerIfying the Your Details form', () => {
     await formPage.setFirstName('Bo');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(false);
+    expect.soft(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(false);
 
     //Act
     await formPage.setFirstName('B');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(true);
+    expect.soft(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(true);
 
     //Act
     await formPage.setFirstName('Ed ');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(true);
+    expect.soft(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(true);
 
     //Act
     await formPage.setFirstName('Ed Ed');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(false);
+    expect.soft(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(false);
 
     //Act
     await formPage.setFirstName('Ed Ed2');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(true);
+    expect.soft(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(true);
 
     //Act
     await formPage.setFirstName('Ed-Ed');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(false);
+    expect.soft(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(false);
 
     //Act
     await formPage.setFirstName(' Ed-Ed');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(true);
+    expect.soft(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(true);
 
     //Act
     await formPage.setFirstName('Ed-Ed!');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(true);
+    expect.soft(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(true);
 
     //Clear
     await header.openBasket();
@@ -242,7 +242,7 @@ test.describe('VerIfying the Your Details form', () => {
     await formPage.continueToPaymentButtonClick();
 
     //Assert
-    expect(await formPage.getInvalidLastNameAlert()).toBe(
+    expect.soft(await formPage.getInvalidLastNameAlert()).toBe(
       Alerts.VALID_NAME_ERROR,
     );
 
@@ -250,49 +250,49 @@ test.describe('VerIfying the Your Details form', () => {
     await formPage.setLastName('Li');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(false);
+    expect.soft(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(false);
 
     //Act
     await formPage.setLastName('L');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(true);
+    expect.soft(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(true);
 
     //Act
     await formPage.setLastName('Li ');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(true);
+    expect.soft(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(true);
 
     //Act
     await formPage.setLastName('Li Lu');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(false);
+    expect.soft(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(false);
 
     //Act
     await formPage.setLastName('Li Li2');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(true);
+    expect.soft(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(true);
 
     //Act
     await formPage.setLastName('Li-Lu');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(false);
+    expect.soft(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(false);
 
     //Act
     await formPage.setLastName(' Li-Lu');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(true);
+    expect.soft(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(true);
 
     //Act
     await formPage.setLastName('Li-Lu!');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(true);
+    expect.soft(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(true);
 
     //Clear
     await header.openBasket();
@@ -301,7 +301,7 @@ test.describe('VerIfying the Your Details form', () => {
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 
-  test('Validate the Your Email field', async ({ page }) => {
+  test.only('Validate the Your Email field', async ({ page }) => {
     //Arrange
     const searchPage = SearchPage(page);
     const tourPage = TourPage(page);
@@ -325,63 +325,63 @@ test.describe('VerIfying the Your Details form', () => {
     await formPage.continueToPaymentButtonClick();
 
     //Assert
-    expect(await formPage.getInvalidEmailAlert()).toBe(
-      Alerts.VALID_EMAIL_ERROR,
-    );
+    expect
+      .soft(await formPage.getInvalidEmailAlert())
+      .toBe(Alerts.VALID_EMAIL_ERROR);
 
     //Act
     await formPage.setYourEmail('email');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect(await formPage.checkInvalidEmailAlertIsVisible()).toBe(true);
+    expect.soft(await formPage.checkInvalidEmailAlertIsVisible()).toBe(true);
 
     //Act
     await formPage.setYourEmail('email@');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect(await formPage.checkInvalidEmailAlertIsVisible()).toBe(true);
+    expect.soft(await formPage.checkInvalidEmailAlertIsVisible()).toBe(true);
 
     //Act
     await formPage.setYourEmail('email@email');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect(await formPage.checkInvalidEmailAlertIsVisible()).toBe(false);
+    expect.soft(await formPage.checkInvalidEmailAlertIsVisible()).toBe(false);
 
     //Act
     await formPage.setYourEmail('email@email.');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect(await formPage.checkInvalidEmailAlertIsVisible()).toBe(true);
+    expect.soft(await formPage.checkInvalidEmailAlertIsVisible()).toBe(true);
 
     //Act
     await formPage.setYourEmail('email@email.com');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect(await formPage.checkInvalidEmailAlertIsVisible()).toBe(false);
+    expect.soft(await formPage.checkInvalidEmailAlertIsVisible()).toBe(false);
 
     //Act
     await formPage.setYourEmail('email@.email.com');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect(await formPage.checkInvalidEmailAlertIsVisible()).toBe(true);
+    expect.soft(await formPage.checkInvalidEmailAlertIsVisible()).toBe(true);
 
     //Act
     await formPage.setYourEmail('email.email@email.com');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect(await formPage.checkInvalidEmailAlertIsVisible()).toBe(false);
+    expect.soft(await formPage.checkInvalidEmailAlertIsVisible()).toBe(false);
 
     //Act
     await formPage.setYourEmail('@email.com');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect(await formPage.checkInvalidEmailAlertIsVisible()).toBe(true);
+    expect.soft(await formPage.checkInvalidEmailAlertIsVisible()).toBe(true);
 
     //Act
     await formPage.setYourEmail('email-email@email.com');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect(await formPage.checkInvalidEmailAlertIsVisible()).toBe(false);
+    expect.soft(await formPage.checkInvalidEmailAlertIsVisible()).toBe(false);
 
     //Clear
     await header.openBasket();
