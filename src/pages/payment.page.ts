@@ -1,22 +1,102 @@
 import { Page } from '@playwright/test';
+import { Countries } from '../helpers/enums/countries.enums';
+import { userData } from '../test-data/userData.data';
 
 export const PaymentPage = (page: Page) => {
-  const iframe = page.locator('[name="__uspapiLocator"]');
   const selectCountry = page
     .frameLocator('#cardPaymentForm')
-    .locator('#payment-form-country'); //for now just GB
+    .locator('#payment-form-country');
 
-  const addressLine1 = page
+  const addressLine1Input = page
     .frameLocator('#cardPaymentForm')
     .locator('#payment-form-address-line1');
 
-  const selectCountryFromDropdown = async (country: string) => {
+  const addressLine2Input = page
+    .frameLocator('#cardPaymentForm')
+    .locator('#payment-form-address-line2');
+
+  const cityInput = page
+    .frameLocator('#cardPaymentForm')
+    .locator('#payment-form-address-city');
+
+  const zipInput = page
+    .frameLocator('#cardPaymentForm')
+    .locator('#payment-form-postcode');
+
+  const cardNumberInput = page
+    .frameLocator('#cardPaymentForm')
+    .locator('#payment-card-number');
+
+  const selectExpiryMonth = page
+    .frameLocator('#cardPaymentForm')
+    .locator('#expiry-month-card-number');
+
+  const selectExpiryYear = page
+    .frameLocator('#cardPaymentForm')
+    .locator('#expiry-year-card-number');
+
+  const cardCvvInput = page
+    .frameLocator('#cardPaymentForm')
+    .locator('#cvv-card-number');
+
+  const termsAndConditionsCheckbox = page
+    .frameLocator('#cardPaymentForm')
+    .locator('#payment-form-terms');
+
+  const selectCountryFromDropdown = async (country: Countries) => {
     await selectCountry.fill(country);
   };
 
   const setAddressLine1 = async (address: string) => {
-    await addressLine1.fill(address);
+    await page.waitForSelector('#cardPaymentForm');
+    await addressLine1Input.fill(address);
   };
 
-  return { selectCountryFromDropdown, setAddressLine1 };
+  const setAddressLine2 = async (address: string) => {
+    await addressLine2Input.fill(address);
+  };
+
+  const setCity = async (city: string) => {
+    await cityInput.fill(city);
+  };
+
+  const setZip = async (zip: string) => {
+    await zipInput.fill(zip);
+  };
+
+  //const setRegion TODO
+
+  const setCardNumber = async (card: string) => {
+    await cardNumberInput.fill(card);
+  };
+
+  const selectExpiryMonthFromDropdown = async (month: string) => {
+    await selectExpiryMonth.selectOption(month);
+  };
+
+  const selectExpiryYearFromDropdown = async (year: string) => {
+    await selectExpiryYear.selectOption(year);
+  };
+
+  const setCvvNumber = async (cvv: string) => {
+    await cardCvvInput.fill(cvv);
+  };
+
+  const checkTermsAndConditionCheckbox = async () => {
+    await termsAndConditionsCheckbox.setChecked(true);
+  };
+
+  const fillPaymentForm = async () => {
+    await setAddressLine1(userData.addressLine1);
+    await setAddressLine2(userData.addressLine2);
+    await setCity(userData.city);
+    await setZip(userData.zipCode);
+    await setCardNumber(userData.cardNumber);
+    await selectExpiryMonthFromDropdown(userData.expiryMonth);
+    await selectExpiryYearFromDropdown(userData.expiryYear);
+    await setCvvNumber(userData.cvv);
+    await checkTermsAndConditionCheckbox();
+  };
+
+  return { setAddressLine1, fillPaymentForm };
 };
