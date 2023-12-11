@@ -26,7 +26,7 @@ test.describe('VerIfying the Your Details form', () => {
     await homePage.acceptCookie();
   });
 
-  test.only('Insert correct data to fields and check SIGN ME UP checkboxes - check if all fields/checkboxes are filled in/checked', async ({
+  test.only('PAYMENT FORM', async ({
     page,
   }) => {
     //Arrange
@@ -53,9 +53,10 @@ test.describe('VerIfying the Your Details form', () => {
     await formPage.checkSignToTreadRightNewsletterCheckbox();
     await formPage.continueToPaymentButtonClick();
 
-    await paymentPage.setAddressLine1('Test');
+    await paymentPage.fillPaymentForm();
 
     //Assert
+        //TODO
 
     //Clear
     await header.openBasket();
