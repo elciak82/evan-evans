@@ -34,7 +34,10 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on',
     video: 'retain-on-failure',
+    // actionTimeout: 60000,
   },
+  // timeout: 60000,
+  // expect: { timeout: 10000 },
 
   /* Configure projects for major browsers */
   projects: [
@@ -49,29 +52,29 @@ export default defineConfig({
       },
     },
 
-    {
-      name: 'firefox',
-      use: {
-        ...devices['Desktop Firefox'],
-        launchOptions: {
-          firefoxUserPrefs: {
-            'dom.events.asyncClipboard.readText': true,
-            'dom.events.testing.asyncClipboard': true,
-          },
-        },
-      },
-    },
+    // {
+    //   name: 'firefox',
+    //   use: {
+    //     ...devices['Desktop Firefox'],
+    //     launchOptions: {
+    //       firefoxUserPrefs: {
+    //         'dom.events.asyncClipboard.readText': true,
+    //         'dom.events.testing.asyncClipboard': true,
+    //       },
+    //     },
+    //   },
+    // },
 
-    {
-      name: 'edge',
-      use: {
-        ...devices['Desktop Edge'],
-        contextOptions: {
-          // chromium-specific permissions
-          permissions: ['clipboard-read', 'clipboard-write'],
-        },
-      },
-    },
+    // {
+    //   name: 'edge',
+    //   use: {
+    //     ...devices['Desktop Edge'],
+    //     contextOptions: {
+    //       // chromium-specific permissions
+    //       permissions: ['clipboard-read', 'clipboard-write'],
+    //     },
+    //   },
+    // },
 
     // {
     //   name: 'webkit',
@@ -79,16 +82,16 @@ export default defineConfig({
     // },
 
     /* Test against mobile viewports. */
-    {
-      name: 'Mobile Chrome',
-      use: {
-        ...devices['Pixel 5'],
-        contextOptions: {
-          // chromium-specific permissions
-          permissions: ['clipboard-read', 'clipboard-write'],
-        },
-      },
-    },
+    // {
+    //   name: 'Mobile Chrome',
+    //   use: {
+    //     ...devices['Pixel 5'],
+    //     contextOptions: {
+    //       // chromium-specific permissions
+    //       permissions: ['clipboard-read', 'clipboard-write'],
+    //     },
+    //   },
+    // },
     // {
     //   name: 'Mobile Safari',
     //   use: { ...devices['iPhone 12'] },

@@ -301,7 +301,7 @@ test.describe('VerIfying the Your Details form', () => {
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 
-  test.only('Validate the Your Email field', async ({ page }) => {
+  test('Validate the Your Email field', async ({ page }) => {
     //Arrange
     const searchPage = SearchPage(page);
     const tourPage = TourPage(page);
