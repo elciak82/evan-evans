@@ -10,17 +10,13 @@ export const PaymentPage = (page: Page) => {
     .frameLocator('#cardPaymentForm')
     .locator('#payment-form-address-line1');
 
-  // const selectCountryFromDropdown = async (country: string) => {
-  //   //FIX THIS
-  //   // await page.waitForSelector('#payment-form-country');
-  //   await selectCountry(country);
-  // };
+  const selectCountryFromDropdown = async (country: string) => {
+    await selectCountry.fill(country);
+  };
 
   const setAddressLine1 = async (address: string) => {
-    // await page.waitForSelector('#payment-form-address-line1');
-    // await page.waitForLoadState();
     await addressLine1.fill(address);
   };
 
-  return { setAddressLine1 };
+  return { selectCountryFromDropdown, setAddressLine1 };
 };
