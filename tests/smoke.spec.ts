@@ -2,7 +2,6 @@ import { test, expect } from '@playwright/test';
 import { HomePage } from '../src/pages/home.page';
 import { PageTitles } from '../src/helpers/enums/titles.enums';
 import { SearchPage } from '../src/pages/search.page';
-import { TourPage } from '../src/pages/tour.page';
 
 test.describe('Verifying page titles', () => {
   let homePage: {
@@ -17,7 +16,7 @@ test.describe('Verifying page titles', () => {
     await homePage.acceptCookie();
   });
 
-  test('Check a home page title', async ({ page }) => {
+  test('Check a home page title @smoke', async ({ page }) => {
     //Arrange
     const title = await page.title();
 
@@ -26,7 +25,7 @@ test.describe('Verifying page titles', () => {
     expect(title).toBe(PageTitles.HomePageTitle);
   });
 
-  test('Check a search page title', async ({ page }) => {
+  test('Check a search page title @smoke', async ({ page }) => {
     //Arrange
     const searchPage = SearchPage(page);
 
@@ -39,11 +38,10 @@ test.describe('Verifying page titles', () => {
     expect(title).toBe(PageTitles.SearchResultsTitle);
   });
 
-  test('Check a tour page title', async ({ page }) => {
+  test('Check a tour page title @smoke', async ({ page }) => {
     //Arrange
     const searchText = 'Katowice';
     const searchPage = SearchPage(page);
-    const tourPage = TourPage(page);
 
     //Act
     await homePage.inputTextToSearchField(searchText);
