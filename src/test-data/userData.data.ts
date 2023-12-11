@@ -1,8 +1,15 @@
-
 export const userData = {
   firstName: 'FirstName',
   lastName: 'LastName',
   yourEmail: 'yourEmail@email.com',
   yourPhoneNumber: '123456789',
-  yourCountry: 'Poland'
+  yourCountry: 'Poland',
+  addressLine1: 'Street1',
+  addressLine2: 'Street2',
+  city: 'City',
+  zipCode: '1234',
+  cardNumber: '4111111111111111',
+  expiryMonth: '12',
+  expiryYear: '26',
+  cvv: '123',
 };
