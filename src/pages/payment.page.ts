@@ -43,6 +43,8 @@ export const PaymentPage = (page: Page) => {
     .frameLocator('#cardPaymentForm')
     .locator('#payment-form-terms');
 
+  const payButton = page.frameLocator('#cardPaymentForm').locator('#pay');
+
   const selectCountryFromDropdown = async (country: Countries) => {
     await selectCountry.fill(country);
   };
@@ -64,7 +66,7 @@ export const PaymentPage = (page: Page) => {
     await zipInput.fill(zip);
   };
 
-  //const setRegion TODO
+  //const selectRegionFromDropdown TODO
 
   const setCardNumber = async (card: string) => {
     await cardNumberInput.fill(card);
@@ -86,6 +88,10 @@ export const PaymentPage = (page: Page) => {
     await termsAndConditionsCheckbox.setChecked(true);
   };
 
+  const payButtonClick = async () => {
+    await payButton.click();
+  };
+
   const fillPaymentForm = async () => {
     await setAddressLine1(userData.addressLine1);
     await setAddressLine2(userData.addressLine2);
@@ -98,5 +104,5 @@ export const PaymentPage = (page: Page) => {
     await checkTermsAndConditionCheckbox();
   };
 
-  return { setAddressLine1, fillPaymentForm };
+  return { setAddressLine1, fillPaymentForm, payButtonClick };
 };

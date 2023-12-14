@@ -26,7 +26,7 @@ test.describe('VerIfying the Your Details form', () => {
     await homePage.acceptCookie();
   });
 
-  test.only('PAYMENT FORM', async ({
+  test('PAYMENT FORM', async ({
     page,
   }) => {
     //Arrange
@@ -54,6 +54,7 @@ test.describe('VerIfying the Your Details form', () => {
     await formPage.continueToPaymentButtonClick();
 
     await paymentPage.fillPaymentForm();
+    await paymentPage.payButtonClick();
 
     //Assert
         //TODO
