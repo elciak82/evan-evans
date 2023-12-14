@@ -2,6 +2,8 @@ import { test, expect } from '@playwright/test';
 import { HomePage } from '../src/pages/home.page';
 import { PageTitles } from '../src/helpers/enums/titles.enums';
 import { SearchPage } from '../src/pages/search.page';
+import { BasePageModel } from '../src/models/basePage.model';
+import { BasePage } from '../src/pages/base.page';
 
 test.describe('Verifying page titles', () => {
   let homePage: {
@@ -9,9 +11,11 @@ test.describe('Verifying page titles', () => {
     searchButtonClick: any;
     inputTextToSearchField: any;
   };
+  let basePageModel: BasePageModel;
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    basePageModel = BasePage(page);
+    await basePageModel.goTo();
     homePage = HomePage(page);
     await homePage.acceptCookie();
   });
@@ -30,6 +34,7 @@ test.describe('Verifying page titles', () => {
     const searchPage = SearchPage(page);
 
     //Act
+    const homePage = HomePage(page);
     await homePage.searchButtonClick();
     await searchPage.checkLoadMoreButtonIsVisible();
 
@@ -44,6 +49,7 @@ test.describe('Verifying page titles', () => {
     const searchPage = SearchPage(page);
 
     //Act
+    const homePage = HomePage(page);
     await homePage.inputTextToSearchField(searchText);
     await homePage.searchButtonClick();
 

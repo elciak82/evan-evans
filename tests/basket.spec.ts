@@ -10,6 +10,10 @@ import { BasketPage } from '../src/pages/basket.page';
 import { Persons } from '../src/helpers/enums/persons.enums';
 import { HeaderComponent } from '../src/components/header.component';
 import { PromoCodes } from '../src/helpers/enums/promoCodes.enums';
+import { userData } from '../src/test-data/userData.data';
+import { BasePage } from '../src/pages/base.page';
+import { BaseOptions } from 'vm';
+import type { BasePageModel } from '../src/models/basePage.model';
 
 test.describe('Booking - verifying data in the basket', () => {
   let homePage: {
@@ -17,14 +21,16 @@ test.describe('Booking - verifying data in the basket', () => {
     searchButtonClick: any;
     inputTextToSearchField: any;
   };
+  let basePageModel: BasePageModel;
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    basePageModel = BasePage(page);
+    await basePageModel.goTo();
     homePage = HomePage(page);
     await homePage.acceptCookie();
   });
 
-  test('Booking a trip for ONE ADULT and TWO CHILDREN - checking a tour in the basket', async ({
+  test.only('Booking a trip for ONE ADULT and TWO CHILDREN - checking a tour in the basket', async ({
     page,
   }) => {
     //Arrange
@@ -175,7 +181,7 @@ test.describe('Booking - verifying data in the basket', () => {
     await booking.addToBasketButtonClick();
 
     await basketPopup.viewBasketButtonClick();
-    await basketPage.applyPromoCode(PromoCodes.INVALID_CODE);
+    await basketPage.applyPromoCode(Alerts.INVALID_CODE);
 
     //Assert
     const invalidPromoCodeAlert = await basketPage.getInvalidPromoCodeAlert();
