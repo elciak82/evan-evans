@@ -4,16 +4,13 @@ import { SearchPage } from '../src/pages/search.page';
 import { TourPage } from '../src/pages/tour.page';
 import { BookingComponent } from '../src/components/booking.component';
 import { BasketComponent } from '../src/components/basket.component';
-import { Alerts } from '../src/helpers/enums/alerts.enums';
 import { Tours } from '../src/helpers/enums/tours.enums';
-import { BasketPage } from '../src/pages/basket.page';
 import { Persons } from '../src/helpers/enums/persons.enums';
 import { UserDetailsPage } from '../src/pages/userDetails.page';
-import { HeaderComponent } from '../src/components/header.component';
 import { PaymentPage } from '../src/pages/payment.page';
-import { Countries } from '../src/helpers/enums/countries.enums';
+import { PaymentConfirmedPage } from '../src/pages/paymentConfirmed.page';
 
-test.describe('VerIfying the Your Details form', () => {
+test.describe('VerIfying tour ordering', () => {
   let homePage: {
     acceptCookie: any;
     searchButtonClick: any;
@@ -26,7 +23,7 @@ test.describe('VerIfying the Your Details form', () => {
     await homePage.acceptCookie();
   });
 
-  test('PAYMENT FORM', async ({
+  test.only('Payment for the trip - verifying confirmation', async ({
     page,
   }) => {
     //Arrange
@@ -34,18 +31,24 @@ test.describe('VerIfying the Your Details form', () => {
     const tourPage = TourPage(page);
     const booking = BookingComponent(page);
     const basketPopup = BasketComponent(page);
-    const basketPage = BasketPage(page);
     const formPage = UserDetailsPage(page);
-    const header = HeaderComponent(page);
     const paymentPage = PaymentPage(page);
+    const paymentConfirmedPage = PaymentConfirmedPage(page);
 
     //Act
-    await homePage.inputTextToSearchField(Tours.KatowiceTour);
+    await homePage.inputTextToSearchField(Tours.HarryPotterTour);
     await homePage.searchButtonClick();
 
     await searchPage.viewMoreButtonClick();
     await tourPage.bookButtonClick();
     await booking.fillBookingModal(Persons.ADULT);
+
+    const bookingDateTimeFromModal =
+      await booking.getBookingDateAndTimeFromModal();
+    const bookingAdultFromModal = await booking.adultBasketPrice();
+    const bookingTotalPriceFromModal =
+      await booking.getBookingTotalPriceFromModal();
+
     await booking.addToBasketButtonClick();
     await basketPopup.checkoutNowButtonClick();
     await formPage.fillYourDetailsForm();
@@ -56,13 +59,24 @@ test.describe('VerIfying the Your Details form', () => {
     await paymentPage.fillPaymentForm();
     await paymentPage.payButtonClick();
 
-    //Assert
-        //TODO
+    // const confirmationCode = await paymentConfirmedPage.getConfirmationCode();
+    // console.log(confirmationCode);
 
-    //Clear
-    await header.openBasket();
-    await basketPage.removeTourFromBasket();
-    const removedItemAlert = await basketPage.getRemovedItemAlertText();
-    expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
+    //Assert
+    const orderedTourTitle = await paymentConfirmedPage.getOrderedTourTitle();
+    expect(orderedTourTitle).toBe(Tours.HarryPotterTour);
+
+    const orderDetails = await paymentConfirmedPage.getConfirmationDetails();
+    expect(orderDetails.date).toContain(bookingDateTimeFromModal);
+    expect(orderDetails.persons[0]).toContain(bookingAdultFromModal);
+
+    const confirmationSummaryDetails =
+      await paymentConfirmedPage.getConfirmationSummaryDetails();
+    expect(confirmationSummaryDetails.persons[0]).toContain(
+      bookingAdultFromModal,
+    );
+    expect(confirmationSummaryDetails.price).toContain(
+      bookingTotalPriceFromModal,
+    );
   });
 });

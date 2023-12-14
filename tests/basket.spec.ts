@@ -30,7 +30,7 @@ test.describe('Booking - verifying data in the basket', () => {
     await homePage.acceptCookie();
   });
 
-  test.only('Booking a trip for ONE ADULT and TWO CHILDREN - checking a tour in the basket', async ({
+  test('Booking a trip for ONE ADULT and TWO CHILDREN - checking a tour in the basket', async ({
     page,
   }) => {
     //Arrange
