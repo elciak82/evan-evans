@@ -15,6 +15,7 @@ export const PaymentConfirmedPage = (page: Page) => {
   };
 
   const getOrderedTourTitle = async (): Promise<string> => {
+    await page.waitForLoadState();
     return await orderedTourTitle.innerText();
   };
 
