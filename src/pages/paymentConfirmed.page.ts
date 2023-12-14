@@ -2,14 +2,20 @@ import { Page } from '@playwright/test';
 
 export const PaymentConfirmedPage = (page: Page) => {
   const confirmationCode = page.locator('[class="confirmation__code"] strong');
+  const orderedTourTitle = page.locator('.card__title--slim');
   const confirmationDetails = page.locator('.card .basket-line');
   const confirmationSummary = page.locator('.col-md-4 .basket-line');
   const downloadTicketButton = page.locator(
     '[class="btn confirmation__download-btn"]',
   );
 
-  const getConfirmationCode = async () => {
-    await confirmationCode.innerText();
+  const getConfirmationCode = async (): Promise<string> => {
+    await page.waitForLoadState();
+    return await confirmationCode.innerText();
+  };
+
+  const getOrderedTourTitle = async (): Promise<string> => {
+    return await orderedTourTitle.innerText();
   };
 
   const buttonIsVisible = async () => {
@@ -60,6 +66,7 @@ export const PaymentConfirmedPage = (page: Page) => {
 
   return {
     getConfirmationCode,
+    getOrderedTourTitle,
     getConfirmationDetails,
     getConfirmationSummaryDetails,
     buttonIsVisible,
