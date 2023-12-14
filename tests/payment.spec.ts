@@ -23,7 +23,7 @@ test.describe('VerIfying tour ordering', () => {
     await homePage.acceptCookie();
   });
 
-  test.only('Payment for the trip - verifying confirmation', async ({
+  test('Payment for the trip - verifying confirmation', async ({
     page,
   }) => {
     //Arrange
