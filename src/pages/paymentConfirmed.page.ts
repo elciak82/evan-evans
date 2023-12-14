@@ -1,111 +1,67 @@
 import { Page } from '@playwright/test';
-import { userData } from '../test-data/userData.data';
 
 export const PaymentConfirmedPage = (page: Page) => {
-  const confirmationMessage = page
-    .frameLocator('#cardPaymentForm')
-    .locator('#payment-form-country');
+  const confirmationCode = page.locator('[class="confirmation__code"] strong');
+  const confirmationDetails = page.locator('.card .basket-line');
+  const confirmationSummary = page.locator('.col-md-4 .basket-line');
+  const downloadTicketButton = page.locator(
+    '[class="btn confirmation__download-btn"]',
+  );
 
-  const selectCountryDropdown = page
-    .frameLocator('#cardPaymentForm')
-    .locator('#payment-form-country');
-
-  const addressLine1Input = page
-    .frameLocator('#cardPaymentForm')
-    .locator('#payment-form-address-line1');
-
-  const addressLine2Input = page
-    .frameLocator('#cardPaymentForm')
-    .locator('#payment-form-address-line2');
-
-  const cityInput = page
-    .frameLocator('#cardPaymentForm')
-    .locator('#payment-form-address-city');
-
-  const zipInput = page
-    .frameLocator('#cardPaymentForm')
-    .locator('#payment-form-postcode');
-
-  const cardNumberInput = page
-    .frameLocator('#cardPaymentForm')
-    .locator('#payment-card-number');
-
-  const selectExpiryMonth = page
-    .frameLocator('#cardPaymentForm')
-    .locator('#expiry-month-card-number');
-
-  const selectExpiryYear = page
-    .frameLocator('#cardPaymentForm')
-    .locator('#expiry-year-card-number');
-
-  const cardCvvInput = page
-    .frameLocator('#cardPaymentForm')
-    .locator('#cvv-card-number');
-
-  const termsAndConditionsCheckbox = page
-    .frameLocator('#cardPaymentForm')
-    .locator('#payment-form-terms');
-
-  const payButton = page.frameLocator('#cardPaymentForm').locator('#pay');
-
-  const selectCountryFromDropdown = async (country: string) => {
-    await selectCountryDropdown.selectOption(country);
+  const getConfirmationCode = async () => {
+    await confirmationCode.innerText();
   };
 
-  const setAddressLine1 = async (address: string) => {
-    await page.waitForSelector('#cardPaymentForm');
-    await addressLine1Input.fill(address);
+  const buttonIsVisible = async () => {
+    await downloadTicketButton.isVisible();
   };
 
-  const setAddressLine2 = async (address: string) => {
-    await addressLine2Input.fill(address);
+  const getConfirmationDetails = async () => {
+    const detailCounter = await confirmationDetails.count();
+    let details: {
+      date: string;
+      persons: string[];
+    } = {
+      date: '',
+      persons: [],
+    };
+
+    if (detailCounter) {
+      details.date = await confirmationDetails.nth(0).innerText();
+      for (let i = 1; i < detailCounter; i++) {
+        const tourDetail = await confirmationDetails.nth(i).innerText();
+        details.persons.push(tourDetail);
+      }
+    }
+    return details;
   };
 
-  const setCity = async (city: string) => {
-    await cityInput.fill(city);
+  const getConfirmationSummaryDetails = async () => {
+    const detailCounter = await confirmationSummary.count();
+    let details: {
+      persons: string[];
+      price: string;
+    } = {
+      persons: [],
+      price: '',
+    };
+
+    if (detailCounter) {
+      details.price = await confirmationSummary
+        .nth(detailCounter - 1)
+        .innerText();
+      for (let i = 0; i < detailCounter - 1; i++) {
+        const tourDetail = await confirmationSummary.nth(i).innerText();
+        details.persons.push(tourDetail);
+      }
+    }
+    return details;
   };
 
-  const setZip = async (zip: string) => {
-    await zipInput.fill(zip);
+  return {
+    getConfirmationCode,
+    getConfirmationDetails,
+    getConfirmationSummaryDetails,
+    buttonIsVisible,
   };
-
-  //const selectRegionFromDropdown TODO
-
-  const setCardNumber = async (card: string) => {
-    await cardNumberInput.fill(card);
-  };
-
-  const selectExpiryMonthFromDropdown = async (month: string) => {
-    await selectExpiryMonth.selectOption(month);
-  };
-
-  const selectExpiryYearFromDropdown = async (year: string) => {
-    await selectExpiryYear.selectOption(year);
-  };
-
-  const setCvvNumber = async (cvv: string) => {
-    await cardCvvInput.fill(cvv);
-  };
-
-  const checkTermsAndConditionCheckbox = async () => {
-    await termsAndConditionsCheckbox.setChecked(true);
-  };
-
-  const payButtonClick = async () => {
-    await payButton.click();
-  };
-
-  const fillPaymentForm = async () => {
-    await setAddressLine1(userData.addressLine1);
-    await setAddressLine2(userData.addressLine2);
-    await setCity(userData.city);
-    await setZip(userData.zipCode);
-    await setCardNumber(userData.cardNumber);
-    await selectExpiryMonthFromDropdown(userData.expiryMonth);
-    await selectExpiryYearFromDropdown(userData.expiryYear);
-    await setCvvNumber(userData.cvv);
-    await checkTermsAndConditionCheckbox();
-  };
-
-  return { setAddressLine1, fillPaymentForm, payButtonClick };
 };
