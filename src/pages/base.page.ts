@@ -6,5 +6,11 @@ export const BasePage = (page: Page, url = '/'): BasePageModel => {
     await page.goto(url);
   };
 
-  return { goTo };
+  // const opeNewTab = async (): Promise<Page> => {
+  //   const secondPage = await page.context().newPage();
+  //   await secondPage.goto('https://sandboxlogin.prioticket.com');
+  //   return secondPage;
+  // };
+
+  return { goTo};
 };

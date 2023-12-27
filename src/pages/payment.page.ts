@@ -98,9 +98,9 @@ export const PaymentPage = (page: Page) => {
     await setCity(userData.city);
     await setZip(userData.zipCode);
     await setCardNumber(userData.cardNumber);
+    await setCvvNumber(userData.cvv);
     await selectExpiryMonthFromDropdown(userData.expiryMonth);
     await selectExpiryYearFromDropdown(userData.expiryYear);
-    await setCvvNumber(userData.cvv);
     await checkTermsAndConditionCheckbox();
   };
 
