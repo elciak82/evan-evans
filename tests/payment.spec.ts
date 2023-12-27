@@ -9,6 +9,9 @@ import { Persons } from '../src/helpers/enums/persons.enums';
 import { UserDetailsPage } from '../src/pages/userDetails.page';
 import { PaymentPage } from '../src/pages/payment.page';
 import { PaymentConfirmedPage } from '../src/pages/paymentConfirmed.page';
+import { PrioLoginPage } from '../src/pages/prioLogin.page';
+import { BasePageModel } from '../src/models/basePage.model';
+import { BasePage } from '../src/pages/base.page';
 
 test.describe('VerIfying tour ordering', () => {
   let homePage: {
@@ -16,6 +19,7 @@ test.describe('VerIfying tour ordering', () => {
     searchButtonClick: any;
     inputTextToSearchField: any;
   };
+  let basePageModel: BasePageModel;
 
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
@@ -23,9 +27,7 @@ test.describe('VerIfying tour ordering', () => {
     await homePage.acceptCookie();
   });
 
-  test('Payment for the trip - verifying confirmation', async ({
-    page,
-  }) => {
+  test('Payment for the trip - verifying confirmation', async ({ page }) => {
     //Arrange
     const searchPage = SearchPage(page);
     const tourPage = TourPage(page);
@@ -78,5 +80,46 @@ test.describe('VerIfying tour ordering', () => {
     expect(confirmationSummaryDetails.price).toContain(
       bookingTotalPriceFromModal,
     );
+  });
+
+  test.only('Payment for the trip - verifying order in the Prio', async ({
+    page,
+  }) => {
+    //Arrange
+    const searchPage = SearchPage(page);
+    const tourPage = TourPage(page);
+    const booking = BookingComponent(page);
+    const basketPopup = BasketComponent(page);
+    const formPage = UserDetailsPage(page);
+    const paymentPage = PaymentPage(page);
+    const paymentConfirmedPage = PaymentConfirmedPage(page);
+    const prioLoginPage = PrioLoginPage(page);
+    basePageModel = BasePage(page);
+
+    //Act
+    await homePage.inputTextToSearchField(Tours.HarryPotterTour);
+    await homePage.searchButtonClick();
+
+    await searchPage.viewMoreButtonClick();
+    await tourPage.bookButtonClick();
+    await booking.fillBookingModal(Persons.ADULT);
+
+    await booking.addToBasketButtonClick();
+    await basketPopup.checkoutNowButtonClick();
+    await formPage.fillYourDetailsForm();
+    await formPage.checkSignToEvanEvansNewsletterCheckbox();
+    await formPage.checkSignToTreadRightNewsletterCheckbox();
+    await formPage.continueToPaymentButtonClick();
+
+    await paymentPage.fillPaymentForm();
+    await paymentPage.payButtonClick();
+
+    const confirmationCode = await paymentConfirmedPage.getConfirmationCode();
+    console.log(confirmationCode);
+
+    // await basePageModel.opeNewTab();
+    await prioLoginPage.logInToPrio(confirmationCode);
+
+    //Assert
   });
 });
