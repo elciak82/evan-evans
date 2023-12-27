@@ -94,13 +94,21 @@ export const PaymentPage = (page: Page) => {
 
   const fillPaymentForm = async () => {
     await setAddressLine1(userData.addressLine1);
-    await setAddressLine2(userData.addressLine2);
-    await setCity(userData.city);
-    await setZip(userData.zipCode);
+    await page.waitForTimeout(500);
     await setCardNumber(userData.cardNumber);
-    await setCvvNumber(userData.cvv);
+    await page.waitForTimeout(500);
+    await setAddressLine2(userData.addressLine2);
+    await page.waitForTimeout(500);
     await selectExpiryMonthFromDropdown(userData.expiryMonth);
+    await page.waitForTimeout(500);
+    await setCity(userData.city);
+    await page.waitForTimeout(500);
+    await setCvvNumber(userData.cvv);
+    await page.waitForTimeout(500);
+    await setZip(userData.zipCode);
+    await page.waitForTimeout(500);
     await selectExpiryYearFromDropdown(userData.expiryYear);
+    await page.waitForTimeout(500);
     await checkTermsAndConditionCheckbox();
   };
 
