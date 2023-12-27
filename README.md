@@ -12,6 +12,11 @@ npx playwright install
 npm test
 ```
 
+## Problems
+In case: "Error: ENOENT: no such file or directory, open 'C:\..."
+Try:
+```npm update```
+
 ## Commands
 
 - check `NodeJS` version  
