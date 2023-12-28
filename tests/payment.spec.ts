@@ -9,9 +9,9 @@ import { Persons } from '../src/helpers/enums/persons.enums';
 import { UserDetailsPage } from '../src/pages/userDetails.page';
 import { PaymentPage } from '../src/pages/payment.page';
 import { PaymentConfirmedPage } from '../src/pages/paymentConfirmed.page';
-import { PrioLoginPage } from '../src/pages/prioLogin.page';
 import { BasePageModel } from '../src/models/basePage.model';
 import { BasePage } from '../src/pages/base.page';
+import { ApiPrioticket } from '../src/helpers/apiPrioticket';
 
 test.describe('VerIfying tour ordering', () => {
   let homePage: {
@@ -22,7 +22,9 @@ test.describe('VerIfying tour ordering', () => {
   let basePageModel: BasePageModel;
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    basePageModel = BasePage(page);
+    await basePageModel.goTo();
+
     homePage = HomePage(page);
     await homePage.acceptCookie();
   });
@@ -61,9 +63,6 @@ test.describe('VerIfying tour ordering', () => {
     await paymentPage.fillPaymentForm();
     await paymentPage.payButtonClick();
 
-    // const confirmationCode = await paymentConfirmedPage.getConfirmationCode();
-    // console.log(confirmationCode);
-
     //Assert
     const orderedTourTitle = await paymentConfirmedPage.getOrderedTourTitle();
     expect(orderedTourTitle).toBe(Tours.HarryPotterTour);
@@ -93,8 +92,7 @@ test.describe('VerIfying tour ordering', () => {
     const formPage = UserDetailsPage(page);
     const paymentPage = PaymentPage(page);
     const paymentConfirmedPage = PaymentConfirmedPage(page);
-    const prioLoginPage = PrioLoginPage(page);
-    basePageModel = BasePage(page);
+    const apiPrio = ApiPrioticket();
 
     //Act
     await homePage.inputTextToSearchField(Tours.HarryPotterTour);
@@ -115,11 +113,9 @@ test.describe('VerIfying tour ordering', () => {
     await paymentPage.payButtonClick();
 
     const confirmationCode = await paymentConfirmedPage.getConfirmationCode();
-    console.log(confirmationCode);
-
-    // await basePageModel.opeNewTab();
-    await prioLoginPage.logInToPrio(confirmationCode);
+    const orderStatus = await apiPrio.getOrderStatus(confirmationCode);
 
     //Assert
+    expect(orderStatus).toBe('ORDER_CONFIRMED');
   });
 });
