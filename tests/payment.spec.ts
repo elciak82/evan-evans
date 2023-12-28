@@ -14,11 +14,13 @@ import { BasePage } from '../src/pages/base.page';
 import { ApiPrioticket } from '../src/helpers/apiPrioticket';
 import { HomePageModel } from '../src/models/homePage.model';
 import { PaymentPageModel } from '../src/models/paymentPage.model';
+import { PaymentConfirmedPageModel } from '../src/models/paymentConfirmedPage.model';
 
 test.describe('VerIfying tour ordering', () => {
   let basePageModel: BasePageModel;
   let homePageModel: HomePageModel;
   let paymentPageModel: PaymentPageModel;
+  let paymentConfirmedPageModel: PaymentConfirmedPageModel;
 
   test.beforeEach(async ({ page }) => {
     basePageModel = BasePage(page);
@@ -36,7 +38,7 @@ test.describe('VerIfying tour ordering', () => {
     const basketPopup = BasketComponent(page);
     const formPage = UserDetailsPage(page);
     paymentPageModel = PaymentPage(page);
-    const paymentConfirmedPage = PaymentConfirmedPage(page);
+    paymentConfirmedPageModel = PaymentConfirmedPage(page);
 
     //Act
     await homePageModel.inputTextToSearchField(Tours.HarryPotterTour);
@@ -63,15 +65,15 @@ test.describe('VerIfying tour ordering', () => {
     await paymentPageModel.payButtonClick();
 
     //Assert
-    const orderedTourTitle = await paymentConfirmedPage.getOrderedTourTitle();
+    const orderedTourTitle = await paymentConfirmedPageModel.getOrderedTourTitle();
     expect(orderedTourTitle).toBe(Tours.HarryPotterTour);
 
-    const orderDetails = await paymentConfirmedPage.getConfirmationDetails();
+    const orderDetails = await paymentConfirmedPageModel.getConfirmationDetails();
     expect(orderDetails.date).toContain(bookingDateTimeFromModal);
     expect(orderDetails.persons[0]).toContain(bookingAdultFromModal);
 
     const confirmationSummaryDetails =
-      await paymentConfirmedPage.getConfirmationSummaryDetails();
+      await paymentConfirmedPageModel.getConfirmationSummaryDetails();
     expect(confirmationSummaryDetails.persons[0]).toContain(
       bookingAdultFromModal,
     );
@@ -80,7 +82,7 @@ test.describe('VerIfying tour ordering', () => {
     );
   });
 
-  test('Payment for the trip - verifying order in the Prio', async ({
+  test.only('Payment for the trip - verifying order in the Prio', async ({
     page,
   }) => {
     //Arrange
@@ -90,7 +92,7 @@ test.describe('VerIfying tour ordering', () => {
     const basketPopup = BasketComponent(page);
     const formPage = UserDetailsPage(page);
     paymentPageModel = PaymentPage(page);
-    const paymentConfirmedPage = PaymentConfirmedPage(page);
+    paymentConfirmedPageModel = PaymentConfirmedPage(page);
     const apiPrio = ApiPrioticket();
 
     //Act
@@ -111,7 +113,7 @@ test.describe('VerIfying tour ordering', () => {
     await paymentPageModel.fillPaymentForm();
     await paymentPageModel.payButtonClick();
 
-    const confirmationCode = await paymentConfirmedPage.getConfirmationCode();
+    const confirmationCode = await paymentConfirmedPageModel.getConfirmationCode();
     const orderStatus = await apiPrio.getOrderStatus(confirmationCode);
 
     //Assert

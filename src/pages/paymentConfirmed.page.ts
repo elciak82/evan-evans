@@ -1,6 +1,7 @@
 import { Page } from '@playwright/test';
+import { PaymentConfirmedPageModel } from '../models/paymentConfirmedPage.model';
 
-export const PaymentConfirmedPage = (page: Page) => {
+export const PaymentConfirmedPage = (page: Page): PaymentConfirmedPageModel => {
   const confirmationCode = page.locator('[class="confirmation__code"] strong');
   const orderedTourTitle = page.locator('.card__title--slim');
   const confirmationDetails = page.locator('.card .basket-line');
@@ -20,11 +21,16 @@ export const PaymentConfirmedPage = (page: Page) => {
     return await orderedTourTitle.innerText();
   };
 
-  const buttonIsVisible = async () => {
-    await downloadTicketButton.isVisible();
+  const buttonIsVisible = async (): Promise<void> => {
+    await downloadTicketButton.isVisible(); //TODO - return boolean
   };
 
-  const getConfirmationDetails = async () => {
+  type ConfirmationDetails = {
+    date: string;
+    persons: string[];
+  };
+
+  const getConfirmationDetails = async (): Promise<ConfirmationDetails> => {
     const detailCounter = await confirmationDetails.count();
     let details: {
       date: string;
@@ -44,27 +50,33 @@ export const PaymentConfirmedPage = (page: Page) => {
     return details;
   };
 
-  const getConfirmationSummaryDetails = async () => {
-    const detailCounter = await confirmationSummary.count();
-    let details: {
-      persons: string[];
-      price: string;
-    } = {
-      persons: [],
-      price: '',
-    };
-
-    if (detailCounter) {
-      details.price = await confirmationSummary
-        .nth(detailCounter - 1)
-        .innerText();
-      for (let i = 0; i < detailCounter - 1; i++) {
-        const tourDetail = await confirmationSummary.nth(i).innerText();
-        details.persons.push(tourDetail);
-      }
-    }
-    return details;
+  type ConfirmationSummaryDetails = {
+    persons: string[];
+    price: string;
   };
+
+  const getConfirmationSummaryDetails =
+    async (): Promise<ConfirmationSummaryDetails> => {
+      const detailCounter = await confirmationSummary.count();
+      let details: {
+        persons: string[];
+        price: string;
+      } = {
+        persons: [],
+        price: '',
+      };
+
+      if (detailCounter) {
+        details.price = await confirmationSummary
+          .nth(detailCounter - 1)
+          .innerText();
+        for (let i = 0; i < detailCounter - 1; i++) {
+          const tourDetail = await confirmationSummary.nth(i).innerText();
+          details.persons.push(tourDetail);
+        }
+      }
+      return details;
+    };
 
   return {
     getConfirmationCode,

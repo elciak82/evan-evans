@@ -66,7 +66,8 @@ test.describe('Booking - verifying data in the basket', () => {
     expect(basketCardDetails.persons[0]).toContain(bookingAdultFromModal);
     expect(basketCardDetails.persons[1]).toContain(bookingChildFromModal);
 
-    const basketSummaryDetails = await basketPageModel.getBasketSummaryDetails();
+    const basketSummaryDetails =
+      await basketPageModel.getBasketSummaryDetails();
     expect(basketSummaryDetails.persons[0]).toContain(bookingAdultFromModal);
     expect(basketSummaryDetails.persons[1]).toContain(bookingChildFromModal);
     expect(basketSummaryDetails.price).toContain(bookingTotalPriceFromModal);
