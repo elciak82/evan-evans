@@ -4,20 +4,18 @@ import { PageTitles } from '../src/helpers/enums/titles.enums';
 import { SearchPage } from '../src/pages/search.page';
 import { BasePageModel } from '../src/models/basePage.model';
 import { BasePage } from '../src/pages/base.page';
+import { HomePageModel } from '../src/models/homePage.model';
 
 test.describe('Verifying page titles', () => {
-  let homePage: {
-    acceptCookie: any;
-    searchButtonClick: any;
-    inputTextToSearchField: any;
-  };
   let basePageModel: BasePageModel;
+  let homePageModel: HomePageModel;
 
   test.beforeEach(async ({ page }) => {
     basePageModel = BasePage(page);
     await basePageModel.goTo();
-    homePage = HomePage(page);
-    await homePage.acceptCookie();
+
+    homePageModel = HomePage(page);
+    await homePageModel.acceptCookie();
   });
 
   test('Check a home page title @smoke', async ({ page }) => {
@@ -34,8 +32,7 @@ test.describe('Verifying page titles', () => {
     const searchPage = SearchPage(page);
 
     //Act
-    const homePage = HomePage(page);
-    await homePage.searchButtonClick();
+    await homePageModel.searchButtonClick();
     await searchPage.checkLoadMoreButtonIsVisible();
 
     //Assert
@@ -49,9 +46,8 @@ test.describe('Verifying page titles', () => {
     const searchPage = SearchPage(page);
 
     //Act
-    const homePage = HomePage(page);
-    await homePage.inputTextToSearchField(searchText);
-    await homePage.searchButtonClick();
+    await homePageModel.inputTextToSearchField(searchText);
+    await homePageModel.searchButtonClick();
 
     await searchPage.viewMoreButtonClick();
 

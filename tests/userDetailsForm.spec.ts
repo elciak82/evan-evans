@@ -11,18 +11,20 @@ import { Persons } from '../src/helpers/enums/persons.enums';
 import { UserDetailsPage } from '../src/pages/userDetails.page';
 import { HeaderComponent } from '../src/components/header.component';
 import { userData } from '../src/test-data/userData.data';
+import { BasePageModel } from '../src/models/basePage.model';
+import { HomePageModel } from '../src/models/homePage.model';
+import { BasePage } from '../src/pages/base.page';
 
 test.describe('VerIfying the Your Details form', () => {
-  let homePage: {
-    acceptCookie: any;
-    searchButtonClick: any;
-    inputTextToSearchField: any;
-  };
+  let basePageModel: BasePageModel;
+  let homePageModel: HomePageModel;
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
-    homePage = HomePage(page);
-    await homePage.acceptCookie();
+    basePageModel = BasePage(page);
+    await basePageModel.goTo();
+
+    homePageModel = HomePage(page);
+    await homePageModel.acceptCookie();
   });
 
   test('Confirming an empty form - verifying alerts', async ({ page }) => {
@@ -36,8 +38,8 @@ test.describe('VerIfying the Your Details form', () => {
     const header = HeaderComponent(page);
 
     //Act
-    await homePage.inputTextToSearchField(Tours.KatowiceTour);
-    await homePage.searchButtonClick();
+    await homePageModel.inputTextToSearchField(Tours.KatowiceTour);
+    await homePageModel.searchButtonClick();
 
     await searchPage.viewMoreButtonClick();
     await tourPage.bookButtonClick();
@@ -64,9 +66,9 @@ test.describe('VerIfying the Your Details form', () => {
 
     const termsAndConditionsUncheckedAlert =
       await formPage.getTermsAndConditionsUncheckedAlert();
-    expect.soft(termsAndConditionsUncheckedAlert).toBe(
-      Alerts.ACCEPT_TERMS_AND_CONDITION_ERROR,
-    );
+    expect
+      .soft(termsAndConditionsUncheckedAlert)
+      .toBe(Alerts.ACCEPT_TERMS_AND_CONDITION_ERROR);
 
     //Clear
     await header.openBasket();
@@ -88,8 +90,8 @@ test.describe('VerIfying the Your Details form', () => {
     const header = HeaderComponent(page);
 
     //Act
-    await homePage.inputTextToSearchField(Tours.KatowiceTour);
-    await homePage.searchButtonClick();
+    await homePageModel.inputTextToSearchField(Tours.KatowiceTour);
+    await homePageModel.searchButtonClick();
 
     await searchPage.viewMoreButtonClick();
     await tourPage.bookButtonClick();
@@ -146,8 +148,8 @@ test.describe('VerIfying the Your Details form', () => {
     const header = HeaderComponent(page);
 
     //Act
-    await homePage.inputTextToSearchField(Tours.KatowiceTour);
-    await homePage.searchButtonClick();
+    await homePageModel.inputTextToSearchField(Tours.KatowiceTour);
+    await homePageModel.searchButtonClick();
 
     await searchPage.viewMoreButtonClick();
     await tourPage.bookButtonClick();
@@ -159,57 +161,73 @@ test.describe('VerIfying the Your Details form', () => {
     await formPage.continueToPaymentButtonClick();
 
     //Assert
-    expect.soft(await formPage.getInvalidFirstNameAlert()).toBe(
-      Alerts.VALID_NAME_ERROR,
-    );
+    expect
+      .soft(await formPage.getInvalidFirstNameAlert())
+      .toBe(Alerts.VALID_NAME_ERROR);
 
     //Act
     await formPage.setFirstName('Bo');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(false);
+    expect
+      .soft(await formPage.checkInvalidFirstNameAlertIsVisible())
+      .toBe(false);
 
     //Act
     await formPage.setFirstName('B');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(true);
+    expect
+      .soft(await formPage.checkInvalidFirstNameAlertIsVisible())
+      .toBe(true);
 
     //Act
     await formPage.setFirstName('Ed ');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(true);
+    expect
+      .soft(await formPage.checkInvalidFirstNameAlertIsVisible())
+      .toBe(true);
 
     //Act
     await formPage.setFirstName('Ed Ed');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(false);
+    expect
+      .soft(await formPage.checkInvalidFirstNameAlertIsVisible())
+      .toBe(false);
 
     //Act
     await formPage.setFirstName('Ed Ed2');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(true);
+    expect
+      .soft(await formPage.checkInvalidFirstNameAlertIsVisible())
+      .toBe(true);
 
     //Act
     await formPage.setFirstName('Ed-Ed');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(false);
+    expect
+      .soft(await formPage.checkInvalidFirstNameAlertIsVisible())
+      .toBe(false);
 
     //Act
     await formPage.setFirstName(' Ed-Ed');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(true);
+    expect
+      .soft(await formPage.checkInvalidFirstNameAlertIsVisible())
+      .toBe(true);
 
     //Act
     await formPage.setFirstName('Ed-Ed!');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await formPage.checkInvalidFirstNameAlertIsVisible()).toBe(true);
+    expect
+      .soft(await formPage.checkInvalidFirstNameAlertIsVisible())
+      .toBe(true);
 
     //Clear
     await header.openBasket();
@@ -229,8 +247,8 @@ test.describe('VerIfying the Your Details form', () => {
     const header = HeaderComponent(page);
 
     //Act
-    await homePage.inputTextToSearchField(Tours.KatowiceTour);
-    await homePage.searchButtonClick();
+    await homePageModel.inputTextToSearchField(Tours.KatowiceTour);
+    await homePageModel.searchButtonClick();
 
     await searchPage.viewMoreButtonClick();
     await tourPage.bookButtonClick();
@@ -242,15 +260,17 @@ test.describe('VerIfying the Your Details form', () => {
     await formPage.continueToPaymentButtonClick();
 
     //Assert
-    expect.soft(await formPage.getInvalidLastNameAlert()).toBe(
-      Alerts.VALID_NAME_ERROR,
-    );
+    expect
+      .soft(await formPage.getInvalidLastNameAlert())
+      .toBe(Alerts.VALID_NAME_ERROR);
 
     //Act
     await formPage.setLastName('Li');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(false);
+    expect
+      .soft(await formPage.checkInvalidLastNameAlertIsVisible())
+      .toBe(false);
 
     //Act
     await formPage.setLastName('L');
@@ -268,7 +288,9 @@ test.describe('VerIfying the Your Details form', () => {
     await formPage.setLastName('Li Lu');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(false);
+    expect
+      .soft(await formPage.checkInvalidLastNameAlertIsVisible())
+      .toBe(false);
 
     //Act
     await formPage.setLastName('Li Li2');
@@ -280,7 +302,9 @@ test.describe('VerIfying the Your Details form', () => {
     await formPage.setLastName('Li-Lu');
     await formPage.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(false);
+    expect
+      .soft(await formPage.checkInvalidLastNameAlertIsVisible())
+      .toBe(false);
 
     //Act
     await formPage.setLastName(' Li-Lu');
@@ -312,8 +336,8 @@ test.describe('VerIfying the Your Details form', () => {
     const header = HeaderComponent(page);
 
     //Act
-    await homePage.inputTextToSearchField(Tours.KatowiceTour);
-    await homePage.searchButtonClick();
+    await homePageModel.inputTextToSearchField(Tours.KatowiceTour);
+    await homePageModel.searchButtonClick();
 
     await searchPage.viewMoreButtonClick();
     await tourPage.bookButtonClick();

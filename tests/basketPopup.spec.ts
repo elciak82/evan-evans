@@ -8,18 +8,15 @@ import { Alerts } from '../src/helpers/enums/alerts.enums';
 import { Tours } from '../src/helpers/enums/tours.enums';
 import { BasketPage } from '../src/pages/basket.page';
 import { Persons } from '../src/helpers/enums/persons.enums';
+import { HomePageModel } from '../src/models/homePage.model';
 
 test.describe('Booking - verifying data in the basket popup', () => {
-  let homePage: {
-    acceptCookie: any;
-    searchButtonClick: any;
-    inputTextToSearchField: any;
-  };
+  let homePageModel: HomePageModel;
 
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
-    homePage = HomePage(page);
-    await homePage.acceptCookie();
+    homePageModel = HomePage(page);
+    await homePageModel.acceptCookie();
   });
 
   test('Booking a trip for ONE CHILD and TWO ADULTS - checking data in the basket popup', async ({
@@ -33,8 +30,8 @@ test.describe('Booking - verifying data in the basket popup', () => {
     const basketPage = BasketPage(page);
 
     //Act
-    await homePage.inputTextToSearchField(Tours.KatowiceTour);
-    await homePage.searchButtonClick();
+    await homePageModel.inputTextToSearchField(Tours.KatowiceTour);
+    await homePageModel.searchButtonClick();
 
     await searchPage.viewMoreButtonClick();
     await tourPage.bookButtonClick();

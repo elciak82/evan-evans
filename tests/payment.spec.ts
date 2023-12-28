@@ -12,21 +12,18 @@ import { PaymentConfirmedPage } from '../src/pages/paymentConfirmed.page';
 import { BasePageModel } from '../src/models/basePage.model';
 import { BasePage } from '../src/pages/base.page';
 import { ApiPrioticket } from '../src/helpers/apiPrioticket';
+import { HomePageModel } from '../src/models/homePage.model';
 
 test.describe('VerIfying tour ordering', () => {
-  let homePage: {
-    acceptCookie: any;
-    searchButtonClick: any;
-    inputTextToSearchField: any;
-  };
   let basePageModel: BasePageModel;
+  let homePageModel: HomePageModel;
 
   test.beforeEach(async ({ page }) => {
     basePageModel = BasePage(page);
     await basePageModel.goTo();
 
-    homePage = HomePage(page);
-    await homePage.acceptCookie();
+    homePageModel = HomePage(page);
+    await homePageModel.acceptCookie();
   });
 
   test('Payment for the trip - verifying confirmation', async ({ page }) => {
@@ -40,8 +37,8 @@ test.describe('VerIfying tour ordering', () => {
     const paymentConfirmedPage = PaymentConfirmedPage(page);
 
     //Act
-    await homePage.inputTextToSearchField(Tours.HarryPotterTour);
-    await homePage.searchButtonClick();
+    await homePageModel.inputTextToSearchField(Tours.HarryPotterTour);
+    await homePageModel.searchButtonClick();
 
     await searchPage.viewMoreButtonClick();
     await tourPage.bookButtonClick();
@@ -81,7 +78,7 @@ test.describe('VerIfying tour ordering', () => {
     );
   });
 
-  test.only('Payment for the trip - verifying order in the Prio', async ({
+  test('Payment for the trip - verifying order in the Prio', async ({
     page,
   }) => {
     //Arrange
@@ -95,8 +92,8 @@ test.describe('VerIfying tour ordering', () => {
     const apiPrio = ApiPrioticket();
 
     //Act
-    await homePage.inputTextToSearchField(Tours.HarryPotterTour);
-    await homePage.searchButtonClick();
+    await homePageModel.inputTextToSearchField(Tours.HarryPotterTour);
+    await homePageModel.searchButtonClick();
 
     await searchPage.viewMoreButtonClick();
     await tourPage.bookButtonClick();

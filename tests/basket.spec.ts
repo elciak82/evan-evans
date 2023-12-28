@@ -10,26 +10,22 @@ import { BasketPage } from '../src/pages/basket.page';
 import { Persons } from '../src/helpers/enums/persons.enums';
 import { HeaderComponent } from '../src/components/header.component';
 import { PromoCodes } from '../src/helpers/enums/promoCodes.enums';
-import { userData } from '../src/test-data/userData.data';
 import { BasePage } from '../src/pages/base.page';
-import { BaseOptions } from 'vm';
 import type { BasePageModel } from '../src/models/basePage.model';
 import { BasketPageModel } from '../src/models/basketPage.model';
+import { HomePageModel } from '../src/models/homePage.model';
 
 test.describe('Booking - verifying data in the basket', () => {
-  let homePage: {
-    acceptCookie: any;
-    searchButtonClick: any;
-    inputTextToSearchField: any;
-  };
   let basePageModel: BasePageModel;
+  let homePageModel: HomePageModel;
   let basketPageModel: BasketPageModel;
 
   test.beforeEach(async ({ page }) => {
     basePageModel = BasePage(page);
     await basePageModel.goTo();
-    homePage = HomePage(page);
-    await homePage.acceptCookie();
+
+    homePageModel = HomePage(page);
+    await homePageModel.acceptCookie();
   });
 
   test('Booking a trip for ONE ADULT and TWO CHILDREN - checking a tour in the basket', async ({
@@ -43,8 +39,8 @@ test.describe('Booking - verifying data in the basket', () => {
     basketPageModel = BasketPage(page);
 
     //Act
-    await homePage.inputTextToSearchField(Tours.KatowiceTour);
-    await homePage.searchButtonClick();
+    await homePageModel.inputTextToSearchField(Tours.KatowiceTour);
+    await homePageModel.searchButtonClick();
 
     await searchPage.viewMoreButtonClick();
     await tourPage.bookButtonClick();
@@ -93,8 +89,8 @@ test.describe('Booking - verifying data in the basket', () => {
     const header = HeaderComponent(page);
 
     //Act
-    await homePage.inputTextToSearchField(Tours.HarryPotterTour);
-    await homePage.searchButtonClick();
+    await homePageModel.inputTextToSearchField(Tours.HarryPotterTour);
+    await homePageModel.searchButtonClick();
 
     await searchPage.viewMoreButtonClick();
     await tourPage.bookButtonClick();
@@ -142,8 +138,8 @@ test.describe('Booking - verifying data in the basket', () => {
     const header = HeaderComponent(page);
 
     //Act
-    await homePage.inputTextToSearchField(Tours.HarryPotterTour);
-    await homePage.searchButtonClick();
+    await homePageModel.inputTextToSearchField(Tours.HarryPotterTour);
+    await homePageModel.searchButtonClick();
 
     await searchPage.viewMoreButtonClick();
     await tourPage.bookButtonClick();
@@ -173,8 +169,8 @@ test.describe('Booking - verifying data in the basket', () => {
     const basketPage = BasketPage(page);
 
     //Act
-    await homePage.inputTextToSearchField(Tours.HarryPotterTour);
-    await homePage.searchButtonClick();
+    await homePageModel.inputTextToSearchField(Tours.HarryPotterTour);
+    await homePageModel.searchButtonClick();
 
     await searchPage.viewMoreButtonClick();
     await tourPage.bookButtonClick();

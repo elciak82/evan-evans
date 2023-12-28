@@ -1,16 +1,20 @@
 import { Page } from '@playwright/test';
+import { HomePageModel } from '../models/homePage.model';
 
-export const HomePage = (page: Page) => {
-  const acceptCookieButton = page.getByRole('link', {  //TODO
+export const HomePage = (page: Page): HomePageModel => {
+  const acceptCookieButton = page.getByRole('link', {
+    //TODO
     name: 'OK',
     exact: true,
   });
-  const mainSearchButton = page.getByRole('button', { //TODO
+  const mainSearchButton = page.getByRole('button', {
+    //TODO
     name: 'Search',
     exact: true,
   });
 
-  const mainSearchInput = page.getByRole('searchbox', { //TODO
+  const mainSearchInput = page.getByRole('searchbox', {
+    //TODO
     name: 'Find the perfect tour for you',
   });
 
