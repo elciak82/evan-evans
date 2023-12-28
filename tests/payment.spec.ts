@@ -106,7 +106,6 @@ test.describe('VerIfying tour ordering', () => {
     userDetailsPageModel = UserDetailsPage(page);
     paymentPageModel = PaymentPage(page);
     paymentConfirmedPageModel = PaymentConfirmedPage(page);
-    const apiPrio = ApiPrioticket();
 
     //Act
     await homePageModel.inputTextToSearchField(Tours.HarryPotterTour);
@@ -126,11 +125,10 @@ test.describe('VerIfying tour ordering', () => {
     await paymentPageModel.fillPaymentForm();
     await paymentPageModel.payButtonClick();
 
+    //Assert
     const confirmationCode =
       await paymentConfirmedPageModel.getConfirmationCode();
-    const orderStatus = await apiPrio.getOrderStatus(confirmationCode);
-
-    //Assert
+    const orderStatus = await ApiPrioticket().getOrderStatus(confirmationCode);
     expect(orderStatus).toBe('ORDER_CONFIRMED');
   });
 });

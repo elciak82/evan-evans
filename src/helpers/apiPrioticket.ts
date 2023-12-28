@@ -1,6 +1,7 @@
 import { expect, request } from '@playwright/test';
 import dotenv from 'dotenv';
 dotenv.config();
+let token = '';
 
 export const ApiPrioticket = () => {
   const url = process.env.PRIO_ENDPOINT;
@@ -8,7 +9,7 @@ export const ApiPrioticket = () => {
   const password = process.env.PRIO_PASSWORD;
   const distributorId = process.env.DISTRIBUTOR_ID;
 
-  const createToken = async () => {
+  const createToken = async (): Promise<string> => {
     const contextRequest = await request.newContext();
     const response = await contextRequest.post(url + 'oauth2/token', {
       headers: {
@@ -24,8 +25,10 @@ export const ApiPrioticket = () => {
     return token;
   };
 
-  const getOrderStatus = async (confirmationCode: string) => {
-    const token = await createToken();
+  const getOrderStatus = async (confirmationCode: string): Promise<string> => {
+    if (!token) {
+      token = await createToken();
+    }
     const contextRequest = await request.newContext();
     const response = await contextRequest.get(
       url +
