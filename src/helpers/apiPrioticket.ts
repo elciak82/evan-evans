@@ -1,13 +1,13 @@
 import { expect, request } from '@playwright/test';
 import dotenv from 'dotenv';
 dotenv.config();
-let token = '';
 
 export const ApiPrioticket = () => {
   const url = process.env.PRIO_ENDPOINT;
   const username = process.env.PRIO_USERNAME;
   const password = process.env.PRIO_PASSWORD;
   const distributorId = process.env.DISTRIBUTOR_ID;
+  let token = '';
 
   const createToken = async (): Promise<string> => {
     const contextRequest = await request.newContext();
