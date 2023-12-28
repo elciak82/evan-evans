@@ -14,6 +14,7 @@ import { userData } from '../src/test-data/userData.data';
 import { BasePage } from '../src/pages/base.page';
 import { BaseOptions } from 'vm';
 import type { BasePageModel } from '../src/models/basePage.model';
+import { BasketPageModel } from '../src/models/basketPage.model';
 
 test.describe('Booking - verifying data in the basket', () => {
   let homePage: {
@@ -22,6 +23,7 @@ test.describe('Booking - verifying data in the basket', () => {
     inputTextToSearchField: any;
   };
   let basePageModel: BasePageModel;
+  let basketPageModel: BasketPageModel;
 
   test.beforeEach(async ({ page }) => {
     basePageModel = BasePage(page);
@@ -38,7 +40,7 @@ test.describe('Booking - verifying data in the basket', () => {
     const tourPage = TourPage(page);
     const booking = BookingComponent(page);
     const basketPopup = BasketComponent(page);
-    const basketPage = BasketPage(page);
+    basketPageModel = BasketPage(page);
 
     //Act
     await homePage.inputTextToSearchField(Tours.KatowiceTour);
@@ -60,22 +62,22 @@ test.describe('Booking - verifying data in the basket', () => {
     await basketPopup.viewBasketButtonClick();
 
     //Assert
-    const tourInBasket = await basketPage.getTourTitle();
+    const tourInBasket = await basketPageModel.getTourTitle();
     expect(tourInBasket).toBe(Tours.KatowiceTour);
 
-    const basketCardDetails = await basketPage.getBasketCardDetails();
+    const basketCardDetails = await basketPageModel.getBasketCardDetails();
     expect(basketCardDetails.date).toContain(bookingDateTimeFromModal);
     expect(basketCardDetails.persons[0]).toContain(bookingAdultFromModal);
     expect(basketCardDetails.persons[1]).toContain(bookingChildFromModal);
 
-    const basketSummaryDetails = await basketPage.getBasketSummaryDetails();
+    const basketSummaryDetails = await basketPageModel.getBasketSummaryDetails();
     expect(basketSummaryDetails.persons[0]).toContain(bookingAdultFromModal);
     expect(basketSummaryDetails.persons[1]).toContain(bookingChildFromModal);
     expect(basketSummaryDetails.price).toContain(bookingTotalPriceFromModal);
 
     //Clear
-    await basketPage.removeTourFromBasket();
-    const removedItemAlert = await basketPage.getRemovedItemAlertText();
+    await basketPageModel.removeTourFromBasket();
+    const removedItemAlert = await basketPageModel.getRemovedItemAlertText();
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 
