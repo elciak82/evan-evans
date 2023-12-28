@@ -13,10 +13,12 @@ import { BasePageModel } from '../src/models/basePage.model';
 import { BasePage } from '../src/pages/base.page';
 import { ApiPrioticket } from '../src/helpers/apiPrioticket';
 import { HomePageModel } from '../src/models/homePage.model';
+import { PaymentPageModel } from '../src/models/paymentPage.model';
 
 test.describe('VerIfying tour ordering', () => {
   let basePageModel: BasePageModel;
   let homePageModel: HomePageModel;
+  let paymentPageModel: PaymentPageModel;
 
   test.beforeEach(async ({ page }) => {
     basePageModel = BasePage(page);
@@ -33,7 +35,7 @@ test.describe('VerIfying tour ordering', () => {
     const booking = BookingComponent(page);
     const basketPopup = BasketComponent(page);
     const formPage = UserDetailsPage(page);
-    const paymentPage = PaymentPage(page);
+    paymentPageModel = PaymentPage(page);
     const paymentConfirmedPage = PaymentConfirmedPage(page);
 
     //Act
@@ -57,8 +59,8 @@ test.describe('VerIfying tour ordering', () => {
     await formPage.checkSignToTreadRightNewsletterCheckbox();
     await formPage.continueToPaymentButtonClick();
 
-    await paymentPage.fillPaymentForm();
-    await paymentPage.payButtonClick();
+    await paymentPageModel.fillPaymentForm();
+    await paymentPageModel.payButtonClick();
 
     //Assert
     const orderedTourTitle = await paymentConfirmedPage.getOrderedTourTitle();
@@ -87,7 +89,7 @@ test.describe('VerIfying tour ordering', () => {
     const booking = BookingComponent(page);
     const basketPopup = BasketComponent(page);
     const formPage = UserDetailsPage(page);
-    const paymentPage = PaymentPage(page);
+    paymentPageModel = PaymentPage(page);
     const paymentConfirmedPage = PaymentConfirmedPage(page);
     const apiPrio = ApiPrioticket();
 
@@ -106,8 +108,8 @@ test.describe('VerIfying tour ordering', () => {
     await formPage.checkSignToTreadRightNewsletterCheckbox();
     await formPage.continueToPaymentButtonClick();
 
-    await paymentPage.fillPaymentForm();
-    await paymentPage.payButtonClick();
+    await paymentPageModel.fillPaymentForm();
+    await paymentPageModel.payButtonClick();
 
     const confirmationCode = await paymentConfirmedPage.getConfirmationCode();
     const orderStatus = await apiPrio.getOrderStatus(confirmationCode);
