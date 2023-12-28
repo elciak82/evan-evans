@@ -15,12 +15,14 @@ import type { BasePageModel } from '../src/models/basePage.model';
 import { BasketPageModel } from '../src/models/basketPage.model';
 import { HomePageModel } from '../src/models/homePage.model';
 import { SearchPageModel } from '../src/models/searchPage.model';
+import { TourPageModel } from '../src/models/tourPage.model';
 
 test.describe('Booking - verifying data in the basket', () => {
   let basePageModel: BasePageModel;
   let homePageModel: HomePageModel;
   let basketPageModel: BasketPageModel;
   let searchPageModel: SearchPageModel;
+  let tourPageModel: TourPageModel;
 
   test.beforeEach(async ({ page }) => {
     basePageModel = BasePage(page);
@@ -35,7 +37,7 @@ test.describe('Booking - verifying data in the basket', () => {
   }) => {
     //Arrange
     searchPageModel = SearchPage(page);
-    const tourPage = TourPage(page);
+    tourPageModel = TourPage(page);
     const booking = BookingComponent(page);
     const basketPopup = BasketComponent(page);
     basketPageModel = BasketPage(page);
@@ -45,7 +47,7 @@ test.describe('Booking - verifying data in the basket', () => {
     await homePageModel.searchButtonClick();
 
     await searchPageModel.viewMoreButtonClick();
-    await tourPage.bookButtonClick();
+    await tourPageModel.bookButtonClick();
     await booking.fillBookingModal(Persons.ADULT, Persons.CHILD, Persons.CHILD);
 
     const bookingDateTimeFromModal =
@@ -85,7 +87,7 @@ test.describe('Booking - verifying data in the basket', () => {
   }) => {
     //Arrange
     searchPageModel = SearchPage(page);
-    const tourPage = TourPage(page);
+    tourPageModel = TourPage(page);
     const booking = BookingComponent(page);
     const basketPopup = BasketComponent(page);
     basketPageModel = BasketPage(page);
@@ -96,7 +98,7 @@ test.describe('Booking - verifying data in the basket', () => {
     await homePageModel.searchButtonClick();
 
     await searchPageModel.viewMoreButtonClick();
-    await tourPage.bookButtonClick();
+    await tourPageModel.bookButtonClick();
     await booking.fillBookingModal(Persons.STUDENT, Persons.FAMILY);
 
     const bookingDateTimeFromModal =
@@ -134,7 +136,7 @@ test.describe('Booking - verifying data in the basket', () => {
   test('Booking a trip - adding a promo code', async ({ page }) => {
     //Arrange
     searchPageModel = SearchPage(page);
-    const tourPage = TourPage(page);
+    tourPageModel = TourPage(page);
     const booking = BookingComponent(page);
     const basketPopup = BasketComponent(page);
     const basketPage = BasketPage(page);
@@ -145,7 +147,7 @@ test.describe('Booking - verifying data in the basket', () => {
     await homePageModel.searchButtonClick();
 
     await searchPageModel.viewMoreButtonClick();
-    await tourPage.bookButtonClick();
+    await tourPageModel.bookButtonClick();
 
     await booking.fillBookingModal(Persons.STUDENT);
     await booking.addToBasketButtonClick();
@@ -166,7 +168,7 @@ test.describe('Booking - verifying data in the basket', () => {
   test('Booking a trip - adding an invalid promo code', async ({ page }) => {
     //Arrange
     searchPageModel = SearchPage(page);
-    const tourPage = TourPage(page);
+    tourPageModel = TourPage(page);
     const booking = BookingComponent(page);
     const basketPopup = BasketComponent(page);
     basketPageModel = BasketPage(page);
@@ -176,7 +178,7 @@ test.describe('Booking - verifying data in the basket', () => {
     await homePageModel.searchButtonClick();
 
     await searchPageModel.viewMoreButtonClick();
-    await tourPage.bookButtonClick();
+    await tourPageModel.bookButtonClick();
 
     await booking.fillBookingModal(Persons.FAMILY);
     await booking.addToBasketButtonClick();
