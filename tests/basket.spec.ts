@@ -16,6 +16,7 @@ import { BasketPageModel } from '../src/models/basketPage.model';
 import { HomePageModel } from '../src/models/homePage.model';
 import { SearchPageModel } from '../src/models/searchPage.model';
 import { TourPageModel } from '../src/models/tourPage.model';
+import { BasketComponentModel } from '../src/models/basketComponent.model';
 
 test.describe('Booking - verifying data in the basket', () => {
   let basePageModel: BasePageModel;
@@ -23,6 +24,7 @@ test.describe('Booking - verifying data in the basket', () => {
   let basketPageModel: BasketPageModel;
   let searchPageModel: SearchPageModel;
   let tourPageModel: TourPageModel;
+  let basketComponentModel: BasketComponentModel;
 
   test.beforeEach(async ({ page }) => {
     basePageModel = BasePage(page);
@@ -39,7 +41,7 @@ test.describe('Booking - verifying data in the basket', () => {
     searchPageModel = SearchPage(page);
     tourPageModel = TourPage(page);
     const booking = BookingComponent(page);
-    const basketPopup = BasketComponent(page);
+    basketComponentModel = BasketComponent(page);
     basketPageModel = BasketPage(page);
 
     //Act
@@ -59,7 +61,7 @@ test.describe('Booking - verifying data in the basket', () => {
 
     await booking.addToBasketButtonClick();
 
-    await basketPopup.viewBasketButtonClick();
+    await basketComponentModel.viewBasketButtonClick();
 
     //Assert
     const tourInBasket = await basketPageModel.getTourTitle();
@@ -89,7 +91,7 @@ test.describe('Booking - verifying data in the basket', () => {
     searchPageModel = SearchPage(page);
     tourPageModel = TourPage(page);
     const booking = BookingComponent(page);
-    const basketPopup = BasketComponent(page);
+    basketComponentModel = BasketComponent(page);
     basketPageModel = BasketPage(page);
     const header = HeaderComponent(page);
 
@@ -110,7 +112,7 @@ test.describe('Booking - verifying data in the basket', () => {
 
     await booking.addToBasketButtonClick();
 
-    await basketPopup.closeBasketPopupButtonClick();
+    await basketComponentModel.closeBasketPopupButtonClick();
     await header.openBasket();
 
     //Assert
@@ -138,9 +140,8 @@ test.describe('Booking - verifying data in the basket', () => {
     searchPageModel = SearchPage(page);
     tourPageModel = TourPage(page);
     const booking = BookingComponent(page);
-    const basketPopup = BasketComponent(page);
-    const basketPage = BasketPage(page);
-    const header = HeaderComponent(page);
+    basketComponentModel = BasketComponent(page);
+    basketPageModel = BasketPage(page);
 
     //Act
     await homePageModel.inputTextToSearchField(Tours.HarryPotterTour);
@@ -152,16 +153,16 @@ test.describe('Booking - verifying data in the basket', () => {
     await booking.fillBookingModal(Persons.STUDENT);
     await booking.addToBasketButtonClick();
 
-    await basketPopup.viewBasketButtonClick();
-    await basketPage.applyPromoCode(PromoCodes.CODE10);
+    await basketComponentModel.viewBasketButtonClick();
+    await basketPageModel.applyPromoCode(PromoCodes.CODE10);
 
     //Assert
-    const promoCodeIncluded = await basketPage.promoCodeIncluded();
+    const promoCodeIncluded = await basketPageModel.promoCodeIncluded();
     expect(promoCodeIncluded).toBe(true);
 
     //Clear
-    await basketPage.removeTourFromBasket();
-    const removedItemAlert = await basketPage.getRemovedItemAlertText();
+    await basketPageModel.removeTourFromBasket();
+    const removedItemAlert = await basketPageModel.getRemovedItemAlertText();
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 
@@ -170,7 +171,7 @@ test.describe('Booking - verifying data in the basket', () => {
     searchPageModel = SearchPage(page);
     tourPageModel = TourPage(page);
     const booking = BookingComponent(page);
-    const basketPopup = BasketComponent(page);
+    basketComponentModel = BasketComponent(page);
     basketPageModel = BasketPage(page);
 
     //Act
@@ -183,7 +184,7 @@ test.describe('Booking - verifying data in the basket', () => {
     await booking.fillBookingModal(Persons.FAMILY);
     await booking.addToBasketButtonClick();
 
-    await basketPopup.viewBasketButtonClick();
+    await basketComponentModel.viewBasketButtonClick();
     await basketPageModel.applyPromoCode(Alerts.INVALID_CODE);
 
     //Assert

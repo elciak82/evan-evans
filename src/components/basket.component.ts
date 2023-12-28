@@ -1,34 +1,43 @@
 import { Page } from '@playwright/test';
+import { BasketComponentModel } from '../models/basketComponent.model';
 
-export const BasketComponent = (page: Page) => {
+export const BasketComponent = (page: Page): BasketComponentModel => {
   const basketAlert = page.locator('.basket-popup__alert');
   const basketPopup = page.locator('.basket-popup');
   const basketTourTitle = page.locator('.basket-popup__item-title');
   const viewBasketButton = page.locator('[class="btn basket-popup__button"]');
-  const checkoutNowButton = page.locator('[class="btn btn--alt basket-popup__button"]');
+  const checkoutNowButton = page.locator(
+    '[class="btn btn--alt basket-popup__button"]',
+  );
   const closePopupButton = page.locator('[class*="basket-popup__close-btn"]');
   const basketDetails = page.locator('.basket-line');
 
-  const getMessageText = async () => {
+  const getMessageText = async (): Promise<string> => {
     basketPopup.isEnabled();
     return await basketAlert.innerText();
   };
 
-  const viewBasketButtonClick = async () => {
+  const viewBasketButtonClick = async (): Promise<void> => {
     await viewBasketButton.click();
   };
 
-  const checkoutNowButtonClick = async () => {
+  const checkoutNowButtonClick = async (): Promise<void> => {
     await checkoutNowButton.click();
   };
 
-  const closeBasketPopupButtonClick = async () => {
+  const closeBasketPopupButtonClick = async (): Promise<void> => {
     await page.waitForLoadState();
     await basketPopup.isEnabled();
     await closePopupButton.click();
   };
 
-  const getBasketDetails = async () => {
+  type BasketDetails = {
+    date: string;
+    persons: string[];
+    price: string;
+  };
+
+  const getBasketDetails = async (): Promise<BasketDetails> => {
     const detailCounter = await basketDetails.count();
     let details: {
       date: string;
@@ -51,7 +60,7 @@ export const BasketComponent = (page: Page) => {
     return details;
   };
 
-  const getTourTitle = async () => {
+  const getTourTitle = async (): Promise<string> => {
     return basketTourTitle.innerText();
   };
 

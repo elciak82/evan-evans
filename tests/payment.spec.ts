@@ -18,6 +18,7 @@ import { PaymentConfirmedPageModel } from '../src/models/paymentConfirmedPage.mo
 import { UserDetailsPageModel } from '../src/models/userDetailsPage.model';
 import { SearchPageModel } from '../src/models/searchPage.model';
 import { TourPageModel } from '../src/models/tourPage.model';
+import { BasketComponentModel } from '../src/models/basketComponent.model';
 
 test.describe('VerIfying tour ordering', () => {
   let basePageModel: BasePageModel;
@@ -27,6 +28,7 @@ test.describe('VerIfying tour ordering', () => {
   let paymentPageModel: PaymentPageModel;
   let paymentConfirmedPageModel: PaymentConfirmedPageModel;
   let userDetailsPageModel: UserDetailsPageModel;
+  let basketComponentModel: BasketComponentModel;
 
   test.beforeEach(async ({ page }) => {
     basePageModel = BasePage(page);
@@ -41,7 +43,7 @@ test.describe('VerIfying tour ordering', () => {
     searchPageModel = SearchPage(page);
     tourPageModel = TourPage(page);
     const booking = BookingComponent(page);
-    const basketPopup = BasketComponent(page);
+    basketComponentModel = BasketComponent(page);
     userDetailsPageModel = UserDetailsPage(page);
     paymentPageModel = PaymentPage(page);
     paymentConfirmedPageModel = PaymentConfirmedPage(page);
@@ -61,7 +63,7 @@ test.describe('VerIfying tour ordering', () => {
       await booking.getBookingTotalPriceFromModal();
 
     await booking.addToBasketButtonClick();
-    await basketPopup.checkoutNowButtonClick();
+    await basketComponentModel.checkoutNowButtonClick();
     await userDetailsPageModel.fillYourDetailsForm();
     await userDetailsPageModel.checkSignToEvanEvansNewsletterCheckbox();
     await userDetailsPageModel.checkSignToTreadRightNewsletterCheckbox();
@@ -95,7 +97,7 @@ test.describe('VerIfying tour ordering', () => {
     searchPageModel = SearchPage(page);
     tourPageModel = TourPage(page);
     const booking = BookingComponent(page);
-    const basketPopup = BasketComponent(page);
+    basketComponentModel = BasketComponent(page);
     userDetailsPageModel = UserDetailsPage(page);
     paymentPageModel = PaymentPage(page);
     paymentConfirmedPageModel = PaymentConfirmedPage(page);
@@ -110,7 +112,7 @@ test.describe('VerIfying tour ordering', () => {
     await booking.fillBookingModal(Persons.ADULT);
 
     await booking.addToBasketButtonClick();
-    await basketPopup.checkoutNowButtonClick();
+    await basketComponentModel.checkoutNowButtonClick();
     await userDetailsPageModel.fillYourDetailsForm();
     await userDetailsPageModel.checkSignToEvanEvansNewsletterCheckbox();
     await userDetailsPageModel.checkSignToTreadRightNewsletterCheckbox();
