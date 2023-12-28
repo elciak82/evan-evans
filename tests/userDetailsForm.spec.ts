@@ -14,10 +14,18 @@ import { userData } from '../src/test-data/userData.data';
 import { BasePageModel } from '../src/models/basePage.model';
 import { HomePageModel } from '../src/models/homePage.model';
 import { BasePage } from '../src/pages/base.page';
+import { BasketPageModel } from '../src/models/basketPage.model';
+import { SearchPageModel } from '../src/models/searchPage.model';
+import { TourPageModel } from '../src/models/tourPage.model';
+import { UserDetailsPageModel } from '../src/models/userDetailsPage.model';
 
 test.describe('VerIfying the Your Details form', () => {
   let basePageModel: BasePageModel;
   let homePageModel: HomePageModel;
+  let basketPageModel: BasketPageModel;
+  let searchPageModel: SearchPageModel;
+  let tourPageModel: TourPageModel;
+  let userDetailsPageModel: UserDetailsPageModel;
 
   test.beforeEach(async ({ page }) => {
     basePageModel = BasePage(page);
@@ -29,51 +37,51 @@ test.describe('VerIfying the Your Details form', () => {
 
   test('Confirming an empty form - verifying alerts', async ({ page }) => {
     //Arrange
-    const searchPage = SearchPage(page);
-    const tourPage = TourPage(page);
+    searchPageModel = SearchPage(page);
+    tourPageModel = TourPage(page);
     const booking = BookingComponent(page);
     const basketPopup = BasketComponent(page);
-    const basketPage = BasketPage(page);
-    const formPage = UserDetailsPage(page);
+    basketPageModel = BasketPage(page);
+    userDetailsPageModel = UserDetailsPage(page);
     const header = HeaderComponent(page);
 
     //Act
     await homePageModel.inputTextToSearchField(Tours.KatowiceTour);
     await homePageModel.searchButtonClick();
 
-    await searchPage.viewMoreButtonClick();
-    await tourPage.bookButtonClick();
+    await searchPageModel.viewMoreButtonClick();
+    await tourPageModel.bookButtonClick();
     await booking.fillBookingModal(Persons.ADULT);
     await booking.addToBasketButtonClick();
     await basketPopup.checkoutNowButtonClick();
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.continueToPaymentButtonClick();
 
     //Assert
-    const invalidFirstNameAlert = await formPage.getInvalidFirstNameAlert();
+    const invalidFirstNameAlert = await userDetailsPageModel.getInvalidFirstNameAlert();
     expect.soft(invalidFirstNameAlert).toBe(Alerts.VALID_NAME_ERROR);
 
-    const invalidLastNameAlert = await formPage.getInvalidLastNameAlert();
+    const invalidLastNameAlert = await userDetailsPageModel.getInvalidLastNameAlert();
     expect.soft(invalidLastNameAlert).toBe(Alerts.VALID_NAME_ERROR);
 
-    const invalidEmailAlert = await formPage.getInvalidEmailAlert();
+    const invalidEmailAlert = await userDetailsPageModel.getInvalidEmailAlert();
     expect.soft(invalidEmailAlert).toBe(Alerts.VALID_EMAIL_ERROR);
 
-    const invalidPhoneNumberAlert = await formPage.getInvalidPhoneNumberAlert();
+    const invalidPhoneNumberAlert = await userDetailsPageModel.getInvalidPhoneNumberAlert();
     expect.soft(invalidPhoneNumberAlert).toBe(Alerts.VALID_PHONE_NUMBER_ERROR);
 
-    const invalidCountryAlert = await formPage.getInvalidCountryAlert();
+    const invalidCountryAlert = await userDetailsPageModel.getInvalidCountryAlert();
     expect.soft(invalidCountryAlert).toBe(Alerts.VALID_COUNTRY_ERROR);
 
     const termsAndConditionsUncheckedAlert =
-      await formPage.getTermsAndConditionsUncheckedAlert();
+      await userDetailsPageModel.getTermsAndConditionsUncheckedAlert();
     expect
       .soft(termsAndConditionsUncheckedAlert)
       .toBe(Alerts.ACCEPT_TERMS_AND_CONDITION_ERROR);
 
     //Clear
     await header.openBasket();
-    await basketPage.removeTourFromBasket();
-    const removedItemAlert = await basketPage.getRemovedItemAlertText();
+    await basketPageModel.removeTourFromBasket();
+    const removedItemAlert = await basketPageModel.getRemovedItemAlertText();
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 
@@ -81,242 +89,242 @@ test.describe('VerIfying the Your Details form', () => {
     page,
   }) => {
     //Arrange
-    const searchPage = SearchPage(page);
-    const tourPage = TourPage(page);
+    searchPageModel = SearchPage(page);
+    tourPageModel = TourPage(page);
     const booking = BookingComponent(page);
     const basketPopup = BasketComponent(page);
-    const basketPage = BasketPage(page);
-    const formPage = UserDetailsPage(page);
+    basketPageModel = BasketPage(page);
+    userDetailsPageModel = UserDetailsPage(page);
     const header = HeaderComponent(page);
 
     //Act
     await homePageModel.inputTextToSearchField(Tours.KatowiceTour);
     await homePageModel.searchButtonClick();
 
-    await searchPage.viewMoreButtonClick();
-    await tourPage.bookButtonClick();
+    await searchPageModel.viewMoreButtonClick();
+    await tourPageModel.bookButtonClick();
     await booking.fillBookingModal(Persons.ADULT);
     await booking.addToBasketButtonClick();
     await basketPopup.checkoutNowButtonClick();
-    await formPage.fillYourDetailsForm();
-    await formPage.checkSignToEvanEvansNewsletterCheckbox();
-    await formPage.checkSignToTreadRightNewsletterCheckbox();
+    await userDetailsPageModel.fillYourDetailsForm();
+    await userDetailsPageModel.checkSignToEvanEvansNewsletterCheckbox();
+    await userDetailsPageModel.checkSignToTreadRightNewsletterCheckbox();
 
     //Assert
-    const firstName = await formPage.getFirstName();
+    const firstName = await userDetailsPageModel.getFirstName();
     expect.soft(firstName).toBe(userData.firstName);
 
-    const lastName = await formPage.getLastName();
+    const lastName = await userDetailsPageModel.getLastName();
     expect.soft(lastName).toBe(userData.lastName);
 
-    const yourEmail = await formPage.getYourEmail();
+    const yourEmail = await userDetailsPageModel.getYourEmail();
     expect.soft(yourEmail).toBe(userData.yourEmail);
 
-    const phoneNumber = await formPage.getPhoneNumber();
+    const phoneNumber = await userDetailsPageModel.getPhoneNumber();
     expect.soft(phoneNumber).toBe(userData.yourPhoneNumber);
 
-    const country = await formPage.getCountry();
+    const country = await userDetailsPageModel.getCountry();
     expect.soft(country).toBe(userData.yourCountry);
 
     const termsAndConditionsIsChecked =
-      await formPage.getTermsAndConditionsCheckbox();
+      await userDetailsPageModel.getTermsAndConditionsCheckbox();
     expect.soft(termsAndConditionsIsChecked).toBe(true);
 
     const signToEvanEvansNewsletterIsChecked =
-      await formPage.getSignToEvanEvansNewsletterCheckbox();
+      await userDetailsPageModel.getSignToEvanEvansNewsletterCheckbox();
     expect.soft(signToEvanEvansNewsletterIsChecked).toBe(true);
 
     const signToTreadRightNewsletterIsChecked =
-      await formPage.getSignToTreadRightNewsletterCheckbox();
+      await userDetailsPageModel.getSignToTreadRightNewsletterCheckbox();
     expect.soft(signToTreadRightNewsletterIsChecked).toBe(true);
 
     //Clear
     await header.openBasket();
-    await basketPage.removeTourFromBasket();
-    const removedItemAlert = await basketPage.getRemovedItemAlertText();
+    await basketPageModel.removeTourFromBasket();
+    const removedItemAlert = await basketPageModel.getRemovedItemAlertText();
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 
   test('Validate the First Name field', async ({ page }) => {
     //Arrange
-    const searchPage = SearchPage(page);
-    const tourPage = TourPage(page);
+    searchPageModel = SearchPage(page);
+    tourPageModel = TourPage(page);
     const booking = BookingComponent(page);
     const basketPopup = BasketComponent(page);
-    const basketPage = BasketPage(page);
-    const formPage = UserDetailsPage(page);
+    basketPageModel = BasketPage(page);
+    userDetailsPageModel = UserDetailsPage(page);
     const header = HeaderComponent(page);
 
     //Act
     await homePageModel.inputTextToSearchField(Tours.KatowiceTour);
     await homePageModel.searchButtonClick();
 
-    await searchPage.viewMoreButtonClick();
-    await tourPage.bookButtonClick();
+    await searchPageModel.viewMoreButtonClick();
+    await tourPageModel.bookButtonClick();
     await booking.fillBookingModal(Persons.ADULT);
     await booking.addToBasketButtonClick();
     await basketPopup.checkoutNowButtonClick();
 
-    await formPage.setFirstName(' ');
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.setFirstName(' ');
+    await userDetailsPageModel.continueToPaymentButtonClick();
 
     //Assert
     expect
-      .soft(await formPage.getInvalidFirstNameAlert())
+      .soft(await userDetailsPageModel.getInvalidFirstNameAlert())
       .toBe(Alerts.VALID_NAME_ERROR);
 
     //Act
-    await formPage.setFirstName('Bo');
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.setFirstName('Bo');
+    await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
     expect
-      .soft(await formPage.checkInvalidFirstNameAlertIsVisible())
+      .soft(await userDetailsPageModel.checkInvalidFirstNameAlertIsVisible())
       .toBe(false);
 
     //Act
-    await formPage.setFirstName('B');
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.setFirstName('B');
+    await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
     expect
-      .soft(await formPage.checkInvalidFirstNameAlertIsVisible())
+      .soft(await userDetailsPageModel.checkInvalidFirstNameAlertIsVisible())
       .toBe(true);
 
     //Act
-    await formPage.setFirstName('Ed ');
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.setFirstName('Ed ');
+    await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
     expect
-      .soft(await formPage.checkInvalidFirstNameAlertIsVisible())
+      .soft(await userDetailsPageModel.checkInvalidFirstNameAlertIsVisible())
       .toBe(true);
 
     //Act
-    await formPage.setFirstName('Ed Ed');
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.setFirstName('Ed Ed');
+    await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
     expect
-      .soft(await formPage.checkInvalidFirstNameAlertIsVisible())
+      .soft(await userDetailsPageModel.checkInvalidFirstNameAlertIsVisible())
       .toBe(false);
 
     //Act
-    await formPage.setFirstName('Ed Ed2');
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.setFirstName('Ed Ed2');
+    await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
     expect
-      .soft(await formPage.checkInvalidFirstNameAlertIsVisible())
+      .soft(await userDetailsPageModel.checkInvalidFirstNameAlertIsVisible())
       .toBe(true);
 
     //Act
-    await formPage.setFirstName('Ed-Ed');
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.setFirstName('Ed-Ed');
+    await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
     expect
-      .soft(await formPage.checkInvalidFirstNameAlertIsVisible())
+      .soft(await userDetailsPageModel.checkInvalidFirstNameAlertIsVisible())
       .toBe(false);
 
     //Act
-    await formPage.setFirstName(' Ed-Ed');
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.setFirstName(' Ed-Ed');
+    await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
     expect
-      .soft(await formPage.checkInvalidFirstNameAlertIsVisible())
+      .soft(await userDetailsPageModel.checkInvalidFirstNameAlertIsVisible())
       .toBe(true);
 
     //Act
-    await formPage.setFirstName('Ed-Ed!');
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.setFirstName('Ed-Ed!');
+    await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
     expect
-      .soft(await formPage.checkInvalidFirstNameAlertIsVisible())
+      .soft(await userDetailsPageModel.checkInvalidFirstNameAlertIsVisible())
       .toBe(true);
 
     //Clear
     await header.openBasket();
-    await basketPage.removeTourFromBasket();
-    const removedItemAlert = await basketPage.getRemovedItemAlertText();
+    await basketPageModel.removeTourFromBasket();
+    const removedItemAlert = await basketPageModel.getRemovedItemAlertText();
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 
   test('Validate the Last Name field', async ({ page }) => {
     //Arrange
-    const searchPage = SearchPage(page);
-    const tourPage = TourPage(page);
+    searchPageModel = SearchPage(page);
+    tourPageModel = TourPage(page);
     const booking = BookingComponent(page);
     const basketPopup = BasketComponent(page);
     const basketPage = BasketPage(page);
-    const formPage = UserDetailsPage(page);
+    userDetailsPageModel = UserDetailsPage(page);
     const header = HeaderComponent(page);
 
     //Act
     await homePageModel.inputTextToSearchField(Tours.KatowiceTour);
     await homePageModel.searchButtonClick();
 
-    await searchPage.viewMoreButtonClick();
-    await tourPage.bookButtonClick();
+    await searchPageModel.viewMoreButtonClick();
+    await tourPageModel.bookButtonClick();
     await booking.fillBookingModal(Persons.ADULT);
     await booking.addToBasketButtonClick();
     await basketPopup.checkoutNowButtonClick();
 
-    await formPage.setLastName(' ');
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.setLastName(' ');
+    await userDetailsPageModel.continueToPaymentButtonClick();
 
     //Assert
     expect
-      .soft(await formPage.getInvalidLastNameAlert())
+      .soft(await userDetailsPageModel.getInvalidLastNameAlert())
       .toBe(Alerts.VALID_NAME_ERROR);
 
     //Act
-    await formPage.setLastName('Li');
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.setLastName('Li');
+    await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
     expect
-      .soft(await formPage.checkInvalidLastNameAlertIsVisible())
+      .soft(await userDetailsPageModel.checkInvalidLastNameAlertIsVisible())
       .toBe(false);
 
     //Act
-    await formPage.setLastName('L');
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.setLastName('L');
+    await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(true);
+    expect.soft(await userDetailsPageModel.checkInvalidLastNameAlertIsVisible()).toBe(true);
 
     //Act
-    await formPage.setLastName('Li ');
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.setLastName('Li ');
+    await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(true);
+    expect.soft(await userDetailsPageModel.checkInvalidLastNameAlertIsVisible()).toBe(true);
 
     //Act
-    await formPage.setLastName('Li Lu');
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.setLastName('Li Lu');
+    await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
     expect
-      .soft(await formPage.checkInvalidLastNameAlertIsVisible())
+      .soft(await userDetailsPageModel.checkInvalidLastNameAlertIsVisible())
       .toBe(false);
 
     //Act
-    await formPage.setLastName('Li Li2');
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.setLastName('Li Li2');
+    await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(true);
+    expect.soft(await userDetailsPageModel.checkInvalidLastNameAlertIsVisible()).toBe(true);
 
     //Act
-    await formPage.setLastName('Li-Lu');
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.setLastName('Li-Lu');
+    await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
     expect
-      .soft(await formPage.checkInvalidLastNameAlertIsVisible())
+      .soft(await userDetailsPageModel.checkInvalidLastNameAlertIsVisible())
       .toBe(false);
 
     //Act
-    await formPage.setLastName(' Li-Lu');
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.setLastName(' Li-Lu');
+    await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(true);
+    expect.soft(await userDetailsPageModel.checkInvalidLastNameAlertIsVisible()).toBe(true);
 
     //Act
-    await formPage.setLastName('Li-Lu!');
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.setLastName('Li-Lu!');
+    await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await formPage.checkInvalidLastNameAlertIsVisible()).toBe(true);
+    expect.soft(await userDetailsPageModel.checkInvalidLastNameAlertIsVisible()).toBe(true);
 
     //Clear
     await header.openBasket();
@@ -327,90 +335,90 @@ test.describe('VerIfying the Your Details form', () => {
 
   test('Validate the Your Email field', async ({ page }) => {
     //Arrange
-    const searchPage = SearchPage(page);
-    const tourPage = TourPage(page);
+    searchPageModel = SearchPage(page);
+    tourPageModel = TourPage(page);
     const booking = BookingComponent(page);
     const basketPopup = BasketComponent(page);
-    const basketPage = BasketPage(page);
-    const formPage = UserDetailsPage(page);
+    basketPageModel = BasketPage(page);
+    userDetailsPageModel = UserDetailsPage(page);
     const header = HeaderComponent(page);
 
     //Act
     await homePageModel.inputTextToSearchField(Tours.KatowiceTour);
     await homePageModel.searchButtonClick();
 
-    await searchPage.viewMoreButtonClick();
-    await tourPage.bookButtonClick();
+    await searchPageModel.viewMoreButtonClick();
+    await tourPageModel.bookButtonClick();
     await booking.fillBookingModal(Persons.ADULT);
     await booking.addToBasketButtonClick();
     await basketPopup.checkoutNowButtonClick();
 
-    await formPage.setYourEmail(' ');
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.setYourEmail(' ');
+    await userDetailsPageModel.continueToPaymentButtonClick();
 
     //Assert
     expect
-      .soft(await formPage.getInvalidEmailAlert())
+      .soft(await userDetailsPageModel.getInvalidEmailAlert())
       .toBe(Alerts.VALID_EMAIL_ERROR);
 
     //Act
-    await formPage.setYourEmail('email');
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.setYourEmail('email');
+    await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await formPage.checkInvalidEmailAlertIsVisible()).toBe(true);
+    expect.soft(await userDetailsPageModel.checkInvalidEmailAlertIsVisible()).toBe(true);
 
     //Act
-    await formPage.setYourEmail('email@');
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.setYourEmail('email@');
+    await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await formPage.checkInvalidEmailAlertIsVisible()).toBe(true);
+    expect.soft(await userDetailsPageModel.checkInvalidEmailAlertIsVisible()).toBe(true);
 
     //Act
-    await formPage.setYourEmail('email@email');
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.setYourEmail('email@email');
+    await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await formPage.checkInvalidEmailAlertIsVisible()).toBe(false);
+    expect.soft(await userDetailsPageModel.checkInvalidEmailAlertIsVisible()).toBe(false);
 
     //Act
-    await formPage.setYourEmail('email@email.');
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.setYourEmail('email@email.');
+    await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await formPage.checkInvalidEmailAlertIsVisible()).toBe(true);
+    expect.soft(await userDetailsPageModel.checkInvalidEmailAlertIsVisible()).toBe(true);
 
     //Act
-    await formPage.setYourEmail('email@email.com');
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.setYourEmail('email@email.com');
+    await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await formPage.checkInvalidEmailAlertIsVisible()).toBe(false);
+    expect.soft(await userDetailsPageModel.checkInvalidEmailAlertIsVisible()).toBe(false);
 
     //Act
-    await formPage.setYourEmail('email@.email.com');
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.setYourEmail('email@.email.com');
+    await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await formPage.checkInvalidEmailAlertIsVisible()).toBe(true);
+    expect.soft(await userDetailsPageModel.checkInvalidEmailAlertIsVisible()).toBe(true);
 
     //Act
-    await formPage.setYourEmail('email.email@email.com');
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.setYourEmail('email.email@email.com');
+    await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await formPage.checkInvalidEmailAlertIsVisible()).toBe(false);
+    expect.soft(await userDetailsPageModel.checkInvalidEmailAlertIsVisible()).toBe(false);
 
     //Act
-    await formPage.setYourEmail('@email.com');
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.setYourEmail('@email.com');
+    await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await formPage.checkInvalidEmailAlertIsVisible()).toBe(true);
+    expect.soft(await userDetailsPageModel.checkInvalidEmailAlertIsVisible()).toBe(true);
 
     //Act
-    await formPage.setYourEmail('email-email@email.com');
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.setYourEmail('email-email@email.com');
+    await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await formPage.checkInvalidEmailAlertIsVisible()).toBe(false);
+    expect.soft(await userDetailsPageModel.checkInvalidEmailAlertIsVisible()).toBe(false);
 
     //Clear
     await header.openBasket();
-    await basketPage.removeTourFromBasket();
-    const removedItemAlert = await basketPage.getRemovedItemAlertText();
+    await basketPageModel.removeTourFromBasket();
+    const removedItemAlert = await basketPageModel.getRemovedItemAlertText();
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 });

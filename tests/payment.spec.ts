@@ -16,10 +16,14 @@ import { HomePageModel } from '../src/models/homePage.model';
 import { PaymentPageModel } from '../src/models/paymentPage.model';
 import { PaymentConfirmedPageModel } from '../src/models/paymentConfirmedPage.model';
 import { UserDetailsPageModel } from '../src/models/userDetailsPage.model';
+import { SearchPageModel } from '../src/models/searchPage.model';
+import { TourPageModel } from '../src/models/tourPage.model';
 
 test.describe('VerIfying tour ordering', () => {
   let basePageModel: BasePageModel;
   let homePageModel: HomePageModel;
+  let searchPageModel: SearchPageModel;
+  let tourPageModel: TourPageModel;
   let paymentPageModel: PaymentPageModel;
   let paymentConfirmedPageModel: PaymentConfirmedPageModel;
   let userDetailsPageModel: UserDetailsPageModel;
@@ -34,8 +38,8 @@ test.describe('VerIfying tour ordering', () => {
 
   test('Payment for the trip - verifying confirmation', async ({ page }) => {
     //Arrange
-    const searchPage = SearchPage(page);
-    const tourPage = TourPage(page);
+    searchPageModel = SearchPage(page);
+    tourPageModel = TourPage(page);
     const booking = BookingComponent(page);
     const basketPopup = BasketComponent(page);
     userDetailsPageModel = UserDetailsPage(page);
@@ -46,8 +50,8 @@ test.describe('VerIfying tour ordering', () => {
     await homePageModel.inputTextToSearchField(Tours.HarryPotterTour);
     await homePageModel.searchButtonClick();
 
-    await searchPage.viewMoreButtonClick();
-    await tourPage.bookButtonClick();
+    await searchPageModel.viewMoreButtonClick();
+    await tourPageModel.bookButtonClick();
     await booking.fillBookingModal(Persons.ADULT);
 
     const bookingDateTimeFromModal =
@@ -88,8 +92,8 @@ test.describe('VerIfying tour ordering', () => {
     page,
   }) => {
     //Arrange
-    const searchPage = SearchPage(page);
-    const tourPage = TourPage(page);
+    searchPageModel = SearchPage(page);
+    tourPageModel = TourPage(page);
     const booking = BookingComponent(page);
     const basketPopup = BasketComponent(page);
     userDetailsPageModel = UserDetailsPage(page);
@@ -101,8 +105,8 @@ test.describe('VerIfying tour ordering', () => {
     await homePageModel.inputTextToSearchField(Tours.HarryPotterTour);
     await homePageModel.searchButtonClick();
 
-    await searchPage.viewMoreButtonClick();
-    await tourPage.bookButtonClick();
+    await searchPageModel.viewMoreButtonClick();
+    await tourPageModel.bookButtonClick();
     await booking.fillBookingModal(Persons.ADULT);
 
     await booking.addToBasketButtonClick();

@@ -5,10 +5,12 @@ import { SearchPage } from '../src/pages/search.page';
 import { BasePageModel } from '../src/models/basePage.model';
 import { BasePage } from '../src/pages/base.page';
 import { HomePageModel } from '../src/models/homePage.model';
+import { SearchPageModel } from '../src/models/searchPage.model';
 
 test.describe('Verifying page titles', () => {
   let basePageModel: BasePageModel;
   let homePageModel: HomePageModel;
+  let searchPageModel: SearchPageModel;
 
   test.beforeEach(async ({ page }) => {
     basePageModel = BasePage(page);
@@ -29,11 +31,11 @@ test.describe('Verifying page titles', () => {
 
   test('Check a search page title @smoke', async ({ page }) => {
     //Arrange
-    const searchPage = SearchPage(page);
+    searchPageModel = SearchPage(page);
 
     //Act
     await homePageModel.searchButtonClick();
-    await searchPage.checkLoadMoreButtonIsVisible();
+    await searchPageModel.checkLoadMoreButtonIsVisible();
 
     //Assert
     const title = await page.title();
@@ -43,13 +45,13 @@ test.describe('Verifying page titles', () => {
   test('Check a tour page title @smoke', async ({ page }) => {
     //Arrange
     const searchText = 'Katowice';
-    const searchPage = SearchPage(page);
+    searchPageModel = SearchPage(page);
 
     //Act
     await homePageModel.inputTextToSearchField(searchText);
     await homePageModel.searchButtonClick();
 
-    await searchPage.viewMoreButtonClick();
+    await searchPageModel.viewMoreButtonClick();
 
     //Assert
     const title = await page.title();
