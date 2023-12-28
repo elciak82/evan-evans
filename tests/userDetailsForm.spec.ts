@@ -19,6 +19,7 @@ import { SearchPageModel } from '../src/models/searchPage.model';
 import { TourPageModel } from '../src/models/tourPage.model';
 import { UserDetailsPageModel } from '../src/models/userDetailsPage.model';
 import { BasketComponentModel } from '../src/models/basketComponent.model';
+import { BookingComponentModel } from '../src/models/bookingComponent.model';
 
 test.describe('VerIfying the Your Details form', () => {
   let basePageModel: BasePageModel;
@@ -28,6 +29,7 @@ test.describe('VerIfying the Your Details form', () => {
   let tourPageModel: TourPageModel;
   let userDetailsPageModel: UserDetailsPageModel;
   let basketComponentModel: BasketComponentModel;
+  let bookingComponentModel: BookingComponentModel;
 
   test.beforeEach(async ({ page }) => {
     basePageModel = BasePage(page);
@@ -41,7 +43,7 @@ test.describe('VerIfying the Your Details form', () => {
     //Arrange
     searchPageModel = SearchPage(page);
     tourPageModel = TourPage(page);
-    const booking = BookingComponent(page);
+    bookingComponentModel = BookingComponent(page);
     basketComponentModel = BasketComponent(page);
     basketPageModel = BasketPage(page);
     userDetailsPageModel = UserDetailsPage(page);
@@ -53,8 +55,8 @@ test.describe('VerIfying the Your Details form', () => {
 
     await searchPageModel.viewMoreButtonClick();
     await tourPageModel.bookButtonClick();
-    await booking.fillBookingModal(Persons.ADULT);
-    await booking.addToBasketButtonClick();
+    await bookingComponentModel.fillBookingModal(Persons.ADULT);
+    await bookingComponentModel.addToBasketButtonClick();
     await basketComponentModel.checkoutNowButtonClick();
     await userDetailsPageModel.continueToPaymentButtonClick();
 
@@ -93,7 +95,7 @@ test.describe('VerIfying the Your Details form', () => {
     //Arrange
     searchPageModel = SearchPage(page);
     tourPageModel = TourPage(page);
-    const booking = BookingComponent(page);
+    bookingComponentModel = BookingComponent(page);
     basketComponentModel = BasketComponent(page);
     basketPageModel = BasketPage(page);
     userDetailsPageModel = UserDetailsPage(page);
@@ -105,8 +107,8 @@ test.describe('VerIfying the Your Details form', () => {
 
     await searchPageModel.viewMoreButtonClick();
     await tourPageModel.bookButtonClick();
-    await booking.fillBookingModal(Persons.ADULT);
-    await booking.addToBasketButtonClick();
+    await bookingComponentModel.fillBookingModal(Persons.ADULT);
+    await bookingComponentModel.addToBasketButtonClick();
     await basketComponentModel.checkoutNowButtonClick();
     await userDetailsPageModel.fillYourDetailsForm();
     await userDetailsPageModel.checkSignToEvanEvansNewsletterCheckbox();
@@ -151,7 +153,7 @@ test.describe('VerIfying the Your Details form', () => {
     //Arrange
     searchPageModel = SearchPage(page);
     tourPageModel = TourPage(page);
-    const booking = BookingComponent(page);
+    bookingComponentModel = BookingComponent(page);
     basketComponentModel = BasketComponent(page);
     basketPageModel = BasketPage(page);
     userDetailsPageModel = UserDetailsPage(page);
@@ -163,8 +165,8 @@ test.describe('VerIfying the Your Details form', () => {
 
     await searchPageModel.viewMoreButtonClick();
     await tourPageModel.bookButtonClick();
-    await booking.fillBookingModal(Persons.ADULT);
-    await booking.addToBasketButtonClick();
+    await bookingComponentModel.fillBookingModal(Persons.ADULT);
+    await bookingComponentModel.addToBasketButtonClick();
     await basketComponentModel.checkoutNowButtonClick();
 
     await userDetailsPageModel.setFirstName(' ');
@@ -250,7 +252,7 @@ test.describe('VerIfying the Your Details form', () => {
     //Arrange
     searchPageModel = SearchPage(page);
     tourPageModel = TourPage(page);
-    const booking = BookingComponent(page);
+    bookingComponentModel = BookingComponent(page);
     basketComponentModel = BasketComponent(page);
     const basketPage = BasketPage(page);
     userDetailsPageModel = UserDetailsPage(page);
@@ -262,8 +264,8 @@ test.describe('VerIfying the Your Details form', () => {
 
     await searchPageModel.viewMoreButtonClick();
     await tourPageModel.bookButtonClick();
-    await booking.fillBookingModal(Persons.ADULT);
-    await booking.addToBasketButtonClick();
+    await bookingComponentModel.fillBookingModal(Persons.ADULT);
+    await bookingComponentModel.addToBasketButtonClick();
     await basketComponentModel.checkoutNowButtonClick();
 
     await userDetailsPageModel.setLastName(' ');
@@ -339,7 +341,7 @@ test.describe('VerIfying the Your Details form', () => {
     //Arrange
     searchPageModel = SearchPage(page);
     tourPageModel = TourPage(page);
-    const booking = BookingComponent(page);
+    bookingComponentModel = BookingComponent(page);
     basketComponentModel = BasketComponent(page);
     basketPageModel = BasketPage(page);
     userDetailsPageModel = UserDetailsPage(page);
@@ -351,8 +353,8 @@ test.describe('VerIfying the Your Details form', () => {
 
     await searchPageModel.viewMoreButtonClick();
     await tourPageModel.bookButtonClick();
-    await booking.fillBookingModal(Persons.ADULT);
-    await booking.addToBasketButtonClick();
+    await bookingComponentModel.fillBookingModal(Persons.ADULT);
+    await bookingComponentModel.addToBasketButtonClick();
     await basketComponentModel.checkoutNowButtonClick();
 
     await userDetailsPageModel.setYourEmail(' ');

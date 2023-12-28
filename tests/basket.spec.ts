@@ -17,6 +17,7 @@ import { HomePageModel } from '../src/models/homePage.model';
 import { SearchPageModel } from '../src/models/searchPage.model';
 import { TourPageModel } from '../src/models/tourPage.model';
 import { BasketComponentModel } from '../src/models/basketComponent.model';
+import { BookingComponentModel } from '../src/models/bookingComponent.model';
 
 test.describe('Booking - verifying data in the basket', () => {
   let basePageModel: BasePageModel;
@@ -25,6 +26,7 @@ test.describe('Booking - verifying data in the basket', () => {
   let searchPageModel: SearchPageModel;
   let tourPageModel: TourPageModel;
   let basketComponentModel: BasketComponentModel;
+  let bookingComponentModel: BookingComponentModel;
 
   test.beforeEach(async ({ page }) => {
     basePageModel = BasePage(page);
@@ -40,7 +42,7 @@ test.describe('Booking - verifying data in the basket', () => {
     //Arrange
     searchPageModel = SearchPage(page);
     tourPageModel = TourPage(page);
-    const booking = BookingComponent(page);
+    bookingComponentModel = BookingComponent(page);
     basketComponentModel = BasketComponent(page);
     basketPageModel = BasketPage(page);
 
@@ -50,16 +52,16 @@ test.describe('Booking - verifying data in the basket', () => {
 
     await searchPageModel.viewMoreButtonClick();
     await tourPageModel.bookButtonClick();
-    await booking.fillBookingModal(Persons.ADULT, Persons.CHILD, Persons.CHILD);
+    await bookingComponentModel.fillBookingModal(Persons.ADULT, Persons.CHILD, Persons.CHILD);
 
     const bookingDateTimeFromModal =
-      await booking.getBookingDateAndTimeFromModal();
-    const bookingAdultFromModal = await booking.adultBasketPrice();
-    const bookingChildFromModal = await booking.childBasketPrice();
+      await bookingComponentModel.getBookingDateAndTimeFromModal();
+    const bookingAdultFromModal = await bookingComponentModel.adultBasketPrice();
+    const bookingChildFromModal = await bookingComponentModel.childBasketPrice();
     const bookingTotalPriceFromModal =
-      await booking.getBookingTotalPriceFromModal();
+      await bookingComponentModel.getBookingTotalPriceFromModal();
 
-    await booking.addToBasketButtonClick();
+    await bookingComponentModel.addToBasketButtonClick();
 
     await basketComponentModel.viewBasketButtonClick();
 
@@ -90,7 +92,7 @@ test.describe('Booking - verifying data in the basket', () => {
     //Arrange
     searchPageModel = SearchPage(page);
     tourPageModel = TourPage(page);
-    const booking = BookingComponent(page);
+    bookingComponentModel = BookingComponent(page);
     basketComponentModel = BasketComponent(page);
     basketPageModel = BasketPage(page);
     const header = HeaderComponent(page);
@@ -101,16 +103,16 @@ test.describe('Booking - verifying data in the basket', () => {
 
     await searchPageModel.viewMoreButtonClick();
     await tourPageModel.bookButtonClick();
-    await booking.fillBookingModal(Persons.STUDENT, Persons.FAMILY);
+    await bookingComponentModel.fillBookingModal(Persons.STUDENT, Persons.FAMILY);
 
     const bookingDateTimeFromModal =
-      await booking.getBookingDateAndTimeFromModal();
-    const bookingStudentFromModal = await booking.studentBasketPrice();
-    const bookingFamilyFromModal = await booking.familyBasketPrice();
+      await bookingComponentModel.getBookingDateAndTimeFromModal();
+    const bookingStudentFromModal = await bookingComponentModel.studentBasketPrice();
+    const bookingFamilyFromModal = await bookingComponentModel.familyBasketPrice();
     const bookingTotalPriceFromModal =
-      await booking.getBookingTotalPriceFromModal();
+      await bookingComponentModel.getBookingTotalPriceFromModal();
 
-    await booking.addToBasketButtonClick();
+    await bookingComponentModel.addToBasketButtonClick();
 
     await basketComponentModel.closeBasketPopupButtonClick();
     await header.openBasket();
@@ -139,7 +141,7 @@ test.describe('Booking - verifying data in the basket', () => {
     //Arrange
     searchPageModel = SearchPage(page);
     tourPageModel = TourPage(page);
-    const booking = BookingComponent(page);
+    bookingComponentModel = BookingComponent(page);
     basketComponentModel = BasketComponent(page);
     basketPageModel = BasketPage(page);
 
@@ -150,8 +152,8 @@ test.describe('Booking - verifying data in the basket', () => {
     await searchPageModel.viewMoreButtonClick();
     await tourPageModel.bookButtonClick();
 
-    await booking.fillBookingModal(Persons.STUDENT);
-    await booking.addToBasketButtonClick();
+    await bookingComponentModel.fillBookingModal(Persons.STUDENT);
+    await bookingComponentModel.addToBasketButtonClick();
 
     await basketComponentModel.viewBasketButtonClick();
     await basketPageModel.applyPromoCode(PromoCodes.CODE10);
@@ -170,7 +172,7 @@ test.describe('Booking - verifying data in the basket', () => {
     //Arrange
     searchPageModel = SearchPage(page);
     tourPageModel = TourPage(page);
-    const booking = BookingComponent(page);
+    bookingComponentModel = BookingComponent(page);
     basketComponentModel = BasketComponent(page);
     basketPageModel = BasketPage(page);
 
@@ -181,8 +183,8 @@ test.describe('Booking - verifying data in the basket', () => {
     await searchPageModel.viewMoreButtonClick();
     await tourPageModel.bookButtonClick();
 
-    await booking.fillBookingModal(Persons.FAMILY);
-    await booking.addToBasketButtonClick();
+    await bookingComponentModel.fillBookingModal(Persons.FAMILY);
+    await bookingComponentModel.addToBasketButtonClick();
 
     await basketComponentModel.viewBasketButtonClick();
     await basketPageModel.applyPromoCode(Alerts.INVALID_CODE);

@@ -19,6 +19,7 @@ import { UserDetailsPageModel } from '../src/models/userDetailsPage.model';
 import { SearchPageModel } from '../src/models/searchPage.model';
 import { TourPageModel } from '../src/models/tourPage.model';
 import { BasketComponentModel } from '../src/models/basketComponent.model';
+import { BookingComponentModel } from '../src/models/bookingComponent.model';
 
 test.describe('VerIfying tour ordering', () => {
   let basePageModel: BasePageModel;
@@ -29,6 +30,7 @@ test.describe('VerIfying tour ordering', () => {
   let paymentConfirmedPageModel: PaymentConfirmedPageModel;
   let userDetailsPageModel: UserDetailsPageModel;
   let basketComponentModel: BasketComponentModel;
+  let bookingComponentModel: BookingComponentModel
 
   test.beforeEach(async ({ page }) => {
     basePageModel = BasePage(page);
@@ -42,7 +44,7 @@ test.describe('VerIfying tour ordering', () => {
     //Arrange
     searchPageModel = SearchPage(page);
     tourPageModel = TourPage(page);
-    const booking = BookingComponent(page);
+    bookingComponentModel = BookingComponent(page);
     basketComponentModel = BasketComponent(page);
     userDetailsPageModel = UserDetailsPage(page);
     paymentPageModel = PaymentPage(page);
@@ -54,15 +56,15 @@ test.describe('VerIfying tour ordering', () => {
 
     await searchPageModel.viewMoreButtonClick();
     await tourPageModel.bookButtonClick();
-    await booking.fillBookingModal(Persons.ADULT);
+    await bookingComponentModel.fillBookingModal(Persons.ADULT);
 
     const bookingDateTimeFromModal =
-      await booking.getBookingDateAndTimeFromModal();
-    const bookingAdultFromModal = await booking.adultBasketPrice();
+      await bookingComponentModel.getBookingDateAndTimeFromModal();
+    const bookingAdultFromModal = await bookingComponentModel.adultBasketPrice();
     const bookingTotalPriceFromModal =
-      await booking.getBookingTotalPriceFromModal();
+      await bookingComponentModel.getBookingTotalPriceFromModal();
 
-    await booking.addToBasketButtonClick();
+    await bookingComponentModel.addToBasketButtonClick();
     await basketComponentModel.checkoutNowButtonClick();
     await userDetailsPageModel.fillYourDetailsForm();
     await userDetailsPageModel.checkSignToEvanEvansNewsletterCheckbox();
@@ -96,7 +98,7 @@ test.describe('VerIfying tour ordering', () => {
     //Arrange
     searchPageModel = SearchPage(page);
     tourPageModel = TourPage(page);
-    const booking = BookingComponent(page);
+    bookingComponentModel = BookingComponent(page);
     basketComponentModel = BasketComponent(page);
     userDetailsPageModel = UserDetailsPage(page);
     paymentPageModel = PaymentPage(page);
@@ -109,9 +111,9 @@ test.describe('VerIfying tour ordering', () => {
 
     await searchPageModel.viewMoreButtonClick();
     await tourPageModel.bookButtonClick();
-    await booking.fillBookingModal(Persons.ADULT);
+    await bookingComponentModel.fillBookingModal(Persons.ADULT);
 
-    await booking.addToBasketButtonClick();
+    await bookingComponentModel.addToBasketButtonClick();
     await basketComponentModel.checkoutNowButtonClick();
     await userDetailsPageModel.fillYourDetailsForm();
     await userDetailsPageModel.checkSignToEvanEvansNewsletterCheckbox();

@@ -1,7 +1,8 @@
 import { Page } from '@playwright/test';
 import { Persons } from '../helpers/enums/persons.enums';
+import { BookingComponentModel } from '../models/bookingComponent.model';
 
-export const BookingComponent = (page: Page) => {
+export const BookingComponent = (page: Page): BookingComponentModel => {
   // const addAdult = page.getByRole('button', { name: '+' }).first();
   const addAdult = page.locator(
     '//*[@for="ADULT"]/..//*[@class="spinner__btn spinner__btn--plus"]',
@@ -58,19 +59,19 @@ export const BookingComponent = (page: Page) => {
     }
   };
 
-  const adultBasketPrice = async () => {
+  const adultBasketPrice = async (): Promise<string> => {
     return await numberAndPricePerAdult.innerText();
   };
 
-  const childBasketPrice = async () => {
+  const childBasketPrice = async (): Promise<string> => {
     return await numberAndPricePerChildren.innerText();
   };
 
-  const studentBasketPrice = async () => {
+  const studentBasketPrice = async (): Promise<string> => {
     return await numberAndPricePerStudent.innerText();
   };
 
-  const familyBasketPrice = async () => {
+  const familyBasketPrice = async (): Promise<string> => {
     return await numberAndPricePerFamily.innerText();
   };
 
@@ -102,21 +103,21 @@ export const BookingComponent = (page: Page) => {
     await addToBasketButton.click();
   };
 
-  const bookTour = async (day: string): Promise<void> => {
+  const bookTour = async (day: string): Promise<void> => { //TODO select date
     await addAdultClick();
     await selectDate(day);
     await selectTimeSlot();
     await addToBasketButtonClick();
   };
 
-  const bookTourForFirstAvailableDate = async (
+  const bookTourForFirstAvailableDate = async ( //TODO select first available date
     persons: string[],
   ): Promise<void> => {
     await fillBookingModal();
     await addToBasketButtonClick();
   };
 
-  const fillBookingModal = async (...persons: string[]) => {
+  const fillBookingModal = async (...persons: string[]): Promise<void> => {
     await page.waitForLoadState();
     for (let i = 0; i < persons.length; i++) {
       if (persons[i] === Persons.ADULT) {
@@ -133,7 +134,7 @@ export const BookingComponent = (page: Page) => {
     await selectTimeSlot();
   };
 
-  const getBookingDateAndTimeFromModal = async () => {
+  const getBookingDateAndTimeFromModal = async (): Promise<string> => {
     const monthAndYear = await currentMonth.innerText();
     const day = await selectedDate.innerText();
     const time = await timeSlot.innerText();
@@ -141,18 +142,17 @@ export const BookingComponent = (page: Page) => {
     return bookingDate;
   };
 
-  const getBookingTotalPriceFromModal = async () => {
+  const getBookingTotalPriceFromModal = async (): Promise<string> => {
     const bookingPrice = await totalPrice.innerText();
     return bookingPrice;
   };
 
-  const getBookingPriceRerPersonFromModal = async () => {
+  const getBookingPriceRerPersonFromModal = async (): Promise<string> => {
     const bookingPrice = await totalPrice.innerText();
     return bookingPrice;
   };
 
   return {
-    bookTour,
     fillBookingModal,
     addToBasketButtonClick,
     getBookingDateAndTimeFromModal,
