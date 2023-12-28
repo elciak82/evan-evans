@@ -15,12 +15,14 @@ import { ApiPrioticket } from '../src/helpers/apiPrioticket';
 import { HomePageModel } from '../src/models/homePage.model';
 import { PaymentPageModel } from '../src/models/paymentPage.model';
 import { PaymentConfirmedPageModel } from '../src/models/paymentConfirmedPage.model';
+import { UserDetailsPageModel } from '../src/models/userDetailsPage.model';
 
 test.describe('VerIfying tour ordering', () => {
   let basePageModel: BasePageModel;
   let homePageModel: HomePageModel;
   let paymentPageModel: PaymentPageModel;
   let paymentConfirmedPageModel: PaymentConfirmedPageModel;
+  let userDetailsPageModel: UserDetailsPageModel;
 
   test.beforeEach(async ({ page }) => {
     basePageModel = BasePage(page);
@@ -36,7 +38,7 @@ test.describe('VerIfying tour ordering', () => {
     const tourPage = TourPage(page);
     const booking = BookingComponent(page);
     const basketPopup = BasketComponent(page);
-    const formPage = UserDetailsPage(page);
+    userDetailsPageModel = UserDetailsPage(page);
     paymentPageModel = PaymentPage(page);
     paymentConfirmedPageModel = PaymentConfirmedPage(page);
 
@@ -56,10 +58,10 @@ test.describe('VerIfying tour ordering', () => {
 
     await booking.addToBasketButtonClick();
     await basketPopup.checkoutNowButtonClick();
-    await formPage.fillYourDetailsForm();
-    await formPage.checkSignToEvanEvansNewsletterCheckbox();
-    await formPage.checkSignToTreadRightNewsletterCheckbox();
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.fillYourDetailsForm();
+    await userDetailsPageModel.checkSignToEvanEvansNewsletterCheckbox();
+    await userDetailsPageModel.checkSignToTreadRightNewsletterCheckbox();
+    await userDetailsPageModel.continueToPaymentButtonClick();
 
     await paymentPageModel.fillPaymentForm();
     await paymentPageModel.payButtonClick();
@@ -82,7 +84,7 @@ test.describe('VerIfying tour ordering', () => {
     );
   });
 
-  test.only('Payment for the trip - verifying order in the Prio', async ({
+  test('Payment for the trip - verifying order in the Prio', async ({
     page,
   }) => {
     //Arrange
@@ -90,7 +92,7 @@ test.describe('VerIfying tour ordering', () => {
     const tourPage = TourPage(page);
     const booking = BookingComponent(page);
     const basketPopup = BasketComponent(page);
-    const formPage = UserDetailsPage(page);
+    userDetailsPageModel = UserDetailsPage(page);
     paymentPageModel = PaymentPage(page);
     paymentConfirmedPageModel = PaymentConfirmedPage(page);
     const apiPrio = ApiPrioticket();
@@ -105,10 +107,10 @@ test.describe('VerIfying tour ordering', () => {
 
     await booking.addToBasketButtonClick();
     await basketPopup.checkoutNowButtonClick();
-    await formPage.fillYourDetailsForm();
-    await formPage.checkSignToEvanEvansNewsletterCheckbox();
-    await formPage.checkSignToTreadRightNewsletterCheckbox();
-    await formPage.continueToPaymentButtonClick();
+    await userDetailsPageModel.fillYourDetailsForm();
+    await userDetailsPageModel.checkSignToEvanEvansNewsletterCheckbox();
+    await userDetailsPageModel.checkSignToTreadRightNewsletterCheckbox();
+    await userDetailsPageModel.continueToPaymentButtonClick();
 
     await paymentPageModel.fillPaymentForm();
     await paymentPageModel.payButtonClick();

@@ -1,5 +1,3 @@
-import { Page } from 'playwright';
-
 export type HomePageModel = {
   acceptCookie(): Promise<void>;
   searchButtonClick(): Promise<void>;

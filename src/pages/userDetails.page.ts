@@ -1,7 +1,8 @@
 import { Page } from '@playwright/test';
 import { userData } from '../test-data/userData.data';
+import { UserDetailsPageModel } from '../models/userDetailsPage.model';
 
-export const UserDetailsPage = (page: Page) => {
+export const UserDetailsPage = (page: Page): UserDetailsPageModel => {
   const firstNameInput = page.locator('#first-name-input');
   const lastNameInput = page.locator('#last-name-input');
   const yourEmailInput = page.locator('#email-input');
@@ -37,23 +38,23 @@ export const UserDetailsPage = (page: Page) => {
   const invalidCountryAlert = page.locator('#country-input-error');
   const termsAndConditionsUncheckedAlert = page.locator('#AcceptTerms-error');
 
-  const setFirstName = async (firstName: string) => {
+  const setFirstName = async (firstName: string): Promise<void> => {
     await firstNameInput.fill(firstName);
   };
 
-  const setLastName = async (lastName: string) => {
+  const setLastName = async (lastName: string): Promise<void> => {
     await lastNameInput.fill(lastName);
   };
 
-  const setYourEmail = async (email: string) => {
+  const setYourEmail = async (email: string): Promise<void> => {
     await yourEmailInput.fill(email);
   };
 
-  const setPhoneNumber = async (phone: string) => {
+  const setPhoneNumber = async (phone: string): Promise<void> => {
     await yourPhoneNumberInput.fill(phone);
   };
 
-  const setCountry = async (country: string) => {
+  const setCountry = async (country: string): Promise<void> => {
     await orEnterCountryInput.fill(country);
   };
 
@@ -66,7 +67,7 @@ export const UserDetailsPage = (page: Page) => {
     await termsAndConditionsCheckbox.setChecked(true);
   };
 
-  const clipboardTextFromInput = async () => {
+  const clipboardTextFromInput = async (): Promise<any> => {
     await page.evaluate(() => navigator.userAgent);
     await page.keyboard.press('Control+A');
     await page.keyboard.press('Control+C');
@@ -74,27 +75,27 @@ export const UserDetailsPage = (page: Page) => {
     return clipboardText;
   }; //https://playwrightsolutions.com/how-do-i-check-the-value-inside-an-input-field-with-playwright/
 
-  const getFirstName = async () => {
+  const getFirstName = async (): Promise<string> => {
     await firstNameInput.click();
     return await clipboardTextFromInput();
   };
 
-  const getLastName = async () => {
+  const getLastName = async (): Promise<string> => {
     await lastNameInput.click();
     return clipboardTextFromInput();
   };
 
-  const getYourEmail = async () => {
+  const getYourEmail = async (): Promise<string> => {
     await yourEmailInput.click();
     return clipboardTextFromInput();
   };
 
-  const getPhoneNumber = async () => {
+  const getPhoneNumber = async (): Promise<string> => {
     await yourPhoneNumberInput.click();
     return clipboardTextFromInput();
   };
 
-  const getCountry = async () => {
+  const getCountry = async (): Promise<string> => {
     await orEnterCountryInput.click();
     return clipboardTextFromInput();
   };
@@ -111,27 +112,26 @@ export const UserDetailsPage = (page: Page) => {
     return await signToTreadRightNewsletterCheckbox.isChecked();
   };
 
-  const checkSignToEvanEvansNewsletterCheckbox = async () => {
-    await signToEvanEvansNewsletterCheckbox.setChecked(true);
+  const checkSignToEvanEvansNewsletterCheckbox = async (): Promise<void> => {
+    await signToEvanEvansNewsletterCheckbox.setChecked(true); //TODO refactor to boolean
   };
 
-  const checkSignToTreadRightNewsletterCheckbox = async () => {
-    await signToTreadRightNewsletterCheckbox.setChecked(true);
+  const checkSignToTreadRightNewsletterCheckbox = async (): Promise<void> => {
+    await signToTreadRightNewsletterCheckbox.setChecked(true); //TODO refactor to boolean
   };
 
-  const continueToPaymentButtonClick = async () => {
+  const continueToPaymentButtonClick = async (): Promise<void> => {
     await page.waitForLoadState();
-    // await continueToPaymentButton.click(); //I know this is incorrect, but it has to be like that for now
     await continueToPaymentButton.click();
     await page.waitForLoadState();
   };
 
-  const fillAndConfirmDetailsForm = async () => {
+  const fillAndConfirmDetailsForm = async (): Promise<void> => {
     await fillYourDetailsForm();
     await continueToPaymentButtonClick();
   };
 
-  const getInvalidFirstNameAlert = async () => {
+  const getInvalidFirstNameAlert = async (): Promise<string> => {
     return await invalidFirstNameAlert.innerText();
   };
 
@@ -139,7 +139,7 @@ export const UserDetailsPage = (page: Page) => {
     return await invalidFirstNameAlertIsVisible.isVisible();
   };
 
-  const getInvalidLastNameAlert = async () => {
+  const getInvalidLastNameAlert = async (): Promise<string> => {
     return await invalidLastNameAlert.innerText();
   };
 
@@ -147,7 +147,7 @@ export const UserDetailsPage = (page: Page) => {
     return await invalidLastNameAlertIsVisible.isVisible();
   };
 
-  const getInvalidEmailAlert = async () => {
+  const getInvalidEmailAlert = async (): Promise<string> => {
     return await invalidEmailAlert.innerText();
   };
 
@@ -155,15 +155,15 @@ export const UserDetailsPage = (page: Page) => {
     return await invalidEmailAlertIsVisible.isVisible();
   };
 
-  const getInvalidPhoneNumberAlert = async () => {
+  const getInvalidPhoneNumberAlert = async (): Promise<string> => {
     return await invalidPhoneNumberAlert.innerText();
   };
 
-  const getInvalidCountryAlert = async () => {
+  const getInvalidCountryAlert = async (): Promise<string> => {
     return await invalidCountryAlert.innerText();
   };
 
-  const getTermsAndConditionsUncheckedAlert = async () => {
+  const getTermsAndConditionsUncheckedAlert = async (): Promise<string> => {
     return await termsAndConditionsUncheckedAlert.innerText();
   };
 

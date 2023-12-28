@@ -1,5 +1,3 @@
-import { Page } from 'playwright';
-
 export type BasketPageModel = {
   getTourTitle(): Promise<string>;
   getBasketCardDetails(): Promise<any>;

@@ -9,12 +9,23 @@ import { Tours } from '../src/helpers/enums/tours.enums';
 import { BasketPage } from '../src/pages/basket.page';
 import { Persons } from '../src/helpers/enums/persons.enums';
 import { HomePageModel } from '../src/models/homePage.model';
+import { BasePageModel } from '../src/models/basePage.model';
+import { BasketPageModel } from '../src/models/basketPage.model';
+import { SearchPageModel } from '../src/models/searchPage.model';
+import { TourPageModel } from '../src/models/tourPage.model';
+import { BasePage } from '../src/pages/base.page';
 
 test.describe('Booking - verifying data in the basket popup', () => {
+  let basePageModel: BasePageModel;
   let homePageModel: HomePageModel;
+  let basketPageModel: BasketPageModel;
+  let searchPageModel: SearchPageModel;
+  let tourPageModel: TourPageModel;
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    basePageModel = BasePage(page);
+    await basePageModel.goTo();
+    
     homePageModel = HomePage(page);
     await homePageModel.acceptCookie();
   });
@@ -23,18 +34,18 @@ test.describe('Booking - verifying data in the basket popup', () => {
     page,
   }) => {
     //Arrange
-    const searchPage = SearchPage(page);
-    const tourPage = TourPage(page);
+    searchPageModel = SearchPage(page);
+    tourPageModel = TourPage(page);
     const booking = BookingComponent(page);
     const basketPopup = BasketComponent(page);
-    const basketPage = BasketPage(page);
+    basketPageModel = BasketPage(page);
 
     //Act
     await homePageModel.inputTextToSearchField(Tours.KatowiceTour);
     await homePageModel.searchButtonClick();
 
-    await searchPage.viewMoreButtonClick();
-    await tourPage.bookButtonClick();
+    await searchPageModel.viewMoreButtonClick();
+    await tourPageModel.bookButtonClick();
     await booking.fillBookingModal(Persons.ADULT, Persons.ADULT, Persons.CHILD);
 
     const bookingDateTimeFromModal =
@@ -61,8 +72,8 @@ test.describe('Booking - verifying data in the basket popup', () => {
 
     //Clear
     await basketPopup.viewBasketButtonClick();
-    await basketPage.removeTourFromBasket();
-    const removedItemAlert = await basketPage.getRemovedItemAlertText();
+    await basketPageModel.removeTourFromBasket();
+    const removedItemAlert = await basketPageModel.getRemovedItemAlertText();
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 });

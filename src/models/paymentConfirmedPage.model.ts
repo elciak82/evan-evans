@@ -1,5 +1,3 @@
-import { Page } from 'playwright';
-
 export type PaymentConfirmedPageModel = {
   getConfirmationCode(): Promise<string>;
   getOrderedTourTitle(): Promise<string>;
