@@ -18,6 +18,7 @@ import { SearchPageModel } from '../src/models/searchPage.model';
 import { TourPageModel } from '../src/models/tourPage.model';
 import { BasketComponentModel } from '../src/models/basketComponent.model';
 import { BookingComponentModel } from '../src/models/bookingComponent.model';
+import { HeaderComponentModel } from '../src/models/headerComponent.model';
 
 test.describe('Booking - verifying data in the basket', () => {
   let basePageModel: BasePageModel;
@@ -27,6 +28,7 @@ test.describe('Booking - verifying data in the basket', () => {
   let tourPageModel: TourPageModel;
   let basketComponentModel: BasketComponentModel;
   let bookingComponentModel: BookingComponentModel;
+  let headerComponentModel: HeaderComponentModel;
 
   test.beforeEach(async ({ page }) => {
     basePageModel = BasePage(page);
@@ -52,12 +54,18 @@ test.describe('Booking - verifying data in the basket', () => {
 
     await searchPageModel.viewMoreButtonClick();
     await tourPageModel.bookButtonClick();
-    await bookingComponentModel.fillBookingModal(Persons.ADULT, Persons.CHILD, Persons.CHILD);
+    await bookingComponentModel.fillBookingModal(
+      Persons.ADULT,
+      Persons.CHILD,
+      Persons.CHILD,
+    );
 
     const bookingDateTimeFromModal =
       await bookingComponentModel.getBookingDateAndTimeFromModal();
-    const bookingAdultFromModal = await bookingComponentModel.adultBasketPrice();
-    const bookingChildFromModal = await bookingComponentModel.childBasketPrice();
+    const bookingAdultFromModal =
+      await bookingComponentModel.adultBasketPrice();
+    const bookingChildFromModal =
+      await bookingComponentModel.childBasketPrice();
     const bookingTotalPriceFromModal =
       await bookingComponentModel.getBookingTotalPriceFromModal();
 
@@ -95,7 +103,7 @@ test.describe('Booking - verifying data in the basket', () => {
     bookingComponentModel = BookingComponent(page);
     basketComponentModel = BasketComponent(page);
     basketPageModel = BasketPage(page);
-    const header = HeaderComponent(page);
+    headerComponentModel = HeaderComponent(page);
 
     //Act
     await homePageModel.inputTextToSearchField(Tours.HarryPotterTour);
@@ -103,19 +111,24 @@ test.describe('Booking - verifying data in the basket', () => {
 
     await searchPageModel.viewMoreButtonClick();
     await tourPageModel.bookButtonClick();
-    await bookingComponentModel.fillBookingModal(Persons.STUDENT, Persons.FAMILY);
+    await bookingComponentModel.fillBookingModal(
+      Persons.STUDENT,
+      Persons.FAMILY,
+    );
 
     const bookingDateTimeFromModal =
       await bookingComponentModel.getBookingDateAndTimeFromModal();
-    const bookingStudentFromModal = await bookingComponentModel.studentBasketPrice();
-    const bookingFamilyFromModal = await bookingComponentModel.familyBasketPrice();
+    const bookingStudentFromModal =
+      await bookingComponentModel.studentBasketPrice();
+    const bookingFamilyFromModal =
+      await bookingComponentModel.familyBasketPrice();
     const bookingTotalPriceFromModal =
       await bookingComponentModel.getBookingTotalPriceFromModal();
 
     await bookingComponentModel.addToBasketButtonClick();
 
     await basketComponentModel.closeBasketPopupButtonClick();
-    await header.openBasket();
+    await headerComponentModel.openBasket();
 
     //Assert
     const tourInBasket = await basketPageModel.getTourTitle();
@@ -126,7 +139,8 @@ test.describe('Booking - verifying data in the basket', () => {
     expect(basketCardDetails.persons[0]).toContain(bookingStudentFromModal);
     expect(basketCardDetails.persons[1]).toContain(bookingFamilyFromModal);
 
-    const basketSummaryDetails = await basketPageModel.getBasketSummaryDetails();
+    const basketSummaryDetails =
+      await basketPageModel.getBasketSummaryDetails();
     expect(basketSummaryDetails.persons[0]).toContain(bookingStudentFromModal);
     expect(basketSummaryDetails.persons[1]).toContain(bookingFamilyFromModal);
     expect(basketSummaryDetails.price).toContain(bookingTotalPriceFromModal);
@@ -190,7 +204,8 @@ test.describe('Booking - verifying data in the basket', () => {
     await basketPageModel.applyPromoCode(Alerts.INVALID_CODE);
 
     //Assert
-    const invalidPromoCodeAlert = await basketPageModel.getInvalidPromoCodeAlert();
+    const invalidPromoCodeAlert =
+      await basketPageModel.getInvalidPromoCodeAlert();
     expect(invalidPromoCodeAlert).toBe(Alerts.INVALID_CODE);
 
     //Clear

@@ -24,7 +24,7 @@ test.describe('Booking - verifying data in the basket popup', () => {
   let searchPageModel: SearchPageModel;
   let tourPageModel: TourPageModel;
   let basketComponentModel: BasketComponentModel;
-  let bookingComponentModel: BookingComponentModel
+  let bookingComponentModel: BookingComponentModel;
 
   test.beforeEach(async ({ page }) => {
     basePageModel = BasePage(page);
@@ -50,12 +50,18 @@ test.describe('Booking - verifying data in the basket popup', () => {
 
     await searchPageModel.viewMoreButtonClick();
     await tourPageModel.bookButtonClick();
-    await bookingComponentModel.fillBookingModal(Persons.ADULT, Persons.ADULT, Persons.CHILD);
+    await bookingComponentModel.fillBookingModal(
+      Persons.ADULT,
+      Persons.ADULT,
+      Persons.CHILD,
+    );
 
     const bookingDateTimeFromModal =
       await bookingComponentModel.getBookingDateAndTimeFromModal();
-    const bookingAdultFromModal = await bookingComponentModel.adultBasketPrice();
-    const bookingChildFromModal = await bookingComponentModel.childBasketPrice();
+    const bookingAdultFromModal =
+      await bookingComponentModel.adultBasketPrice();
+    const bookingChildFromModal =
+      await bookingComponentModel.childBasketPrice();
     const bookingTotalPriceFromModal =
       await bookingComponentModel.getBookingTotalPriceFromModal();
 

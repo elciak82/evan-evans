@@ -30,7 +30,7 @@ test.describe('VerIfying tour ordering', () => {
   let paymentConfirmedPageModel: PaymentConfirmedPageModel;
   let userDetailsPageModel: UserDetailsPageModel;
   let basketComponentModel: BasketComponentModel;
-  let bookingComponentModel: BookingComponentModel
+  let bookingComponentModel: BookingComponentModel;
 
   test.beforeEach(async ({ page }) => {
     basePageModel = BasePage(page);
@@ -60,7 +60,8 @@ test.describe('VerIfying tour ordering', () => {
 
     const bookingDateTimeFromModal =
       await bookingComponentModel.getBookingDateAndTimeFromModal();
-    const bookingAdultFromModal = await bookingComponentModel.adultBasketPrice();
+    const bookingAdultFromModal =
+      await bookingComponentModel.adultBasketPrice();
     const bookingTotalPriceFromModal =
       await bookingComponentModel.getBookingTotalPriceFromModal();
 
@@ -75,10 +76,12 @@ test.describe('VerIfying tour ordering', () => {
     await paymentPageModel.payButtonClick();
 
     //Assert
-    const orderedTourTitle = await paymentConfirmedPageModel.getOrderedTourTitle();
+    const orderedTourTitle =
+      await paymentConfirmedPageModel.getOrderedTourTitle();
     expect(orderedTourTitle).toBe(Tours.HarryPotterTour);
 
-    const orderDetails = await paymentConfirmedPageModel.getConfirmationDetails();
+    const orderDetails =
+      await paymentConfirmedPageModel.getConfirmationDetails();
     expect(orderDetails.date).toContain(bookingDateTimeFromModal);
     expect(orderDetails.persons[0]).toContain(bookingAdultFromModal);
 
@@ -123,7 +126,8 @@ test.describe('VerIfying tour ordering', () => {
     await paymentPageModel.fillPaymentForm();
     await paymentPageModel.payButtonClick();
 
-    const confirmationCode = await paymentConfirmedPageModel.getConfirmationCode();
+    const confirmationCode =
+      await paymentConfirmedPageModel.getConfirmationCode();
     const orderStatus = await apiPrio.getOrderStatus(confirmationCode);
 
     //Assert

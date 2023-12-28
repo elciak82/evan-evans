@@ -20,6 +20,7 @@ import { TourPageModel } from '../src/models/tourPage.model';
 import { UserDetailsPageModel } from '../src/models/userDetailsPage.model';
 import { BasketComponentModel } from '../src/models/basketComponent.model';
 import { BookingComponentModel } from '../src/models/bookingComponent.model';
+import { HeaderComponentModel } from '../src/models/headerComponent.model';
 
 test.describe('VerIfying the Your Details form', () => {
   let basePageModel: BasePageModel;
@@ -30,6 +31,7 @@ test.describe('VerIfying the Your Details form', () => {
   let userDetailsPageModel: UserDetailsPageModel;
   let basketComponentModel: BasketComponentModel;
   let bookingComponentModel: BookingComponentModel;
+  let headerComponentModel: HeaderComponentModel;
 
   test.beforeEach(async ({ page }) => {
     basePageModel = BasePage(page);
@@ -47,7 +49,7 @@ test.describe('VerIfying the Your Details form', () => {
     basketComponentModel = BasketComponent(page);
     basketPageModel = BasketPage(page);
     userDetailsPageModel = UserDetailsPage(page);
-    const header = HeaderComponent(page);
+    headerComponentModel = HeaderComponent(page);
 
     //Act
     await homePageModel.inputTextToSearchField(Tours.KatowiceTour);
@@ -61,19 +63,23 @@ test.describe('VerIfying the Your Details form', () => {
     await userDetailsPageModel.continueToPaymentButtonClick();
 
     //Assert
-    const invalidFirstNameAlert = await userDetailsPageModel.getInvalidFirstNameAlert();
+    const invalidFirstNameAlert =
+      await userDetailsPageModel.getInvalidFirstNameAlert();
     expect.soft(invalidFirstNameAlert).toBe(Alerts.VALID_NAME_ERROR);
 
-    const invalidLastNameAlert = await userDetailsPageModel.getInvalidLastNameAlert();
+    const invalidLastNameAlert =
+      await userDetailsPageModel.getInvalidLastNameAlert();
     expect.soft(invalidLastNameAlert).toBe(Alerts.VALID_NAME_ERROR);
 
     const invalidEmailAlert = await userDetailsPageModel.getInvalidEmailAlert();
     expect.soft(invalidEmailAlert).toBe(Alerts.VALID_EMAIL_ERROR);
 
-    const invalidPhoneNumberAlert = await userDetailsPageModel.getInvalidPhoneNumberAlert();
+    const invalidPhoneNumberAlert =
+      await userDetailsPageModel.getInvalidPhoneNumberAlert();
     expect.soft(invalidPhoneNumberAlert).toBe(Alerts.VALID_PHONE_NUMBER_ERROR);
 
-    const invalidCountryAlert = await userDetailsPageModel.getInvalidCountryAlert();
+    const invalidCountryAlert =
+      await userDetailsPageModel.getInvalidCountryAlert();
     expect.soft(invalidCountryAlert).toBe(Alerts.VALID_COUNTRY_ERROR);
 
     const termsAndConditionsUncheckedAlert =
@@ -83,7 +89,7 @@ test.describe('VerIfying the Your Details form', () => {
       .toBe(Alerts.ACCEPT_TERMS_AND_CONDITION_ERROR);
 
     //Clear
-    await header.openBasket();
+    await headerComponentModel.openBasket();
     await basketPageModel.removeTourFromBasket();
     const removedItemAlert = await basketPageModel.getRemovedItemAlertText();
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
@@ -99,7 +105,7 @@ test.describe('VerIfying the Your Details form', () => {
     basketComponentModel = BasketComponent(page);
     basketPageModel = BasketPage(page);
     userDetailsPageModel = UserDetailsPage(page);
-    const header = HeaderComponent(page);
+    headerComponentModel = HeaderComponent(page);
 
     //Act
     await homePageModel.inputTextToSearchField(Tours.KatowiceTour);
@@ -143,7 +149,7 @@ test.describe('VerIfying the Your Details form', () => {
     expect.soft(signToTreadRightNewsletterIsChecked).toBe(true);
 
     //Clear
-    await header.openBasket();
+    await headerComponentModel.openBasket();
     await basketPageModel.removeTourFromBasket();
     const removedItemAlert = await basketPageModel.getRemovedItemAlertText();
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
@@ -157,7 +163,7 @@ test.describe('VerIfying the Your Details form', () => {
     basketComponentModel = BasketComponent(page);
     basketPageModel = BasketPage(page);
     userDetailsPageModel = UserDetailsPage(page);
-    const header = HeaderComponent(page);
+    headerComponentModel = HeaderComponent(page);
 
     //Act
     await homePageModel.inputTextToSearchField(Tours.KatowiceTour);
@@ -242,7 +248,7 @@ test.describe('VerIfying the Your Details form', () => {
       .toBe(true);
 
     //Clear
-    await header.openBasket();
+    await headerComponentModel.openBasket();
     await basketPageModel.removeTourFromBasket();
     const removedItemAlert = await basketPageModel.getRemovedItemAlertText();
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
@@ -254,9 +260,9 @@ test.describe('VerIfying the Your Details form', () => {
     tourPageModel = TourPage(page);
     bookingComponentModel = BookingComponent(page);
     basketComponentModel = BasketComponent(page);
-    const basketPage = BasketPage(page);
+    basketPageModel = BasketPage(page);
     userDetailsPageModel = UserDetailsPage(page);
-    const header = HeaderComponent(page);
+    headerComponentModel = HeaderComponent(page);
 
     //Act
     await homePageModel.inputTextToSearchField(Tours.KatowiceTour);
@@ -288,13 +294,17 @@ test.describe('VerIfying the Your Details form', () => {
     await userDetailsPageModel.setLastName('L');
     await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await userDetailsPageModel.checkInvalidLastNameAlertIsVisible()).toBe(true);
+    expect
+      .soft(await userDetailsPageModel.checkInvalidLastNameAlertIsVisible())
+      .toBe(true);
 
     //Act
     await userDetailsPageModel.setLastName('Li ');
     await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await userDetailsPageModel.checkInvalidLastNameAlertIsVisible()).toBe(true);
+    expect
+      .soft(await userDetailsPageModel.checkInvalidLastNameAlertIsVisible())
+      .toBe(true);
 
     //Act
     await userDetailsPageModel.setLastName('Li Lu');
@@ -308,7 +318,9 @@ test.describe('VerIfying the Your Details form', () => {
     await userDetailsPageModel.setLastName('Li Li2');
     await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await userDetailsPageModel.checkInvalidLastNameAlertIsVisible()).toBe(true);
+    expect
+      .soft(await userDetailsPageModel.checkInvalidLastNameAlertIsVisible())
+      .toBe(true);
 
     //Act
     await userDetailsPageModel.setLastName('Li-Lu');
@@ -322,18 +334,22 @@ test.describe('VerIfying the Your Details form', () => {
     await userDetailsPageModel.setLastName(' Li-Lu');
     await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await userDetailsPageModel.checkInvalidLastNameAlertIsVisible()).toBe(true);
+    expect
+      .soft(await userDetailsPageModel.checkInvalidLastNameAlertIsVisible())
+      .toBe(true);
 
     //Act
     await userDetailsPageModel.setLastName('Li-Lu!');
     await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await userDetailsPageModel.checkInvalidLastNameAlertIsVisible()).toBe(true);
+    expect
+      .soft(await userDetailsPageModel.checkInvalidLastNameAlertIsVisible())
+      .toBe(true);
 
     //Clear
-    await header.openBasket();
-    await basketPage.removeTourFromBasket();
-    const removedItemAlert = await basketPage.getRemovedItemAlertText();
+    await headerComponentModel.openBasket();
+    await basketPageModel.removeTourFromBasket();
+    const removedItemAlert = await basketPageModel.getRemovedItemAlertText();
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 
@@ -345,7 +361,7 @@ test.describe('VerIfying the Your Details form', () => {
     basketComponentModel = BasketComponent(page);
     basketPageModel = BasketPage(page);
     userDetailsPageModel = UserDetailsPage(page);
-    const header = HeaderComponent(page);
+    headerComponentModel = HeaderComponent(page);
 
     //Act
     await homePageModel.inputTextToSearchField(Tours.KatowiceTour);
@@ -369,58 +385,76 @@ test.describe('VerIfying the Your Details form', () => {
     await userDetailsPageModel.setYourEmail('email');
     await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await userDetailsPageModel.checkInvalidEmailAlertIsVisible()).toBe(true);
+    expect
+      .soft(await userDetailsPageModel.checkInvalidEmailAlertIsVisible())
+      .toBe(true);
 
     //Act
     await userDetailsPageModel.setYourEmail('email@');
     await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await userDetailsPageModel.checkInvalidEmailAlertIsVisible()).toBe(true);
+    expect
+      .soft(await userDetailsPageModel.checkInvalidEmailAlertIsVisible())
+      .toBe(true);
 
     //Act
     await userDetailsPageModel.setYourEmail('email@email');
     await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await userDetailsPageModel.checkInvalidEmailAlertIsVisible()).toBe(false);
+    expect
+      .soft(await userDetailsPageModel.checkInvalidEmailAlertIsVisible())
+      .toBe(false);
 
     //Act
     await userDetailsPageModel.setYourEmail('email@email.');
     await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await userDetailsPageModel.checkInvalidEmailAlertIsVisible()).toBe(true);
+    expect
+      .soft(await userDetailsPageModel.checkInvalidEmailAlertIsVisible())
+      .toBe(true);
 
     //Act
     await userDetailsPageModel.setYourEmail('email@email.com');
     await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await userDetailsPageModel.checkInvalidEmailAlertIsVisible()).toBe(false);
+    expect
+      .soft(await userDetailsPageModel.checkInvalidEmailAlertIsVisible())
+      .toBe(false);
 
     //Act
     await userDetailsPageModel.setYourEmail('email@.email.com');
     await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await userDetailsPageModel.checkInvalidEmailAlertIsVisible()).toBe(true);
+    expect
+      .soft(await userDetailsPageModel.checkInvalidEmailAlertIsVisible())
+      .toBe(true);
 
     //Act
     await userDetailsPageModel.setYourEmail('email.email@email.com');
     await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await userDetailsPageModel.checkInvalidEmailAlertIsVisible()).toBe(false);
+    expect
+      .soft(await userDetailsPageModel.checkInvalidEmailAlertIsVisible())
+      .toBe(false);
 
     //Act
     await userDetailsPageModel.setYourEmail('@email.com');
     await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await userDetailsPageModel.checkInvalidEmailAlertIsVisible()).toBe(true);
+    expect
+      .soft(await userDetailsPageModel.checkInvalidEmailAlertIsVisible())
+      .toBe(true);
 
     //Act
     await userDetailsPageModel.setYourEmail('email-email@email.com');
     await userDetailsPageModel.continueToPaymentButtonClick();
     //Assert
-    expect.soft(await userDetailsPageModel.checkInvalidEmailAlertIsVisible()).toBe(false);
+    expect
+      .soft(await userDetailsPageModel.checkInvalidEmailAlertIsVisible())
+      .toBe(false);
 
     //Clear
-    await header.openBasket();
+    await headerComponentModel.openBasket();
     await basketPageModel.removeTourFromBasket();
     const removedItemAlert = await basketPageModel.getRemovedItemAlertText();
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
