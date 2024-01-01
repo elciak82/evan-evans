@@ -1,6 +1,7 @@
 import { Page } from '@playwright/test';
 import { userData } from '../test-data/userData.data';
 import { UserDetailsPageModel } from '../models/userDetailsPage.model';
+import { UserDataGenerator } from '../datafactory/user';
 
 export const UserDetailsPage = (page: Page): UserDetailsPageModel => {
   const firstNameInput = page.locator('#first-name-input');
@@ -58,12 +59,12 @@ export const UserDetailsPage = (page: Page): UserDetailsPageModel => {
     await orEnterCountryInput.fill(country);
   };
 
-  const fillYourDetailsForm = async (): Promise<void> => {
+  const fillYourDetailsForm = async (userData): Promise<void> => {
     await setFirstName(userData.firstName);
     await setLastName(userData.lastName);
-    await setYourEmail(userData.yourEmail);
-    await setPhoneNumber(userData.yourPhoneNumber);
-    await setCountry(userData.yourCountry);
+    await setYourEmail(userData.email);
+    await setPhoneNumber(userData.phone);
+    await setCountry(userData.country);
     await termsAndConditionsCheckbox.setChecked(true);
   };
 
@@ -126,10 +127,10 @@ export const UserDetailsPage = (page: Page): UserDetailsPageModel => {
     await page.waitForLoadState();
   };
 
-  const fillAndConfirmDetailsForm = async (): Promise<void> => {
-    await fillYourDetailsForm();
-    await continueToPaymentButtonClick();
-  };
+  // const fillAndConfirmDetailsForm = async (): Promise<void> => {
+  //   await fillYourDetailsForm();
+  //   await continueToPaymentButtonClick();
+  // };
 
   const getInvalidFirstNameAlert = async (): Promise<string> => {
     return await invalidFirstNameAlert.innerText();

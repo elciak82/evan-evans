@@ -1,5 +1,7 @@
+import { UserData } from "./userData.model";
+
 export type UserDetailsPageModel = {
-  fillYourDetailsForm(): Promise<void>;
+  fillYourDetailsForm(userData: UserData): Promise<void>;
   continueToPaymentButtonClick(): Promise<void>;
   getInvalidFirstNameAlert(): Promise<string>;
   getInvalidLastNameAlert(): Promise<string>;
