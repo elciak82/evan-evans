@@ -20,6 +20,7 @@ import { SearchPageModel } from '../src/models/searchPage.model';
 import { TourPageModel } from '../src/models/tourPage.model';
 import { BasketComponentModel } from '../src/models/basketComponent.model';
 import { BookingComponentModel } from '../src/models/bookingComponent.model';
+import { UserDataGenerator } from '../src/datafactory/user';
 
 test.describe('VerIfying tour ordering', () => {
   let basePageModel: BasePageModel;
@@ -33,6 +34,7 @@ test.describe('VerIfying tour ordering', () => {
   let bookingComponentModel: BookingComponentModel;
 
   test.beforeEach(async ({ page }) => {
+    test.slow();
     basePageModel = BasePage(page);
     await basePageModel.goTo();
 
@@ -67,7 +69,8 @@ test.describe('VerIfying tour ordering', () => {
 
     await bookingComponentModel.addToBasketButtonClick();
     await basketComponentModel.checkoutNowButtonClick();
-    await userDetailsPageModel.fillYourDetailsForm();
+    const userData = await UserDataGenerator().createRandomUser();
+    await userDetailsPageModel.fillYourDetailsForm(userData);
     await userDetailsPageModel.checkSignToEvanEvansNewsletterCheckbox();
     await userDetailsPageModel.checkSignToTreadRightNewsletterCheckbox();
     await userDetailsPageModel.continueToPaymentButtonClick();
@@ -117,7 +120,8 @@ test.describe('VerIfying tour ordering', () => {
 
     await bookingComponentModel.addToBasketButtonClick();
     await basketComponentModel.checkoutNowButtonClick();
-    await userDetailsPageModel.fillYourDetailsForm();
+    const userData = await UserDataGenerator().createRandomUser();
+    await userDetailsPageModel.fillYourDetailsForm(userData);
     await userDetailsPageModel.checkSignToEvanEvansNewsletterCheckbox();
     await userDetailsPageModel.checkSignToTreadRightNewsletterCheckbox();
     await userDetailsPageModel.continueToPaymentButtonClick();

@@ -10,7 +10,6 @@ import { BasketPage } from '../src/pages/basket.page';
 import { Persons } from '../src/helpers/enums/persons.enums';
 import { UserDetailsPage } from '../src/pages/userDetails.page';
 import { HeaderComponent } from '../src/components/header.component';
-import { userData } from '../src/test-data/userData.data';
 import { BasePageModel } from '../src/models/basePage.model';
 import { HomePageModel } from '../src/models/homePage.model';
 import { BasePage } from '../src/pages/base.page';
@@ -21,6 +20,7 @@ import { UserDetailsPageModel } from '../src/models/userDetailsPage.model';
 import { BasketComponentModel } from '../src/models/basketComponent.model';
 import { BookingComponentModel } from '../src/models/bookingComponent.model';
 import { HeaderComponentModel } from '../src/models/headerComponent.model';
+import { UserDataGenerator } from '../src/datafactory/user';
 
 test.describe('VerIfying the Your Details form', () => {
   let basePageModel: BasePageModel;
@@ -116,11 +116,22 @@ test.describe('VerIfying the Your Details form', () => {
     await bookingComponentModel.fillBookingModal(Persons.ADULT);
     await bookingComponentModel.addToBasketButtonClick();
     await basketComponentModel.checkoutNowButtonClick();
-    await userDetailsPageModel.fillYourDetailsForm();
+    const userData = await UserDataGenerator().createRandomUser();
+    await userDetailsPageModel.fillYourDetailsForm(userData);
     await userDetailsPageModel.checkSignToEvanEvansNewsletterCheckbox();
     await userDetailsPageModel.checkSignToTreadRightNewsletterCheckbox();
 
     //Assert
+    // const userData = UserDataGenerator().createRandomUser();
+    // console.log(userData.city);
+    // console.log(userData.country);
+    // console.log(userData.email);
+    // console.log(userData.firstName);
+    // console.log(userData.lastName);
+    // console.log(userData.phone);
+    // console.log(userData.street1);
+    // console.log(userData.street2);
+    // console.log(userData.zipCode);
     const firstName = await userDetailsPageModel.getFirstName();
     expect.soft(firstName).toBe(userData.firstName);
 
@@ -128,13 +139,13 @@ test.describe('VerIfying the Your Details form', () => {
     expect.soft(lastName).toBe(userData.lastName);
 
     const yourEmail = await userDetailsPageModel.getYourEmail();
-    expect.soft(yourEmail).toBe(userData.yourEmail);
+    expect.soft(yourEmail).toBe(userData.email);
 
     const phoneNumber = await userDetailsPageModel.getPhoneNumber();
-    expect.soft(phoneNumber).toBe(userData.yourPhoneNumber);
+    expect.soft(phoneNumber).toBe(userData.phone);
 
     const country = await userDetailsPageModel.getCountry();
-    expect.soft(country).toBe(userData.yourCountry);
+    expect.soft(country).toBe(userData.country);
 
     const termsAndConditionsIsChecked =
       await userDetailsPageModel.getTermsAndConditionsCheckbox();
