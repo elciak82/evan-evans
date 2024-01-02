@@ -6,6 +6,7 @@ import { BasePageModel } from '../src/models/basePage.model';
 import { BasePage } from '../src/pages/base.page';
 import { HomePageModel } from '../src/models/homePage.model';
 import { SearchPageModel } from '../src/models/searchPage.model';
+import { getTestTitle } from '../src/helpers/utilities';
 
 test.describe('Verifying page titles', () => {
   let basePageModel: BasePageModel;
@@ -20,7 +21,7 @@ test.describe('Verifying page titles', () => {
     await homePageModel.acceptCookie();
   });
 
-  test('TC01 - Check a home page title @smoke', async ({ page }) => {
+  test(getTestTitle('TC01', 'Check a home page title'), async ({ page }) => {
     //Arrange
     const title = await page.title();
 
@@ -29,7 +30,7 @@ test.describe('Verifying page titles', () => {
     expect(title).toBe(PageTitles.HomePageTitle);
   });
 
-  test('TC02 - Check a search page title @smoke', async ({ page }) => {
+  test(getTestTitle('TC02', 'Check a search page title'), async ({ page }) => {
     //Arrange
     searchPageModel = SearchPage(page);
 
@@ -42,7 +43,7 @@ test.describe('Verifying page titles', () => {
     expect(title).toBe(PageTitles.SearchResultsTitle);
   });
 
-  test('TC03 - Check a tour page title @smoke', async ({ page }) => {
+  test(getTestTitle('TC03', 'Check a tour page title'), async ({ page }) => {
     //Arrange
     const searchText = 'Katowice';
     searchPageModel = SearchPage(page);
