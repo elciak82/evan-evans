@@ -14,6 +14,5 @@ import { testCase } from './testTags/testCasesGroups';
     }
     return `${testItId}: ${title}: ${priority}`;
   };
-
-    // let result = await Promise.resolve(`${testItId}: ${title}: ${priority}`);
-    // let testTitle: string = result;
+  
+  //https://truuts.medium.com/how-to-add-tags-dynamically-in-playwright-tests-e2d06e00f4e2
