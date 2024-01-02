@@ -34,7 +34,7 @@ test.describe('Booking - verifying data in the basket popup', () => {
     await homePageModel.acceptCookie();
   });
 
-  test('Booking a trip for ONE CHILD and TWO ADULTS - checking data in the basket popup', async ({
+  test('Booking a trip for ONE CHILD and TWO ADULTS - checking data in the basket popup @regression', async ({
     page,
   }) => {
     //Arrange

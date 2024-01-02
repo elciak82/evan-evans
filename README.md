@@ -11,12 +11,15 @@ npm install
 npx playwright install
 npm install @faker-js/faker --save-dev
 npm test
+npx playwright --grep @tag (check available tags below)
 ```
 
 ## Problems
 In case: "Error: ENOENT: no such file or directory, open 'C:\..."
 Try:
-```npm update```
+```
+npm update
+```
 
 ## Commands
 
@@ -72,7 +75,10 @@ Try:
 - GitLens - view details of your repository i.e. commits history
 - Prettier - default formatter for editor
 
-## Playwright
+## Playwright tags
+
+@smoke
+@regression
 
 ### Playwright Config modifications
 

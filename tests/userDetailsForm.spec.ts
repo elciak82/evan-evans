@@ -41,7 +41,7 @@ test.describe('VerIfying the Your Details form', () => {
     await homePageModel.acceptCookie();
   });
 
-  test('Confirming an empty form - verifying alerts', async ({ page }) => {
+  test('Confirming an empty form - verifying alerts @regression', async ({ page }) => {
     //Arrange
     searchPageModel = SearchPage(page);
     tourPageModel = TourPage(page);
@@ -95,7 +95,7 @@ test.describe('VerIfying the Your Details form', () => {
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 
-  test('Insert correct data to fields and check SIGN ME UP checkboxes - check if all fields/checkboxes are filled in/checked', async ({
+  test('Insert correct data to fields and check SIGN ME UP checkboxes - check if all fields/checkboxes are filled in/checked @regression', async ({
     page,
   }) => {
     //Arrange
@@ -121,17 +121,6 @@ test.describe('VerIfying the Your Details form', () => {
     await userDetailsPageModel.checkSignToEvanEvansNewsletterCheckbox();
     await userDetailsPageModel.checkSignToTreadRightNewsletterCheckbox();
 
-    //Assert
-    // const userData = UserDataGenerator().createRandomUser();
-    // console.log(userData.city);
-    // console.log(userData.country);
-    // console.log(userData.email);
-    // console.log(userData.firstName);
-    // console.log(userData.lastName);
-    // console.log(userData.phone);
-    // console.log(userData.street1);
-    // console.log(userData.street2);
-    // console.log(userData.zipCode);
     const firstName = await userDetailsPageModel.getFirstName();
     expect.soft(firstName).toBe(userData.firstName);
 
@@ -166,7 +155,7 @@ test.describe('VerIfying the Your Details form', () => {
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 
-  test('Validate the First Name field', async ({ page }) => {
+  test('Validate the First Name field @regression', async ({ page }) => {
     //Arrange
     searchPageModel = SearchPage(page);
     tourPageModel = TourPage(page);
@@ -265,7 +254,7 @@ test.describe('VerIfying the Your Details form', () => {
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 
-  test('Validate the Last Name field', async ({ page }) => {
+  test('Validate the Last Name field @regression', async ({ page }) => {
     //Arrange
     searchPageModel = SearchPage(page);
     tourPageModel = TourPage(page);
@@ -364,7 +353,7 @@ test.describe('VerIfying the Your Details form', () => {
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 
-  test('Validate the Your Email field', async ({ page }) => {
+  test('Validate the Your Email field @regression', async ({ page }) => {
     //Arrange
     searchPageModel = SearchPage(page);
     tourPageModel = TourPage(page);
