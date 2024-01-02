@@ -38,7 +38,7 @@ test.describe('Booking - verifying data in the basket', () => {
     await homePageModel.acceptCookie();
   });
 
-  test('Booking a trip for ONE ADULT and TWO CHILDREN - checking a tour in the basket @regression', async ({
+  test('TC10 - Booking a trip for ONE ADULT and TWO CHILDREN - checking a tour in the basket @regression', async ({
     page,
   }) => {
     //Arrange
@@ -94,7 +94,7 @@ test.describe('Booking - verifying data in the basket', () => {
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 
-  test('Booking a trip for ONE STUDENT and ONE FAMILY - checking a tour in the basket @regression', async ({
+  test('TC11 - Booking a trip for ONE STUDENT and ONE FAMILY - checking a tour in the basket @regression', async ({
     page,
   }) => {
     //Arrange
@@ -151,7 +151,7 @@ test.describe('Booking - verifying data in the basket', () => {
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 
-  test('Booking a trip - adding a promo code @regression', async ({ page }) => {
+  test('TC12 - Booking a trip - adding a promo code @regression', async ({ page }) => {
     //Arrange
     searchPageModel = SearchPage(page);
     tourPageModel = TourPage(page);
@@ -182,7 +182,7 @@ test.describe('Booking - verifying data in the basket', () => {
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 
-  test('Booking a trip - adding an invalid promo code @regression', async ({ page }) => {
+  test('TC13 - Booking a trip - adding an invalid promo code @regression', async ({ page }) => {
     //Arrange
     searchPageModel = SearchPage(page);
     tourPageModel = TourPage(page);

@@ -41,7 +41,7 @@ test.describe('VerIfying the Your Details form', () => {
     await homePageModel.acceptCookie();
   });
 
-  test('Confirming an empty form - verifying alerts @regression', async ({ page }) => {
+  test('TC04 - Confirming an empty form - verifying alerts @regression', async ({ page }) => {
     //Arrange
     searchPageModel = SearchPage(page);
     tourPageModel = TourPage(page);
@@ -95,7 +95,7 @@ test.describe('VerIfying the Your Details form', () => {
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 
-  test('Insert correct data to fields and check SIGN ME UP checkboxes - check if all fields/checkboxes are filled in/checked @regression', async ({
+  test('TC05 - Insert correct data to fields and check SIGN ME UP checkboxes - check if all fields/checkboxes are filled in/checked @regression', async ({
     page,
   }) => {
     //Arrange
@@ -155,7 +155,7 @@ test.describe('VerIfying the Your Details form', () => {
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 
-  test('Validate the First Name field @regression', async ({ page }) => {
+  test('TC06 - Validate the First Name field @regression', async ({ page }) => {
     //Arrange
     searchPageModel = SearchPage(page);
     tourPageModel = TourPage(page);
@@ -254,7 +254,7 @@ test.describe('VerIfying the Your Details form', () => {
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 
-  test('Validate the Last Name field @regression', async ({ page }) => {
+  test('TC07 - Validate the Last Name field @regression', async ({ page }) => {
     //Arrange
     searchPageModel = SearchPage(page);
     tourPageModel = TourPage(page);
@@ -353,7 +353,7 @@ test.describe('VerIfying the Your Details form', () => {
     expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
   });
 
-  test('Validate the Your Email field @regression', async ({ page }) => {
+  test('TC08 - Validate the Your Email field @regression', async ({ page }) => {
     //Arrange
     searchPageModel = SearchPage(page);
     tourPageModel = TourPage(page);

@@ -20,7 +20,7 @@ test.describe('Verifying page titles', () => {
     await homePageModel.acceptCookie();
   });
 
-  test('Check a home page title @smoke', async ({ page }) => {
+  test('TC01 - Check a home page title @smoke', async ({ page }) => {
     //Arrange
     const title = await page.title();
 
@@ -29,7 +29,7 @@ test.describe('Verifying page titles', () => {
     expect(title).toBe(PageTitles.HomePageTitle);
   });
 
-  test('Check a search page title @smoke', async ({ page }) => {
+  test('TC02 - Check a search page title @smoke', async ({ page }) => {
     //Arrange
     searchPageModel = SearchPage(page);
 
@@ -42,7 +42,7 @@ test.describe('Verifying page titles', () => {
     expect(title).toBe(PageTitles.SearchResultsTitle);
   });
 
-  test('Check a tour page title @smoke', async ({ page }) => {
+  test('TC03 - Check a tour page title @smoke', async ({ page }) => {
     //Arrange
     const searchText = 'Katowice';
     searchPageModel = SearchPage(page);

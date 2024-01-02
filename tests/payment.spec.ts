@@ -42,7 +42,7 @@ test.describe('VerIfying tour ordering', () => {
     await homePageModel.acceptCookie();
   });
 
-  test('Payment for the trip - verifying confirmation @regression', async ({ page }) => {
+  test('TC14 - Payment for the trip - verifying confirmation @regression', async ({ page }) => {
     //Arrange
     searchPageModel = SearchPage(page);
     tourPageModel = TourPage(page);
@@ -98,7 +98,7 @@ test.describe('VerIfying tour ordering', () => {
     );
   });
 
-  test('Payment for the trip - verifying order in the Prio @regression', async ({
+  test('TC15 - Payment for the trip - verifying order in the Prio @regression', async ({
     page,
   }) => {
     //Arrange
