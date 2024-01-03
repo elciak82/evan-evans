@@ -21,6 +21,7 @@ import { TourPageModel } from '../src/models/tourPage.model';
 import { BasketComponentModel } from '../src/models/basketComponent.model';
 import { BookingComponentModel } from '../src/models/bookingComponent.model';
 import { UserDataGenerator } from '../src/datafactory/user';
+import { getTestTitle } from '../src/helpers/utilities';
 
 test.describe('VerIfying tour ordering', () => {
   let basePageModel: BasePageModel;
@@ -42,97 +43,102 @@ test.describe('VerIfying tour ordering', () => {
     await homePageModel.acceptCookie();
   });
 
-  test('TC14 - Payment for the trip - verifying confirmation @regression', async ({ page }) => {
-    //Arrange
-    searchPageModel = SearchPage(page);
-    tourPageModel = TourPage(page);
-    bookingComponentModel = BookingComponent(page);
-    basketComponentModel = BasketComponent(page);
-    userDetailsPageModel = UserDetailsPage(page);
-    paymentPageModel = PaymentPage(page);
-    paymentConfirmedPageModel = PaymentConfirmedPage(page);
+  test(
+    getTestTitle('TC14', 'Payment for the trip - verifying confirmation'),
+    async ({ page }) => {
+      //Arrange
+      searchPageModel = SearchPage(page);
+      tourPageModel = TourPage(page);
+      bookingComponentModel = BookingComponent(page);
+      basketComponentModel = BasketComponent(page);
+      userDetailsPageModel = UserDetailsPage(page);
+      paymentPageModel = PaymentPage(page);
+      paymentConfirmedPageModel = PaymentConfirmedPage(page);
 
-    //Act
-    await homePageModel.inputTextToSearchField(Tours.HarryPotterTour);
-    await homePageModel.searchButtonClick();
+      //Act
+      await homePageModel.inputTextToSearchField(Tours.HarryPotterTour);
+      await homePageModel.searchButtonClick();
 
-    await searchPageModel.viewMoreButtonClick();
-    await tourPageModel.bookButtonClick();
-    await bookingComponentModel.fillBookingModal(Persons.ADULT);
+      await searchPageModel.viewMoreButtonClick();
+      await tourPageModel.bookButtonClick();
+      await bookingComponentModel.fillBookingModal(Persons.ADULT);
 
-    const bookingDateTimeFromModal =
-      await bookingComponentModel.getBookingDateAndTimeFromModal();
-    const bookingAdultFromModal =
-      await bookingComponentModel.adultBasketPrice();
-    const bookingTotalPriceFromModal =
-      await bookingComponentModel.getBookingTotalPriceFromModal();
+      const bookingDateTimeFromModal =
+        await bookingComponentModel.getBookingDateAndTimeFromModal();
+      const bookingAdultFromModal =
+        await bookingComponentModel.adultBasketPrice();
+      const bookingTotalPriceFromModal =
+        await bookingComponentModel.getBookingTotalPriceFromModal();
 
-    await bookingComponentModel.addToBasketButtonClick();
-    await basketComponentModel.checkoutNowButtonClick();
-    const userData = await UserDataGenerator().createRandomUser();
-    await userDetailsPageModel.fillYourDetailsForm(userData);
-    await userDetailsPageModel.checkSignToEvanEvansNewsletterCheckbox();
-    await userDetailsPageModel.checkSignToTreadRightNewsletterCheckbox();
-    await userDetailsPageModel.continueToPaymentButtonClick();
+      await bookingComponentModel.addToBasketButtonClick();
+      await basketComponentModel.checkoutNowButtonClick();
+      const userData = await UserDataGenerator().createRandomUser();
+      await userDetailsPageModel.fillYourDetailsForm(userData);
+      await userDetailsPageModel.checkSignToEvanEvansNewsletterCheckbox();
+      await userDetailsPageModel.checkSignToTreadRightNewsletterCheckbox();
+      await userDetailsPageModel.continueToPaymentButtonClick();
 
-    await paymentPageModel.fillPaymentForm();
-    await paymentPageModel.payButtonClick();
+      await paymentPageModel.fillPaymentForm();
+      await paymentPageModel.payButtonClick();
 
-    //Assert
-    const orderedTourTitle =
-      await paymentConfirmedPageModel.getOrderedTourTitle();
-    expect(orderedTourTitle).toBe(Tours.HarryPotterTour);
+      //Assert
+      const orderedTourTitle =
+        await paymentConfirmedPageModel.getOrderedTourTitle();
+      expect(orderedTourTitle).toBe(Tours.HarryPotterTour);
 
-    const orderDetails =
-      await paymentConfirmedPageModel.getConfirmationDetails();
-    expect(orderDetails.date).toContain(bookingDateTimeFromModal);
-    expect(orderDetails.persons[0]).toContain(bookingAdultFromModal);
+      const orderDetails =
+        await paymentConfirmedPageModel.getConfirmationDetails();
+      expect(orderDetails.date).toContain(bookingDateTimeFromModal);
+      expect(orderDetails.persons[0]).toContain(bookingAdultFromModal);
 
-    const confirmationSummaryDetails =
-      await paymentConfirmedPageModel.getConfirmationSummaryDetails();
-    expect(confirmationSummaryDetails.persons[0]).toContain(
-      bookingAdultFromModal,
-    );
-    expect(confirmationSummaryDetails.price).toContain(
-      bookingTotalPriceFromModal,
-    );
-  });
+      const confirmationSummaryDetails =
+        await paymentConfirmedPageModel.getConfirmationSummaryDetails();
+      expect(confirmationSummaryDetails.persons[0]).toContain(
+        bookingAdultFromModal,
+      );
+      expect(confirmationSummaryDetails.price).toContain(
+        bookingTotalPriceFromModal,
+      );
+    },
+  );
 
-  test('TC15 - Payment for the trip - verifying order in the Prio @regression', async ({
-    page,
-  }) => {
-    //Arrange
-    searchPageModel = SearchPage(page);
-    tourPageModel = TourPage(page);
-    bookingComponentModel = BookingComponent(page);
-    basketComponentModel = BasketComponent(page);
-    userDetailsPageModel = UserDetailsPage(page);
-    paymentPageModel = PaymentPage(page);
-    paymentConfirmedPageModel = PaymentConfirmedPage(page);
+  test(
+    getTestTitle('TC15', 'Payment for the trip - verifying order in the Prio'),
+    async ({ page }) => {
+      //Arrange
+      searchPageModel = SearchPage(page);
+      tourPageModel = TourPage(page);
+      bookingComponentModel = BookingComponent(page);
+      basketComponentModel = BasketComponent(page);
+      userDetailsPageModel = UserDetailsPage(page);
+      paymentPageModel = PaymentPage(page);
+      paymentConfirmedPageModel = PaymentConfirmedPage(page);
 
-    //Act
-    await homePageModel.inputTextToSearchField(Tours.HarryPotterTour);
-    await homePageModel.searchButtonClick();
+      //Act
+      await homePageModel.inputTextToSearchField(Tours.HarryPotterTour);
+      await homePageModel.searchButtonClick();
 
-    await searchPageModel.viewMoreButtonClick();
-    await tourPageModel.bookButtonClick();
-    await bookingComponentModel.fillBookingModal(Persons.ADULT);
+      await searchPageModel.viewMoreButtonClick();
+      await tourPageModel.bookButtonClick();
+      await bookingComponentModel.fillBookingModal(Persons.ADULT);
 
-    await bookingComponentModel.addToBasketButtonClick();
-    await basketComponentModel.checkoutNowButtonClick();
-    const userData = await UserDataGenerator().createRandomUser();
-    await userDetailsPageModel.fillYourDetailsForm(userData);
-    await userDetailsPageModel.checkSignToEvanEvansNewsletterCheckbox();
-    await userDetailsPageModel.checkSignToTreadRightNewsletterCheckbox();
-    await userDetailsPageModel.continueToPaymentButtonClick();
+      await bookingComponentModel.addToBasketButtonClick();
+      await basketComponentModel.checkoutNowButtonClick();
+      const userData = await UserDataGenerator().createRandomUser();
+      await userDetailsPageModel.fillYourDetailsForm(userData);
+      await userDetailsPageModel.checkSignToEvanEvansNewsletterCheckbox();
+      await userDetailsPageModel.checkSignToTreadRightNewsletterCheckbox();
+      await userDetailsPageModel.continueToPaymentButtonClick();
 
-    await paymentPageModel.fillPaymentForm();
-    await paymentPageModel.payButtonClick();
+      await paymentPageModel.fillPaymentForm();
+      await paymentPageModel.payButtonClick();
 
-    //Assert
-    const confirmationCode =
-      await paymentConfirmedPageModel.getConfirmationCode();
-    const orderStatus = await ApiPrioticket().getOrderStatus(confirmationCode);
-    expect(orderStatus).toBe('ORDER_CONFIRMED');
-  });
+      //Assert
+      const confirmationCode =
+        await paymentConfirmedPageModel.getConfirmationCode();
+      const orderStatus =
+        await ApiPrioticket().getOrderStatus(confirmationCode);
+      expect(orderStatus).toBe('ORDER_CONFIRMED');
+    },
+  );
 });

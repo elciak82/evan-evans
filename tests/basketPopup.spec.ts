@@ -16,6 +16,7 @@ import { TourPageModel } from '../src/models/tourPage.model';
 import { BasePage } from '../src/pages/base.page';
 import { BasketComponentModel } from '../src/models/basketComponent.model';
 import { BookingComponentModel } from '../src/models/bookingComponent.model';
+import { getTestTitle } from '../src/helpers/utilities';
 
 test.describe('Booking - verifying data in the basket popup', () => {
   let basePageModel: BasePageModel;
@@ -34,7 +35,7 @@ test.describe('Booking - verifying data in the basket popup', () => {
     await homePageModel.acceptCookie();
   });
 
-  test('TC09 - Booking a trip for ONE CHILD and TWO ADULTS - checking data in the basket popup @regression', async ({
+  test(getTestTitle('TC09', 'Booking a trip for ONE CHILD and TWO ADULTS - checking data in the basket popup'), async ({
     page,
   }) => {
     //Arrange

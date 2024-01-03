@@ -19,6 +19,7 @@ import { TourPageModel } from '../src/models/tourPage.model';
 import { BasketComponentModel } from '../src/models/basketComponent.model';
 import { BookingComponentModel } from '../src/models/bookingComponent.model';
 import { HeaderComponentModel } from '../src/models/headerComponent.model';
+import { getTestTitle } from '../src/helpers/utilities';
 
 test.describe('Booking - verifying data in the basket', () => {
   let basePageModel: BasePageModel;
@@ -38,179 +39,195 @@ test.describe('Booking - verifying data in the basket', () => {
     await homePageModel.acceptCookie();
   });
 
-  test('TC10 - Booking a trip for ONE ADULT and TWO CHILDREN - checking a tour in the basket @regression', async ({
-    page,
-  }) => {
-    //Arrange
-    searchPageModel = SearchPage(page);
-    tourPageModel = TourPage(page);
-    bookingComponentModel = BookingComponent(page);
-    basketComponentModel = BasketComponent(page);
-    basketPageModel = BasketPage(page);
+  test(
+    getTestTitle(
+      'TC10',
+      'Booking a trip for ONE ADULT and TWO CHILDREN - checking a tour in the basket',
+    ),
+    async ({ page }) => {
+      //Arrange
+      searchPageModel = SearchPage(page);
+      tourPageModel = TourPage(page);
+      bookingComponentModel = BookingComponent(page);
+      basketComponentModel = BasketComponent(page);
+      basketPageModel = BasketPage(page);
 
-    //Act
-    await homePageModel.inputTextToSearchField(Tours.KatowiceTour);
-    await homePageModel.searchButtonClick();
+      //Act
+      await homePageModel.inputTextToSearchField(Tours.KatowiceTour);
+      await homePageModel.searchButtonClick();
 
-    await searchPageModel.viewMoreButtonClick();
-    await tourPageModel.bookButtonClick();
-    await bookingComponentModel.fillBookingModal(
-      Persons.ADULT,
-      Persons.CHILD,
-      Persons.CHILD,
-    );
+      await searchPageModel.viewMoreButtonClick();
+      await tourPageModel.bookButtonClick();
+      await bookingComponentModel.fillBookingModal(
+        Persons.ADULT,
+        Persons.CHILD,
+        Persons.CHILD,
+      );
 
-    const bookingDateTimeFromModal =
-      await bookingComponentModel.getBookingDateAndTimeFromModal();
-    const bookingAdultFromModal =
-      await bookingComponentModel.adultBasketPrice();
-    const bookingChildFromModal =
-      await bookingComponentModel.childBasketPrice();
-    const bookingTotalPriceFromModal =
-      await bookingComponentModel.getBookingTotalPriceFromModal();
+      const bookingDateTimeFromModal =
+        await bookingComponentModel.getBookingDateAndTimeFromModal();
+      const bookingAdultFromModal =
+        await bookingComponentModel.adultBasketPrice();
+      const bookingChildFromModal =
+        await bookingComponentModel.childBasketPrice();
+      const bookingTotalPriceFromModal =
+        await bookingComponentModel.getBookingTotalPriceFromModal();
 
-    await bookingComponentModel.addToBasketButtonClick();
+      await bookingComponentModel.addToBasketButtonClick();
 
-    await basketComponentModel.viewBasketButtonClick();
+      await basketComponentModel.viewBasketButtonClick();
 
-    //Assert
-    const tourInBasket = await basketPageModel.getTourTitle();
-    expect(tourInBasket).toBe(Tours.KatowiceTour);
+      //Assert
+      const tourInBasket = await basketPageModel.getTourTitle();
+      expect(tourInBasket).toBe(Tours.KatowiceTour);
 
-    const basketCardDetails = await basketPageModel.getBasketCardDetails();
-    expect(basketCardDetails.date).toContain(bookingDateTimeFromModal);
-    expect(basketCardDetails.persons[0]).toContain(bookingAdultFromModal);
-    expect(basketCardDetails.persons[1]).toContain(bookingChildFromModal);
+      const basketCardDetails = await basketPageModel.getBasketCardDetails();
+      expect(basketCardDetails.date).toContain(bookingDateTimeFromModal);
+      expect(basketCardDetails.persons[0]).toContain(bookingAdultFromModal);
+      expect(basketCardDetails.persons[1]).toContain(bookingChildFromModal);
 
-    const basketSummaryDetails =
-      await basketPageModel.getBasketSummaryDetails();
-    expect(basketSummaryDetails.persons[0]).toContain(bookingAdultFromModal);
-    expect(basketSummaryDetails.persons[1]).toContain(bookingChildFromModal);
-    expect(basketSummaryDetails.price).toContain(bookingTotalPriceFromModal);
+      const basketSummaryDetails =
+        await basketPageModel.getBasketSummaryDetails();
+      expect(basketSummaryDetails.persons[0]).toContain(bookingAdultFromModal);
+      expect(basketSummaryDetails.persons[1]).toContain(bookingChildFromModal);
+      expect(basketSummaryDetails.price).toContain(bookingTotalPriceFromModal);
 
-    //Clear
-    await basketPageModel.removeTourFromBasket();
-    const removedItemAlert = await basketPageModel.getRemovedItemAlertText();
-    expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
-  });
+      //Clear
+      await basketPageModel.removeTourFromBasket();
+      const removedItemAlert = await basketPageModel.getRemovedItemAlertText();
+      expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
+    },
+  );
 
-  test('TC11 - Booking a trip for ONE STUDENT and ONE FAMILY - checking a tour in the basket @regression', async ({
-    page,
-  }) => {
-    //Arrange
-    searchPageModel = SearchPage(page);
-    tourPageModel = TourPage(page);
-    bookingComponentModel = BookingComponent(page);
-    basketComponentModel = BasketComponent(page);
-    basketPageModel = BasketPage(page);
-    headerComponentModel = HeaderComponent(page);
+  test(
+    getTestTitle(
+      'TC11',
+      'Booking a trip for ONE STUDENT and ONE FAMILY - checking a tour in the basket',
+    ),
+    async ({ page }) => {
+      //Arrange
+      searchPageModel = SearchPage(page);
+      tourPageModel = TourPage(page);
+      bookingComponentModel = BookingComponent(page);
+      basketComponentModel = BasketComponent(page);
+      basketPageModel = BasketPage(page);
+      headerComponentModel = HeaderComponent(page);
 
-    //Act
-    await homePageModel.inputTextToSearchField(Tours.HarryPotterTour);
-    await homePageModel.searchButtonClick();
+      //Act
+      await homePageModel.inputTextToSearchField(Tours.HarryPotterTour);
+      await homePageModel.searchButtonClick();
 
-    await searchPageModel.viewMoreButtonClick();
-    await tourPageModel.bookButtonClick();
-    await bookingComponentModel.fillBookingModal(
-      Persons.STUDENT,
-      Persons.FAMILY,
-    );
+      await searchPageModel.viewMoreButtonClick();
+      await tourPageModel.bookButtonClick();
+      await bookingComponentModel.fillBookingModal(
+        Persons.STUDENT,
+        Persons.FAMILY,
+      );
 
-    const bookingDateTimeFromModal =
-      await bookingComponentModel.getBookingDateAndTimeFromModal();
-    const bookingStudentFromModal =
-      await bookingComponentModel.studentBasketPrice();
-    const bookingFamilyFromModal =
-      await bookingComponentModel.familyBasketPrice();
-    const bookingTotalPriceFromModal =
-      await bookingComponentModel.getBookingTotalPriceFromModal();
+      const bookingDateTimeFromModal =
+        await bookingComponentModel.getBookingDateAndTimeFromModal();
+      const bookingStudentFromModal =
+        await bookingComponentModel.studentBasketPrice();
+      const bookingFamilyFromModal =
+        await bookingComponentModel.familyBasketPrice();
+      const bookingTotalPriceFromModal =
+        await bookingComponentModel.getBookingTotalPriceFromModal();
 
-    await bookingComponentModel.addToBasketButtonClick();
+      await bookingComponentModel.addToBasketButtonClick();
 
-    await basketComponentModel.closeBasketPopupButtonClick();
-    await headerComponentModel.openBasket();
+      await basketComponentModel.closeBasketPopupButtonClick();
+      await headerComponentModel.openBasket();
 
-    //Assert
-    const tourInBasket = await basketPageModel.getTourTitle();
-    expect(tourInBasket).toBe(Tours.HarryPotterTour);
+      //Assert
+      const tourInBasket = await basketPageModel.getTourTitle();
+      expect(tourInBasket).toBe(Tours.HarryPotterTour);
 
-    const basketCardDetails = await basketPageModel.getBasketCardDetails();
-    expect(basketCardDetails.date).toContain(bookingDateTimeFromModal);
-    expect(basketCardDetails.persons[0]).toContain(bookingStudentFromModal);
-    expect(basketCardDetails.persons[1]).toContain(bookingFamilyFromModal);
+      const basketCardDetails = await basketPageModel.getBasketCardDetails();
+      expect(basketCardDetails.date).toContain(bookingDateTimeFromModal);
+      expect(basketCardDetails.persons[0]).toContain(bookingStudentFromModal);
+      expect(basketCardDetails.persons[1]).toContain(bookingFamilyFromModal);
 
-    const basketSummaryDetails =
-      await basketPageModel.getBasketSummaryDetails();
-    expect(basketSummaryDetails.persons[0]).toContain(bookingStudentFromModal);
-    expect(basketSummaryDetails.persons[1]).toContain(bookingFamilyFromModal);
-    expect(basketSummaryDetails.price).toContain(bookingTotalPriceFromModal);
+      const basketSummaryDetails =
+        await basketPageModel.getBasketSummaryDetails();
+      expect(basketSummaryDetails.persons[0]).toContain(
+        bookingStudentFromModal,
+      );
+      expect(basketSummaryDetails.persons[1]).toContain(bookingFamilyFromModal);
+      expect(basketSummaryDetails.price).toContain(bookingTotalPriceFromModal);
 
-    //Clear
-    await basketPageModel.removeTourFromBasket();
-    const removedItemAlert = await basketPageModel.getRemovedItemAlertText();
-    expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
-  });
+      //Clear
+      await basketPageModel.removeTourFromBasket();
+      const removedItemAlert = await basketPageModel.getRemovedItemAlertText();
+      expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
+    },
+  );
 
-  test('TC12 - Booking a trip - adding a promo code @regression', async ({ page }) => {
-    //Arrange
-    searchPageModel = SearchPage(page);
-    tourPageModel = TourPage(page);
-    bookingComponentModel = BookingComponent(page);
-    basketComponentModel = BasketComponent(page);
-    basketPageModel = BasketPage(page);
+  test(
+    getTestTitle('TC12', 'Booking a trip - adding a promo code'),
+    async ({ page }) => {
+      //Arrange
+      searchPageModel = SearchPage(page);
+      tourPageModel = TourPage(page);
+      bookingComponentModel = BookingComponent(page);
+      basketComponentModel = BasketComponent(page);
+      basketPageModel = BasketPage(page);
 
-    //Act
-    await homePageModel.inputTextToSearchField(Tours.HarryPotterTour);
-    await homePageModel.searchButtonClick();
+      //Act
+      await homePageModel.inputTextToSearchField(Tours.HarryPotterTour);
+      await homePageModel.searchButtonClick();
 
-    await searchPageModel.viewMoreButtonClick();
-    await tourPageModel.bookButtonClick();
+      await searchPageModel.viewMoreButtonClick();
+      await tourPageModel.bookButtonClick();
 
-    await bookingComponentModel.fillBookingModal(Persons.STUDENT);
-    await bookingComponentModel.addToBasketButtonClick();
+      await bookingComponentModel.fillBookingModal(Persons.STUDENT);
+      await bookingComponentModel.addToBasketButtonClick();
 
-    await basketComponentModel.viewBasketButtonClick();
-    await basketPageModel.applyPromoCode(PromoCodes.CODE10);
+      await basketComponentModel.viewBasketButtonClick();
+      await basketPageModel.applyPromoCode(PromoCodes.CODE10);
 
-    //Assert
-    const promoCodeIncluded = await basketPageModel.promoCodeIncluded();
-    expect(promoCodeIncluded).toBe(true);
+      //Assert
+      const promoCodeIncluded = await basketPageModel.promoCodeIncluded();
+      expect(promoCodeIncluded).toBe(true);
 
-    //Clear
-    await basketPageModel.removeTourFromBasket();
-    const removedItemAlert = await basketPageModel.getRemovedItemAlertText();
-    expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
-  });
+      //Clear
+      await basketPageModel.removeTourFromBasket();
+      const removedItemAlert = await basketPageModel.getRemovedItemAlertText();
+      expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
+    },
+  );
 
-  test('TC13 - Booking a trip - adding an invalid promo code @regression', async ({ page }) => {
-    //Arrange
-    searchPageModel = SearchPage(page);
-    tourPageModel = TourPage(page);
-    bookingComponentModel = BookingComponent(page);
-    basketComponentModel = BasketComponent(page);
-    basketPageModel = BasketPage(page);
+  test(
+    getTestTitle('TC13', 'Booking a trip - adding an invalid promo code'),
+    async ({ page }) => {
+      //Arrange
+      searchPageModel = SearchPage(page);
+      tourPageModel = TourPage(page);
+      bookingComponentModel = BookingComponent(page);
+      basketComponentModel = BasketComponent(page);
+      basketPageModel = BasketPage(page);
 
-    //Act
-    await homePageModel.inputTextToSearchField(Tours.HarryPotterTour);
-    await homePageModel.searchButtonClick();
+      //Act
+      await homePageModel.inputTextToSearchField(Tours.HarryPotterTour);
+      await homePageModel.searchButtonClick();
 
-    await searchPageModel.viewMoreButtonClick();
-    await tourPageModel.bookButtonClick();
+      await searchPageModel.viewMoreButtonClick();
+      await tourPageModel.bookButtonClick();
 
-    await bookingComponentModel.fillBookingModal(Persons.FAMILY);
-    await bookingComponentModel.addToBasketButtonClick();
+      await bookingComponentModel.fillBookingModal(Persons.FAMILY);
+      await bookingComponentModel.addToBasketButtonClick();
 
-    await basketComponentModel.viewBasketButtonClick();
-    await basketPageModel.applyPromoCode(Alerts.INVALID_CODE);
+      await basketComponentModel.viewBasketButtonClick();
+      await basketPageModel.applyPromoCode(Alerts.INVALID_CODE);
 
-    //Assert
-    const invalidPromoCodeAlert =
-      await basketPageModel.getInvalidPromoCodeAlert();
-    expect(invalidPromoCodeAlert).toBe(Alerts.INVALID_CODE);
+      //Assert
+      const invalidPromoCodeAlert =
+        await basketPageModel.getInvalidPromoCodeAlert();
+      expect(invalidPromoCodeAlert).toBe(Alerts.INVALID_CODE);
 
-    //Clear
-    await basketPageModel.removeTourFromBasket();
-    const removedItemAlert = await basketPageModel.getRemovedItemAlertText();
-    expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
-  });
+      //Clear
+      await basketPageModel.removeTourFromBasket();
+      const removedItemAlert = await basketPageModel.getRemovedItemAlertText();
+      expect(removedItemAlert).toBe(Alerts.ITEM_REMOVED_BASKET_ALERT);
+    },
+  );
 });
