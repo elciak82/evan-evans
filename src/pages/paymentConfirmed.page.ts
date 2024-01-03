@@ -16,7 +16,7 @@ export const PaymentConfirmedPage = (page: Page): PaymentConfirmedPageModel => {
   };
 
   const getOrderedTourTitle = async (): Promise<string> => {
-    // await page.waitForLoadState();
+    await page.waitForLoadState();
     await orderedTourTitle.isEnabled();
     return await orderedTourTitle.innerText();
   };
