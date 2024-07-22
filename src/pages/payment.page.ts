@@ -24,6 +24,10 @@ export const PaymentPage = (page: Page): PaymentPageModel => {
     .frameLocator('#cardPaymentForm')
     .locator('#payment-form-postcode');
 
+    const emailInput = page
+    .frameLocator('#cardPaymentForm')
+    .locator('#payment-form-email');
+
   const cardNumberInput = page
     .frameLocator('#cardPaymentForm')
     .locator('#payment-card-number');
@@ -67,6 +71,10 @@ export const PaymentPage = (page: Page): PaymentPageModel => {
     await zipInput.fill(zip);
   };
 
+  const setEmail = async (email: string): Promise<void> => {
+    await emailInput.fill(email);
+  };
+
   //const selectRegionFromDropdown TODO
 
   const setCardNumber = async (card: string): Promise<void> => {
@@ -101,6 +109,8 @@ export const PaymentPage = (page: Page): PaymentPageModel => {
     await setCity(userData.city);
     await page.waitForTimeout(500);
     await setZip(userData.zipCode);
+    await page.waitForTimeout(500);
+    await setEmail(userData.yourEmail);
     await page.waitForTimeout(500);
     await setCardNumber(userData.cardNumber);
     await page.waitForTimeout(500);

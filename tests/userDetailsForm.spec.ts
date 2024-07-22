@@ -55,7 +55,7 @@ test.describe('VerIfying the Your Details form', () => {
       headerComponentModel = HeaderComponent(page);
 
       //Act
-      await homePageModel.inputTextToSearchField(Tours.KatowiceTour);
+      await homePageModel.inputTextToSearchField('VISITING TRAVCORP');
       await homePageModel.searchButtonClick();
 
       await searchPageModel.viewMoreButtonClick();
@@ -118,7 +118,7 @@ test.describe('VerIfying the Your Details form', () => {
       headerComponentModel = HeaderComponent(page);
 
       //Act
-      await homePageModel.inputTextToSearchField(Tours.KatowiceTour);
+      await homePageModel.inputTextToSearchField('VISITING TRAVCORP');
       await homePageModel.searchButtonClick();
 
       await searchPageModel.viewMoreButtonClick();
@@ -179,7 +179,7 @@ test.describe('VerIfying the Your Details form', () => {
       headerComponentModel = HeaderComponent(page);
 
       //Act
-      await homePageModel.inputTextToSearchField(Tours.KatowiceTour);
+      await homePageModel.inputTextToSearchField('VISITING TRAVCORP');
       await homePageModel.searchButtonClick();
 
       await searchPageModel.viewMoreButtonClick();
@@ -281,7 +281,7 @@ test.describe('VerIfying the Your Details form', () => {
       headerComponentModel = HeaderComponent(page);
 
       //Act
-      await homePageModel.inputTextToSearchField(Tours.KatowiceTour);
+      await homePageModel.inputTextToSearchField('VISITING TRAVCORP');
       await homePageModel.searchButtonClick();
 
       await searchPageModel.viewMoreButtonClick();
@@ -383,7 +383,7 @@ test.describe('VerIfying the Your Details form', () => {
       headerComponentModel = HeaderComponent(page);
 
       //Act
-      await homePageModel.inputTextToSearchField(Tours.KatowiceTour);
+      await homePageModel.inputTextToSearchField(Tours.VisitingRybnik);
       await homePageModel.searchButtonClick();
 
       await searchPageModel.viewMoreButtonClick();

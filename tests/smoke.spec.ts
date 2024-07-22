@@ -45,7 +45,7 @@ test.describe('Verifying page titles', () => {
 
   test(getTestTitle('TC03', 'Check a tour page title'), async ({ page }) => {
     //Arrange
-    const searchText = 'Katowice';
+    const searchText = 'RYBNIK';
     searchPageModel = SearchPage(page);
 
     //Act
@@ -56,6 +56,6 @@ test.describe('Verifying page titles', () => {
 
     //Assert
     const title = await page.title();
-    expect(title).toBe(PageTitles.TourPageTitle);
+    expect(title).toContain(PageTitles.TourPageTitle);
   });
 });

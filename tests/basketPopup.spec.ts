@@ -46,7 +46,7 @@ test.describe('Booking - verifying data in the basket popup', () => {
     basketPageModel = BasketPage(page);
 
     //Act
-    await homePageModel.inputTextToSearchField(Tours.KatowiceTour);
+    await homePageModel.inputTextToSearchField('Travcorp');
     await homePageModel.searchButtonClick();
 
     await searchPageModel.viewMoreButtonClick();
@@ -73,7 +73,7 @@ test.describe('Booking - verifying data in the basket popup', () => {
     expect(itemAddedMessage).toBe(Alerts.ITEM_ADDED_BASKET_ALERT);
 
     const tourInBasket = await basketComponentModel.getTourTitle();
-    expect(tourInBasket).toBe(Tours.KatowiceTour);
+    expect(tourInBasket).toBe(Tours.VisitingTravcorp);
 
     const basketDetails = await basketComponentModel.getBasketDetails();
     expect(basketDetails.date).toContain(bookingDateTimeFromModal);

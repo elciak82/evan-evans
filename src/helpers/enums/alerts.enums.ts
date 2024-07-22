@@ -1,7 +1,7 @@
 export enum Alerts {
   ITEM_ADDED_BASKET_ALERT = 'Item Added!' +
     '\n\n' +
-    "We'll hold your item for 59 minutes",
+    "We'll hold your item for 4 minutes",
   ITEM_REMOVED_BASKET_ALERT = 'Product has been successfully removed from your basket',
   INVALID_CODE = 'Invalid code',
   VALID_NAME_ERROR = 'Please enter a valid name',

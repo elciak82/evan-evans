@@ -9,7 +9,7 @@ export const SearchPage = (page: Page): SearchPageModel => {
   );
 
   const checkLoadMoreButtonIsVisible = async (): Promise<void> => {
-    await loadMoreButton.isEnabled();
+    await loadMoreButton.isEnabled(); //TODO 
   };
 
   const checkViewMoreButtonIsVisible = async (): Promise<void> => {

@@ -103,14 +103,16 @@ export const BookingComponent = (page: Page): BookingComponentModel => {
     await addToBasketButton.click();
   };
 
-  const bookTour = async (day: string): Promise<void> => { //TODO select date
+  const bookTour = async (day: string): Promise<void> => {
+    //TODO select date
     await addAdultClick();
     await selectDate(day);
     await selectTimeSlot();
     await addToBasketButtonClick();
   };
 
-  const bookTourForFirstAvailableDate = async ( //TODO select first available date
+  const bookTourForFirstAvailableDate = async (
+    //TODO select first available date
     persons: string[],
   ): Promise<void> => {
     await fillBookingModal();
@@ -119,6 +121,8 @@ export const BookingComponent = (page: Page): BookingComponentModel => {
 
   const fillBookingModal = async (...persons: string[]): Promise<void> => {
     await page.waitForLoadState();
+    await selectFirstAvailableDate();
+    await selectTimeSlot();
     for (let i = 0; i < persons.length; i++) {
       if (persons[i] === Persons.ADULT) {
         await addAdultClick();
@@ -130,8 +134,6 @@ export const BookingComponent = (page: Page): BookingComponentModel => {
         await addFamilyClick();
       }
     }
-    await selectFirstAvailableDate();
-    await selectTimeSlot();
   };
 
   const getBookingDateAndTimeFromModal = async (): Promise<string> => {

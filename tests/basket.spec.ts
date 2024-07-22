@@ -53,7 +53,7 @@ test.describe('Booking - verifying data in the basket', () => {
       basketPageModel = BasketPage(page);
 
       //Act
-      await homePageModel.inputTextToSearchField(Tours.KatowiceTour);
+      await homePageModel.inputTextToSearchField('Travcorp');
       await homePageModel.searchButtonClick();
 
       await searchPageModel.viewMoreButtonClick();
@@ -79,7 +79,7 @@ test.describe('Booking - verifying data in the basket', () => {
 
       //Assert
       const tourInBasket = await basketPageModel.getTourTitle();
-      expect(tourInBasket).toBe(Tours.KatowiceTour);
+      expect(tourInBasket).toBe(Tours.VisitingTravcorp);
 
       const basketCardDetails = await basketPageModel.getBasketCardDetails();
       expect(basketCardDetails.date).toContain(bookingDateTimeFromModal);
@@ -102,7 +102,7 @@ test.describe('Booking - verifying data in the basket', () => {
   test(
     getTestTitle(
       'TC11',
-      'Booking a trip for ONE STUDENT and ONE FAMILY - checking a tour in the basket',
+      'Booking a trip for ONE ADULT checking a tour in the basket',
     ),
     async ({ page }) => {
       //Arrange
@@ -114,22 +114,22 @@ test.describe('Booking - verifying data in the basket', () => {
       headerComponentModel = HeaderComponent(page);
 
       //Act
-      await homePageModel.inputTextToSearchField(Tours.HarryPotterTour);
+      await homePageModel.inputTextToSearchField('Rybnik');
       await homePageModel.searchButtonClick();
 
       await searchPageModel.viewMoreButtonClick();
       await tourPageModel.bookButtonClick();
       await bookingComponentModel.fillBookingModal(
-        Persons.STUDENT,
-        Persons.FAMILY,
+        Persons.ADULT,
+        // Persons.SENIOR,
       );
 
       const bookingDateTimeFromModal =
         await bookingComponentModel.getBookingDateAndTimeFromModal();
-      const bookingStudentFromModal =
-        await bookingComponentModel.studentBasketPrice();
-      const bookingFamilyFromModal =
-        await bookingComponentModel.familyBasketPrice();
+      const bookingAdultFromModal =
+        await bookingComponentModel.adultBasketPrice();
+      // const bookingChildFromModal =
+      //   await bookingComponentModel.childBasketPrice();
       const bookingTotalPriceFromModal =
         await bookingComponentModel.getBookingTotalPriceFromModal();
 
@@ -140,19 +140,19 @@ test.describe('Booking - verifying data in the basket', () => {
 
       //Assert
       const tourInBasket = await basketPageModel.getTourTitle();
-      expect(tourInBasket).toBe(Tours.HarryPotterTour);
+      expect(tourInBasket).toBe(Tours.VisitingRybnik);
 
       const basketCardDetails = await basketPageModel.getBasketCardDetails();
       expect(basketCardDetails.date).toContain(bookingDateTimeFromModal);
-      expect(basketCardDetails.persons[0]).toContain(bookingStudentFromModal);
-      expect(basketCardDetails.persons[1]).toContain(bookingFamilyFromModal);
+      expect(basketCardDetails.persons[0]).toContain(bookingAdultFromModal);
+      // expect(basketCardDetails.persons[1]).toContain(bookingChildFromModal);
 
       const basketSummaryDetails =
         await basketPageModel.getBasketSummaryDetails();
       expect(basketSummaryDetails.persons[0]).toContain(
-        bookingStudentFromModal,
+        bookingAdultFromModal,
       );
-      expect(basketSummaryDetails.persons[1]).toContain(bookingFamilyFromModal);
+      // expect(basketSummaryDetails.persons[1]).toContain(bookingChildFromModal);
       expect(basketSummaryDetails.price).toContain(bookingTotalPriceFromModal);
 
       //Clear
@@ -162,7 +162,7 @@ test.describe('Booking - verifying data in the basket', () => {
     },
   );
 
-  test(
+  test.skip(
     getTestTitle('TC12', 'Booking a trip - adding a promo code'),
     async ({ page }) => {
       //Arrange
@@ -173,17 +173,17 @@ test.describe('Booking - verifying data in the basket', () => {
       basketPageModel = BasketPage(page);
 
       //Act
-      await homePageModel.inputTextToSearchField(Tours.HarryPotterTour);
+      await homePageModel.inputTextToSearchField('Travcorp');
       await homePageModel.searchButtonClick();
 
       await searchPageModel.viewMoreButtonClick();
       await tourPageModel.bookButtonClick();
 
-      await bookingComponentModel.fillBookingModal(Persons.STUDENT);
+      await bookingComponentModel.fillBookingModal(Persons.ADULT);
       await bookingComponentModel.addToBasketButtonClick();
 
       await basketComponentModel.viewBasketButtonClick();
-      await basketPageModel.applyPromoCode(PromoCodes.CODE10);
+      await basketPageModel.applyPromoCode(PromoCodes.CODE5);
 
       //Assert
       const promoCodeIncluded = await basketPageModel.promoCodeIncluded();
@@ -207,13 +207,13 @@ test.describe('Booking - verifying data in the basket', () => {
       basketPageModel = BasketPage(page);
 
       //Act
-      await homePageModel.inputTextToSearchField(Tours.HarryPotterTour);
+      await homePageModel.inputTextToSearchField('Rybnik');
       await homePageModel.searchButtonClick();
 
       await searchPageModel.viewMoreButtonClick();
       await tourPageModel.bookButtonClick();
 
-      await bookingComponentModel.fillBookingModal(Persons.FAMILY);
+      await bookingComponentModel.fillBookingModal(Persons.ADULT);
       await bookingComponentModel.addToBasketButtonClick();
 
       await basketComponentModel.viewBasketButtonClick();

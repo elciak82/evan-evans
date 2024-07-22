@@ -1,4 +1,4 @@
 export enum Tours {
-  KatowiceTour = 'KUBA\'S FABULOUS KATOWICE TOUR',
-  HarryPotterTour = 'TEST HARRY POTTER WALKING TOUR',
+VisitingRybnik = 'VISITING RYBNIK 01',
+VisitingTravcorp = 'VISITING TRAVCORP TOUR',
 }

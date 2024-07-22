@@ -56,7 +56,7 @@ test.describe('VerIfying tour ordering', () => {
       paymentConfirmedPageModel = PaymentConfirmedPage(page);
 
       //Act
-      await homePageModel.inputTextToSearchField(Tours.HarryPotterTour);
+      await homePageModel.inputTextToSearchField('VISITING TRAVCORP');
       await homePageModel.searchButtonClick();
 
       await searchPageModel.viewMoreButtonClick();
@@ -84,7 +84,7 @@ test.describe('VerIfying tour ordering', () => {
       //Assert
       const orderedTourTitle =
         await paymentConfirmedPageModel.getOrderedTourTitle();
-      expect(orderedTourTitle).toBe(Tours.HarryPotterTour);
+      expect(orderedTourTitle).toBe(Tours.VisitingTravcorp);
 
       const orderDetails =
         await paymentConfirmedPageModel.getConfirmationDetails();
@@ -115,7 +115,7 @@ test.describe('VerIfying tour ordering', () => {
       paymentConfirmedPageModel = PaymentConfirmedPage(page);
 
       //Act
-      await homePageModel.inputTextToSearchField(Tours.HarryPotterTour);
+      await homePageModel.inputTextToSearchField('VISITING TRAVCORP');
       await homePageModel.searchButtonClick();
 
       await searchPageModel.viewMoreButtonClick();

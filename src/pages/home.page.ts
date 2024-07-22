@@ -20,6 +20,7 @@ export const HomePage = (page: Page): HomePageModel => {
 
   const acceptCookie = async (): Promise<void> => {
     await acceptCookieButton.click();
+    await page.waitForLoadState();
   };
 
   const searchButtonClick = async (): Promise<void> => {

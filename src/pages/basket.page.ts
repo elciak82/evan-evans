@@ -102,6 +102,7 @@ export const BasketPage = (page: Page): BasketPageModel => {
 
   const promoCodeIncluded = async (): Promise<boolean> => {
     //TODO
+    await page.waitForTimeout(500);
     return await totalPriceRed.isEnabled();
   };
 
