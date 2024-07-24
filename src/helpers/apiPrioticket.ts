@@ -4,10 +4,8 @@ import dotenv from 'dotenv';
 
 export const ApiPrioticket = () => {
   const url = process.env.PRIO_ENDPOINT;
-  const username = 'evanevans-cmsdemo@prioapi.com';
-  // const username = process.env.PRIO_USERNAME;
-  const password = 'O*eXM#XG?Z8cSSi';
-  // const password = process.env.PRIO_PASSWORD;
+  const username = process.env.PRIO_USERNAME;
+  const password = process.env.PRIO_PASSWORD;
   const distributorId = process.env.DISTRIBUTOR_ID;
   let token = '';
 
@@ -36,16 +34,17 @@ export const ApiPrioticket = () => {
     if (!token) {
       token = await createToken();
     }
+    console.log(token);
     const contextRequest = await request.newContext();
     const response = await contextRequest.get(
-      // url +
-      //   'orders?distributor_id=' +
-      //   distributorId +
-      //   '&order_reference=' +
-      //   confirmationCode +
-      //   '&items_per_page=10&start_index=1&page=1&cache=true',
       url +
-        'orders/' + confirmationCode + '',
+        'orders?distributor_id=' +
+        distributorId +
+        '&order_reference=' +
+        confirmationCode +
+        '&items_per_page=10&start_index=1&page=1&cache=true',
+      // url +
+      //   'orders/' + confirmationCode + '',
       {
         headers: {
           Authorization: 'Bearer ' + token,
@@ -54,11 +53,11 @@ export const ApiPrioticket = () => {
     );
     console.log(confirmationCode);
     expect(response.status()).toBe(200);
-    const responseBody = await response.json();
+    const responseBody = JSON.parse(await response.text());
     console.log(responseBody);
-    const orderItems = await responseBody.data.order.items;
+    const orderItems = responseBody.data.items;
     console.log(orderItems);
-    const orderStatus = await orderItems[0].order_status;
+    const orderStatus = orderItems[0].order_status;
     console.log(orderStatus);
     return orderStatus;
 
